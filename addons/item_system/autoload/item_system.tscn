@@ -1,0 +1,16 @@
+[gd_scene load_steps=11 format=3 uid="uid://ctx06mbhdtgia"]
+
+[ext_resource type="Script" path="res://addons/item_system/autoload/item_system.gd" id="1_1xclk"]
+[ext_resource type="Script" path="res://addons/item_system/services/item_system_recipe_service.gd" id="2_udf8o"]
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_recipe.gd" id="3_82p6j"]
+[ext_resource type="Script" path="res://addons/item_system/services/item_system_item_service.gd" id="5_q3gqh"]
+
+[node name="ItemSystem" type="Node"]
+script = ExtResource("1_1xclk")
+
+[node name="RecipeService" type="Node" parent="."]
+script = ExtResource("2_udf8o")
+recipes = Array[ExtResource("3_82p6j")]([])
+
+[node name="ItemService" type="Node" parent="."]
+script = ExtResource("5_q3gqh")

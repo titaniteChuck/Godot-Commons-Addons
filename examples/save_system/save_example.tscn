@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=3 uid="uid://byhei44e0ixdu"]
+
+[ext_resource type="Script" path="res://addons/save_system/nodes/save_system_save_button.gd" id="5_gi0uu"]
+[ext_resource type="Script" path="res://addons/save_system/nodes/save_system_load_button.gd" id="6_dm7ld"]
+[ext_resource type="Script" path="res://examples/save_system/resource_saving/change_resource_value_button.gd" id="8_vdg7h"]
+[ext_resource type="Script" path="res://examples/save_system/resource_saving/multiple_resource_holder.gd" id="10_wx218"]
+[ext_resource type="Script" path="res://examples/save_system/resource_saving/element_generator.gd" id="11_jusx0"]
+[ext_resource type="Script" path="res://addons/save_system/nodes/save_system_children_saver.gd" id="12_dbob8"]
+
+[node name="SaveExample" type="Node2D"]
+
+[node name="resource_save" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 559.0
+offset_top = 272.0
+offset_right = 599.0
+offset_bottom = 312.0
+
+[node name="Save_Button" type="Button" parent="resource_save"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 16.0
+offset_right = 211.0
+offset_bottom = 58.0
+text = "Save"
+script = ExtResource("5_gi0uu")
+
+[node name="ChangeLabelButton" type="Button" parent="resource_save"]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 98.0
+offset_right = 187.0
+offset_bottom = 129.0
+text = "-"
+script = ExtResource("8_vdg7h")
+type = 1
+
+[node name="ChangeLabelButton2" type="Button" parent="resource_save"]
+layout_mode = 0
+offset_left = 257.0
+offset_top = 95.0
+offset_right = 302.0
+offset_bottom = 126.0
+text = "+"
+script = ExtResource("8_vdg7h")
+
+[node name="LoadButton" type="Button" parent="resource_save"]
+layout_mode = 0
+offset_left = 239.0
+offset_top = 15.0
+offset_right = 309.0
+offset_bottom = 59.0
+text = "Load"
+script = ExtResource("6_dm7ld")
+
+[node name="Generate_random" type="Button" parent="resource_save"]
+layout_mode = 0
+offset_left = -123.0
+offset_top = -41.0
+offset_right = -53.0
+offset_bottom = 3.0
+text = "Randomize"
+
+[node name="GridContainer" type="GridContainer" parent="resource_save"]
+layout_mode = 0
+offset_left = -78.0
+offset_top = 74.0
+offset_right = -38.0
+offset_bottom = 114.0
+script = ExtResource("10_wx218")
+
+[node name="Label" type="Label" parent="resource_save/GridContainer"]
+layout_mode = 2
+text = "-1"
+
+[node name="Label2" type="Label" parent="resource_save/GridContainer"]
+layout_mode = 2
+text = "-1"
+
+[node name="Label3" type="Label" parent="resource_save/GridContainer"]
+layout_mode = 2
+text = "-1"
+
+[node name="Label4" type="Label" parent="resource_save/GridContainer"]
+layout_mode = 2
+text = "-1"
+
+[node name="Generate_Labels_Button" type="Button" parent="resource_save" node_paths=PackedStringArray("parent_of_generated_nodes")]
+layout_mode = 0
+offset_left = 404.0
+offset_top = -119.0
+offset_right = 589.0
+offset_bottom = -88.0
+text = "Generate new element"
+script = ExtResource("11_jusx0")
+parent_of_generated_nodes = NodePath("../../ChildrenSaver")
+
+[node name="Generated_element_holder" type="GridContainer" parent="resource_save"]
+layout_mode = 0
+offset_left = 622.0
+offset_top = -118.0
+offset_right = 662.0
+offset_bottom = -78.0
+
+[node name="ChildrenSaver" type="Node" parent="."]
+script = ExtResource("12_dbob8")
+
+[connection signal="pressed" from="resource_save/Generate_random" to="resource_save/GridContainer" method="_generate_random"]

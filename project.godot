@@ -1,0 +1,25 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Common Addons"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+ItemSystem="*res://addons/item_system/autoload/item_system.tscn"
+SaveSystem="*res://addons/save_system/autoload/save_system.tscn"
+SceneManager="*res://addons/scene_manager/autoload/scene_manager.tscn"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/drag_and_drop/plugin.cfg", "res://addons/item_system/plugin.cfg", "res://addons/save_system/plugin.cfg", "res://addons/scene_manager/plugin.cfg")

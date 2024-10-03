@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=3 uid="uid://cuyifqfxg0s33"]
+
+[ext_resource type="Texture2D" uid="uid://dd1xtjsfkr7db" path="res://examples/item_system/resources/items/gold.png" id="1_s5ywd"]
+[ext_resource type="Script" path="res://examples/item_system/item_ui.gd" id="2_w6yqt"]
+[ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="3_x68e7"]
+[ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="4_op2jv"]
+[ext_resource type="Script" path="res://examples/item_system/trigger_craft_button.gd" id="5_8ksep"]
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="6_t02yy"]
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="7_5vkbn"]
+[ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_ui_item_slot.tscn" id="8_22d16"]
+
+[sub_resource type="Resource" id="Resource_ubevk"]
+script = ExtResource("6_t02yy")
+item = ExtResource("3_x68e7")
+quantity = 3
+
+[sub_resource type="Resource" id="Resource_4j7wq"]
+script = ExtResource("6_t02yy")
+item = ExtResource("4_op2jv")
+quantity = 1
+
+[sub_resource type="Resource" id="Resource_8a6pv"]
+script = ExtResource("7_5vkbn")
+item_stacks = Array[ExtResource("6_t02yy")]([SubResource("Resource_ubevk"), SubResource("Resource_4j7wq")])
+
+[node name="RecipeExample" type="Node2D"]
+
+[node name="Item_UI" type="Button" parent="."]
+offset_left = 113.0
+offset_top = 185.0
+offset_right = 180.0
+offset_bottom = 273.0
+text = "Pickaxe"
+icon = ExtResource("1_s5ywd")
+icon_alignment = 1
+vertical_icon_alignment = 0
+script = ExtResource("2_w6yqt")
+item = ExtResource("3_x68e7")
+
+[node name="Item_UI2" type="Button" parent="."]
+offset_left = 221.0
+offset_top = 186.0
+offset_right = 288.0
+offset_bottom = 274.0
+text = "Pickaxe"
+icon = ExtResource("1_s5ywd")
+icon_alignment = 1
+vertical_icon_alignment = 0
+script = ExtResource("2_w6yqt")
+item = ExtResource("4_op2jv")
+
+[node name="Button" type="Button" parent="." node_paths=PackedStringArray("ingredients_nodes", "results_nodes_parent")]
+offset_left = 333.0
+offset_top = 212.0
+offset_right = 380.0
+offset_bottom = 243.0
+text = "Craft"
+script = ExtResource("5_8ksep")
+inventory = SubResource("Resource_8a6pv")
+ingredients_nodes = [NodePath("../ItemSystem_UI_ItemSlot"), NodePath("../ItemSystem_UI_ItemSlot2")]
+results_nodes_parent = NodePath("../HBoxContainer")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 403.0
+offset_top = 184.0
+offset_right = 443.0
+offset_bottom = 224.0
+
+[node name="ItemSystem_UI_ItemSlot" parent="." instance=ExtResource("8_22d16")]
+offset_left = 131.0
+offset_top = 335.0
+offset_right = 131.0
+offset_bottom = 335.0
+
+[node name="PanelContainer" parent="ItemSystem_UI_ItemSlot" index="0"]
+offset_left = -18.0
+offset_top = -47.0
+offset_right = 55.0
+offset_bottom = 51.0
+
+[node name="ItemTexture" parent="ItemSystem_UI_ItemSlot/PanelContainer/VBoxContainer" index="0"]
+expand_mode = 5
+
+[node name="ItemName" parent="ItemSystem_UI_ItemSlot/PanelContainer/VBoxContainer" index="1"]
+vertical_alignment = 0
+
+[node name="ItemSystem_UI_ItemSlot2" parent="." instance=ExtResource("8_22d16")]
+offset_left = 131.0
+offset_top = 335.0
+offset_right = 131.0
+offset_bottom = 335.0
+
+[node name="PanelContainer" parent="ItemSystem_UI_ItemSlot2" index="0"]
+offset_left = 91.0
+offset_top = -47.0
+offset_right = 164.0
+offset_bottom = 51.0
+
+[node name="ItemTexture" parent="ItemSystem_UI_ItemSlot2/PanelContainer/VBoxContainer" index="0"]
+expand_mode = 5
+
+[node name="ItemName" parent="ItemSystem_UI_ItemSlot2/PanelContainer/VBoxContainer" index="1"]
+vertical_alignment = 0
+
+[editable path="ItemSystem_UI_ItemSlot"]
+[editable path="ItemSystem_UI_ItemSlot2"]

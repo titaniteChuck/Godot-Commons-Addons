@@ -1,0 +1,232 @@
+[gd_scene load_steps=15 format=3 uid="uid://cuyifqfxg0s33"]
+
+[ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="3_x68e7"]
+[ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="4_op2jv"]
+[ext_resource type="Script" path="res://examples/item_system/trigger_craft_button.gd" id="5_8ksep"]
+[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_ui_inventory_slots.gd" id="6_e7pm8"]
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="6_t02yy"]
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="7_5vkbn"]
+[ext_resource type="Script" path="res://addons/drag_and_drop/nodes/dragandrop_draggable.gd" id="7_gytcs"]
+[ext_resource type="Script" path="res://addons/drag_and_drop/nodes/dragandrop_ droppable.gd" id="8_1reyt"]
+[ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_ui_item_slot.tscn" id="8_22d16"]
+
+[sub_resource type="Resource" id="Resource_otd82"]
+script = ExtResource("7_5vkbn")
+item_stacks = Array[ExtResource("6_t02yy")]([])
+
+[sub_resource type="Resource" id="Resource_1joca"]
+script = ExtResource("7_5vkbn")
+item_stacks = Array[ExtResource("6_t02yy")]([])
+
+[sub_resource type="Resource" id="Resource_4qa0p"]
+script = ExtResource("6_t02yy")
+item = ExtResource("3_x68e7")
+quantity = 3
+
+[sub_resource type="Resource" id="Resource_unv32"]
+script = ExtResource("6_t02yy")
+item = ExtResource("4_op2jv")
+quantity = 2
+
+[sub_resource type="Resource" id="Resource_8wp7i"]
+script = ExtResource("7_5vkbn")
+item_stacks = Array[ExtResource("6_t02yy")]([SubResource("Resource_4qa0p"), SubResource("Resource_unv32")])
+
+[node name="RecipeExample" type="Node2D"]
+
+[node name="Craft_Machine" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Craft_Machine" node_paths=PackedStringArray("ingredients_slots", "results_slots")]
+layout_mode = 0
+offset_left = 333.0
+offset_top = 212.0
+offset_right = 380.0
+offset_bottom = 243.0
+text = "Craft"
+script = ExtResource("5_8ksep")
+ingredients_slots = NodePath("../Ingredients_Slots")
+results_slots = NodePath("../Results_Slots")
+
+[node name="Ingredients_Slots" type="HBoxContainer" parent="Craft_Machine"]
+layout_mode = 0
+offset_left = 133.0
+offset_top = 187.0
+offset_right = 293.0
+offset_bottom = 279.0
+script = ExtResource("6_e7pm8")
+inventory = SubResource("Resource_otd82")
+
+[node name="ItemSystem_UI_ItemSlot" parent="Craft_Machine/Ingredients_Slots" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Draggable" type="Control" parent="Craft_Machine/Ingredients_Slots/ItemSystem_UI_ItemSlot"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="DropZone" type="Control" parent="Craft_Machine/Ingredients_Slots/ItemSystem_UI_ItemSlot"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="ItemSystem_UI_ItemSlot2" parent="Craft_Machine/Ingredients_Slots" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Draggable" type="Control" parent="Craft_Machine/Ingredients_Slots/ItemSystem_UI_ItemSlot2"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="DropZone" type="Control" parent="Craft_Machine/Ingredients_Slots/ItemSystem_UI_ItemSlot2"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Results_Slots" type="HBoxContainer" parent="Craft_Machine"]
+layout_mode = 0
+offset_left = 431.0
+offset_top = 185.0
+offset_right = 743.0
+offset_bottom = 277.0
+script = ExtResource("6_e7pm8")
+inventory = SubResource("Resource_1joca")
+
+[node name="ItemSystem_UI_ItemSlot" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Draggable" type="Control" parent="Craft_Machine/Results_Slots/ItemSystem_UI_ItemSlot"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot2" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Draggable" type="Control" parent="Craft_Machine/Results_Slots/ItemSystem_UI_ItemSlot2"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot3" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Draggable" type="Control" parent="Craft_Machine/Results_Slots/ItemSystem_UI_ItemSlot3"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot4" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Draggable" type="Control" parent="Craft_Machine/Results_Slots/ItemSystem_UI_ItemSlot4"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="Quick_inventory" type="HBoxContainer" parent="."]
+offset_left = 160.0
+offset_top = 475.0
+offset_right = 788.0
+offset_bottom = 625.0
+script = ExtResource("6_e7pm8")
+inventory = SubResource("Resource_8wp7i")
+
+[node name="ItemSystem_UI_ItemSlot3" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot3"]
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("7_gytcs")
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot3"]
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("8_1reyt")
+
+[node name="ItemSystem_UI_ItemSlot4" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot4"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot4"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot5" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot5"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot5"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot6" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot6"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot6"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot7" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot7"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot7"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot8" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot8"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot8"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot9" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot9"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot9"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
+
+[node name="ItemSystem_UI_ItemSlot10" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="DropZone" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot10"]
+layout_mode = 2
+script = ExtResource("8_1reyt")
+
+[node name="Draggable" type="Control" parent="Quick_inventory/ItemSystem_UI_ItemSlot10"]
+layout_mode = 2
+script = ExtResource("7_gytcs")
