@@ -12,21 +12,10 @@ var receive_drag_data
 @export var dragndrop_outline_destination := true
 #@export var only_for_category: Inventory_InventoryItem.ItemType
 
-@onready var outline_selected: TextureRect = $Outline_Selected
-@onready var button: Button = $Button
-
 enum State {IDLE, HOVERED_AND_DROPPABLE, HOVERED_BUT_NOT_DROPPABLE}
 var current_state: State
 
 var _reject_drop := false
-#func _get_current_data() -> Object:
-	#if drop_node and parent_property_name:
-		#return drop_node.get(parent_property_name)
-	#else:
-		#return null
-#
-#func _has_data() -> bool:
-	#return _get_current_data() != null
 
 func _ready():
 	drop_node = get_parent()
@@ -70,16 +59,6 @@ func _drop_data(_at_position:Vector2, data: Variant) -> void:
 func _change_state(new_state: State):
 	if new_state != current_state:
 		current_state = new_state
-		match(current_state):
-			State.IDLE: 
-				if outline_selected: outline_selected.visible = false
-				drag_stopped_hovering.emit()
-			State.HOVERED_AND_DROPPABLE: 
-				if outline_selected: outline_selected.visible = true
-				drag_is_hovering.emit()
-			State.HOVERED_BUT_NOT_DROPPABLE: 
-				if outline_selected: outline_selected.visible = false
-				drag_is_hovering.emit()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_BEGIN:

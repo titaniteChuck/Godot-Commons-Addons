@@ -11,13 +11,15 @@ enum OPERATION_TYPE {LOAD, UNLOAD}
 @export var default_root_path := "/"
 
 var _transition_queue: Array[SceneManager_TransitionData] = []
-
 func _ready():
 	transition_finished.connect(_end_animation)
+	pass
 
 #region ####################### Main lifecycle ################################
 func play_transition(caller_node: Node, data: SceneManager_TransitionData) -> void:
-	await _play_transition(caller_node, data.duplicate(true), data)
+	if not _should_process(caller_node, data):
+		return
+	await _play_transition(caller_node, data, data)
 
 func _play_transition(caller_node: Node, data: SceneManager_TransitionData, original_object: SceneManager_TransitionData) -> void:
 	if not _should_process(caller_node, data):
@@ -26,15 +28,15 @@ func _play_transition(caller_node: Node, data: SceneManager_TransitionData, orig
 	_transition_queue.append(data)
 
 	if data.type == OPERATION_TYPE.LOAD:
-		var node_to_load = await play_load(caller_node, data, original_object)
+		await play_load(caller_node, data, original_object)
 	if data.type == OPERATION_TYPE.UNLOAD:
 		await play_unload(caller_node, data)
 
 	transition_finished.emit(caller_node, data)
-
-	if is_instance_valid(caller_node) and is_instance_valid(data):
+	
+	if data.next_transition:
 		await _play_transition(caller_node, data.next_transition, original_object)
-
+	
 
 func _should_process(caller_node: Node, data: SceneManager_TransitionData) -> bool:
 	if not (is_instance_valid(caller_node) and is_instance_valid(data)):
@@ -45,21 +47,17 @@ func _should_process(caller_node: Node, data: SceneManager_TransitionData) -> bo
 	return true
 
 func _end_animation(caller_node: Variant, data: SceneManager_TransitionData) -> void:
-	if is_instance_valid(caller_node) and caller_node != get_tree().root:
-		caller_node.get_parent().remove_child(caller_node)
-		caller_node.queue_free()
-	var load_into: Node
-	if data.load_into_path.is_absolute():
-		load_into = get_node(data.load_into_path)
-	else:
-		load_into = caller_node.get_node(data.load_into_path)
+	#if is_instance_valid(caller_node) and caller_node != get_tree().root and data.next_transition == null:
+		#caller_node.get_parent().remove_child(caller_node)
+		#caller_node.queue_free()
+	if data.type == OPERATION_TYPE.UNLOAD:
+		var node_to_unload = caller_node.get_node(data.node_to_unload)
+		if is_instance_valid(node_to_unload) and node_to_unload != get_tree().root:
+			node_to_unload.get_parent().remove_child(node_to_unload)
+			node_to_unload.queue_free()
 
-
-	if data:
-		for index in range(0, _transition_queue.size()):
-			if _transition_queue[index].equals(data):
-				_transition_queue.remove_at(index)
-				break
+	_transition_queue.remove_at(_transition_queue.find(data))
+	
 #endregion
 
 #region ####################### LOAD methods ################################
@@ -73,14 +71,6 @@ func play_load(caller_node: Node, data: SceneManager_TransitionData, original_ob
 		TRANSITION_TYPE.CUSTOM: pass
 	return node_to_load
 
-func _get_load_into(caller_node: Node, data: SceneManager_TransitionData) -> Node:
-	var load_into: Node
-	if data.load_into_path.is_absolute():
-		load_into = get_node(data.load_into_path)
-	else:
-		load_into = caller_node.get_node(data.load_into_path)
-	return load_into
-
 func _init_loaded_scene(caller_node: Node, data: SceneManager_TransitionData) -> Node:
 	var load_into = _get_load_into(caller_node, data)
 
@@ -89,6 +79,15 @@ func _init_loaded_scene(caller_node: Node, data: SceneManager_TransitionData) ->
 	if data.load_into_position >= 0:
 		load_into.move_child(node_to_load, clamp(data.load_into_position, 0, load_into.get_child_count()))
 	return node_to_load
+
+func _get_load_into(caller_node: Node, data: SceneManager_TransitionData) -> Node:
+	var load_into: Node
+	if data.load_into_path.is_absolute():
+		load_into = get_node(data.load_into_path)
+	else:
+		load_into = caller_node.get_node(data.load_into_path)
+	return load_into
+
 #endregion
 
 #region ####################### UNLOAD methods ################################
@@ -112,69 +111,6 @@ func _display_loading_screen(data: SceneManager_TransitionData):
 		get_tree().root.add_child(_loading_screen)
 		_loading_screen.start_transition(data.custom_transition_name, data.transition_duration / 2)
 		await _loading_screen.loadingscreen_visible
-
-func _finish_animation(data: SceneManager_TransitionData, new_scene_initialization_callback: Callable, result: Node):
-	if data.scenes_to_unload:
-		var future_path: String = data.load_into.get_path().get_concatenated_names() + "/" + result.name
-		for scene_to_unload in data.scenes_to_unload:
-			if is_instance_valid(scene_to_unload):
-				var old_path = scene_to_unload.get_path().get_concatenated_names()
-				if future_path == old_path:
-					scene_to_unload.name += "_Old"
-	for child in data.load_into.get_children():
-		if child.name == result.name:
-			printerr("Error adding new scene %s to [%s], it already has a child with name %s, and it is not planned for remove" % [data.scene_to_load, data.load_into.name, result.name])
-			return
-
-	data.load_into.add_child(result)
-	result.modulate = Color.TRANSPARENT
-	if result is Control:
-		result.size = data.load_into.size
-	if data.load_into_position >= 0 and data.load_into_position < data.load_into.get_child_count():
-		data.load_into.move_child(result, data.load_into_position)
-
-	if result is Control and result.anchors_preset != Control.PRESET_TOP_LEFT:
-		result.set_anchors_and_offsets_preset(result.anchors_preset)
-
-	if new_scene_initialization_callback:
-		new_scene_initialization_callback.call(result)
-
-	match data.transition_for_newly_loaded_scene:
-		TRANSITION_TYPE.NONE:
-			result.modulate = Color.WHITE
-		TRANSITION_TYPE.SLIDE:
-			result.modulate = Color.WHITE
-			var out_of_screen_position: Vector2 = Vector2(-data.slide_direction) *  Vector2(data.load_into.size)
-			if data.transition_for_existing_scene_to_unload == TRANSITION_TYPE.SLIDE and data.scenes_to_unload:
-				for scene_to_unload in data.scenes_to_unload:
-					if is_instance_valid(scene_to_unload):
-						tween_to_position(scene_to_unload, -out_of_screen_position, data.transition_duration, data.tween_transition_type)
-			result.position = out_of_screen_position
-			await tween_to_position(result, Vector2.ZERO, data.transition_duration, data.tween_transition_type)
-			await fade_in(result, data.transition_duration / 2, data.tween_transition_type)
-		TRANSITION_TYPE.CUSTOM:
-			if data.loading_screen:
-				await _loading_screen.finish_transition()
-		_: result.modulate = Color.WHITE
-
-	#transition_complete.emit(data)
-	#
-	#_current_loading_data = null
-
-func unload_scene_with_transition(data: SceneManager_TransitionData):
-	if data.scenes_to_unload == null:
-		return
-
-	for scene_to_unload in data.scenes_to_unload:
-		if is_instance_valid(scene_to_unload):
-			match data.transition_for_existing_scene_to_unload:
-				TRANSITION_TYPE.NONE: pass
-				TRANSITION_TYPE.SLIDE:
-					var out_of_screen_position: Vector2 = Vector2(-data.slide_direction) *  Vector2(scene_to_unload.size)
-					await tween_to_position(scene_to_unload, -out_of_screen_position, data.transition_duration, data.tween_transition_type)
-				TRANSITION_TYPE.FADE:
-					await fade_out(scene_to_unload, data.transition_duration, data.tween_transition_type)
-
 
 #region ####################### Animation utils ################################
 func slide_in(node: Node, direction: Vector2i, animation_duration: float = 1.0,  tween_function: Tween.TransitionType = Tween.TRANS_SINE):

@@ -24,9 +24,10 @@ func _init_slots():
 func _read_model():
 	if not is_inside_tree(): await draw
 	if inventory:
-		inventory.changed.connect(_update_ui)
+		if not inventory.changed.is_connected(_update_ui):
+			inventory.changed.connect(_update_ui)
 		for item in inventory.item_stacks:
-			if item:
+			if item and not item.changed.is_connected(_update_ui):
 				item.changed.connect(_update_ui)
 		inventory.set_minimum_size(ui_slots.size())
 		for index in range(ui_slots.size()):

@@ -1,6 +1,7 @@
 class_name ItemSystem_Recipe extends Resource
 
 # TODO: With godot 4.4, to retest with typed dictionaries
+@export var id := ""
 @export var ingredients: Array[ItemSystem_ItemStack]
 @export var results: Array[ItemSystem_ItemStack]
 @export var consume_ingredients := true
