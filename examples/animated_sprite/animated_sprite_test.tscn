@@ -1,0 +1,264 @@
+[gd_scene load_steps=12 format=3 uid="uid://bughykkrb7hpv"]
+
+[ext_resource type="Script" path="res://addons/animated_sprite/animated_sprite_control.gd" id="1_0jwip"]
+[ext_resource type="Texture2D" uid="uid://cbnli5j7olddw" path="res://addons/lpc_spritesheet/resources/body/bodies.png" id="1_efesh"]
+[ext_resource type="Script" path="res://addons/animated_sprite/examples/animated_sprite_test.gd" id="1_svbiw"]
+[ext_resource type="SpriteFrames" uid="uid://cp2rkti3ri0c8" path="res://addons/lpc_spritesheet/resources/body/bodies.tres" id="2_xt4qo"]
+[ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_control.gd" id="5_43vqb"]
+[ext_resource type="Texture2D" uid="uid://de56hdwgowjue" path="res://addons/lpc_spritesheet/resources/head/human.png" id="5_g2rvy"]
+[ext_resource type="SpriteFrames" uid="uid://v4d401ltr6u3" path="res://addons/lpc_spritesheet/resources/head/human.tres" id="6_5f0l0"]
+[ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_2d.gd" id="7_rpo00"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b52bo"]
+atlas = ExtResource("1_efesh")
+region = Rect2(0, 1152, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yi5gr"]
+atlas = ExtResource("1_efesh")
+region = Rect2(0, 1216, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hf2gh"]
+atlas = ExtResource("5_g2rvy")
+region = Rect2(0, 1216, 64, 64)
+
+[node name="AnimatedSpriteTest" type="Node2D"]
+script = ExtResource("1_svbiw")
+animation = "shoot_right"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
+offset_left = 761.0
+offset_top = 184.0
+offset_right = 878.0
+offset_bottom = 207.0
+columns = 2
+
+[node name="Label_Animatnion" type="Label" parent="CanvasLayer/GridContainer"]
+layout_mode = 2
+text = "Animation"
+
+[node name="OptionButton_Animation" type="OptionButton" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label_Color" type="Label" parent="CanvasLayer/GridContainer"]
+layout_mode = 2
+text = "Color"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="CanvasLayer/GridContainer"]
+layout_mode = 2
+
+[node name="Label_Speed" type="Label" parent="CanvasLayer/GridContainer"]
+layout_mode = 2
+text = "Frame speed"
+
+[node name="LineEdit_Speed" type="LineEdit" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+alignment = 1
+
+[node name="Label_Frame" type="Label" parent="CanvasLayer/GridContainer"]
+layout_mode = 2
+text = "Frame #"
+
+[node name="LineEdit_Frame" type="LineEdit" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+alignment = 1
+
+[node name="Button_Play" type="Button" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="Button_Play_Backwards" type="Button" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play
+backwards"
+
+[node name="Button_Pause" type="Button" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Pause"
+
+[node name="Button_Stop" type="Button" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Stop"
+
+[node name="Button_Reset" type="Button" parent="CanvasLayer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset"
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label_AnimatedSpriteRect" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 112.0
+offset_right = 155.0
+offset_bottom = 135.0
+text = "AnimatedSpriteRect"
+
+[node name="AnimatedSpriteControl" type="TextureRect" parent="CanvasLayer/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 112.0
+offset_right = 64.0
+offset_bottom = 176.0
+texture = SubResource("AtlasTexture_b52bo")
+script = ExtResource("1_0jwip")
+sprite_frames = ExtResource("2_xt4qo")
+animation = &"shoot_down"
+animation = &"shoot_down"
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 100.0
+offset_right = 401.0
+offset_bottom = 177.0
+theme_override_constants/v_separation = 0
+
+[node name="SpeedScale_Label" type="Label" parent="CanvasLayer/Control/GridContainer"]
+layout_mode = 2
+text = "Speed"
+
+[node name="Frame_Progress_Label" type="Label" parent="CanvasLayer/Control/GridContainer"]
+layout_mode = 2
+text = "Frapro"
+
+[node name="Frame_Label" type="Label" parent="CanvasLayer/Control/GridContainer"]
+layout_mode = 2
+text = "Frame"
+
+[node name="GridContainer2" type="GridContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 191.0
+offset_right = 399.0
+offset_bottom = 268.0
+theme_override_constants/v_separation = 0
+
+[node name="SpeedScale_Label2" type="Label" parent="CanvasLayer/Control/GridContainer2"]
+layout_mode = 2
+text = "Speed"
+
+[node name="Frame_Progress_Label2" type="Label" parent="CanvasLayer/Control/GridContainer2"]
+layout_mode = 2
+text = "Frapro"
+
+[node name="Frame_Label2" type="Label" parent="CanvasLayer/Control/GridContainer2"]
+layout_mode = 2
+text = "Frame"
+
+[node name="GridContainer3" type="GridContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 278.0
+offset_right = 399.0
+offset_bottom = 355.0
+theme_override_constants/v_separation = 0
+
+[node name="SpeedScale_Label3" type="Label" parent="CanvasLayer/Control/GridContainer3"]
+layout_mode = 2
+text = "Speed"
+
+[node name="Frame_Progress_Label3" type="Label" parent="CanvasLayer/Control/GridContainer3"]
+layout_mode = 2
+text = "Frapro"
+
+[node name="Frame_Label3" type="Label" parent="CanvasLayer/Control/GridContainer3"]
+layout_mode = 2
+text = "Frame"
+
+[node name="GridContainer4" type="GridContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 278.0
+offset_top = 364.0
+offset_right = 399.0
+offset_bottom = 441.0
+theme_override_constants/v_separation = 0
+
+[node name="SpeedScale_Label3" type="Label" parent="CanvasLayer/Control/GridContainer4"]
+layout_mode = 2
+text = "Speed"
+
+[node name="Frame_Progress_Label3" type="Label" parent="CanvasLayer/Control/GridContainer4"]
+layout_mode = 2
+text = "Frapro"
+
+[node name="Frame_Label3" type="Label" parent="CanvasLayer/Control/GridContainer4"]
+layout_mode = 2
+text = "Frame"
+
+[node name="Label_LayeredAnimatedSpriteRect" type="Label" parent="CanvasLayer"]
+offset_top = 184.0
+offset_right = 217.0
+offset_bottom = 207.0
+text = "LayeredAnimatedSpriteRect
+"
+
+[node name="LayeredAnimatedSpriteControl" type="TextureRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = -1.0
+offset_top = 197.0
+offset_right = 39.0
+offset_bottom = 237.0
+script = ExtResource("5_43vqb")
+sprite_frames = Array[SpriteFrames]([ExtResource("2_xt4qo"), ExtResource("6_5f0l0")])
+animation = &"shoot_right"
+animation = &"shoot_right"
+
+[node name="LayeredAnimatedSpriteControl" type="TextureRect" parent="CanvasLayer/LayeredAnimatedSpriteControl"]
+auto_translate_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_yi5gr")
+
+[node name="LayeredAnimatedSpriteControl2" type="TextureRect" parent="CanvasLayer/LayeredAnimatedSpriteControl"]
+auto_translate_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_hf2gh")
+
+[node name="Label_LayeredAnimatedSprite2D" type="Label" parent="CanvasLayer"]
+offset_top = 352.0
+offset_right = 204.0
+offset_bottom = 375.0
+text = "LayeredAnimatedSprite2D"
+
+[node name="Label_AnimatedSprite2D" type="Label" parent="CanvasLayer"]
+offset_top = 272.0
+offset_right = 142.0
+offset_bottom = 295.0
+text = "AnimatedSprite2D"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(29, 308)
+sprite_frames = ExtResource("2_xt4qo")
+animation = &"shoot_right"
+
+[node name="LayeredAnimatedSprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(33, 411)
+hframes = 13
+script = ExtResource("7_rpo00")
+sprite_frames = Array[SpriteFrames]([ExtResource("2_xt4qo"), ExtResource("6_5f0l0")])
+animation = &"shoot_right"
+animation = &"shoot_right"
+
+[node name="LayeredAnimatedSprite2D" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
+texture = SubResource("AtlasTexture_yi5gr")
+
+[node name="LayeredAnimatedSprite2D2" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
+texture = SubResource("AtlasTexture_hf2gh")
