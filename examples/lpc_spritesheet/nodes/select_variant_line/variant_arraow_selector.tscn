@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://dltbm7jn8sa6i"]
+
+[ext_resource type="Script" path="res://addons/lpc_spritesheet/examples/nodes/select_variant_line/select_variant_line.gd" id="1_npwep"]
+
+[node name="VariantArraowSelector" type="GridContainer"]
+offset_right = 202.0
+offset_bottom = 31.0
+columns = 4
+
+[node name="variant_previous" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "  <  "
+
+[node name="variant_value" type="Label" parent="." node_paths=PackedStringArray("previous_button", "next_button", "reset_button", "label_value")]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Type"
+horizontal_alignment = 1
+script = ExtResource("1_npwep")
+previous_button = NodePath("../variant_previous")
+next_button = NodePath("../variant_next")
+reset_button = NodePath("../variant_reset")
+label_value = NodePath(".")
+
+[node name="variant_next" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "  >  "
+
+[node name="variant_reset" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "  x  "
