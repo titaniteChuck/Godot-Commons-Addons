@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://b7xf50iwwu1ls"]
+
+[ext_resource type="Script" path="res://addons/tree_generator/nodes/tree_generator_tree.gd" id="1_0dp2k"]
+[ext_resource type="Texture2D" uid="uid://drlkam00ssrdf" path="res://addons/tree_generator/resources/leaf.png" id="2_arrir"]
+[ext_resource type="Script" path="res://addons/tree_generator/model/tree_generator_config.gd" id="3_rn7lr"]
+
+[sub_resource type="Resource" id="Resource_qk4xq"]
+script = ExtResource("3_rn7lr")
+trunk_width = 15
+trunk_length = 200
+trunk_angle = 0.0
+trunk_color = Color(0.423529, 0.345098, 0.298039, 1)
+trunk_subbranches = 8
+total_iterations = 4
+length_min_before_curve = 0.5
+branch_angle_min = 0.000203673
+branch_angle_max = 0.000203673
+branch_length_min = 0.5
+branch_length_max = 0.8
+child_spawn_area_min = 0.6
+child_spawn_area_max = 0.8
+child_angle_min = -1.0208
+child_angle_max = 0.836204
+child_length_min = 0.232
+child_length_max = 0.635
+child_reduction_min = 0
+child_reduction_max = 3
+leaf_spawn_area_min = 0.8
+leaf_spawn_area_max = 1.0
+leaf_spawn_from_iteration = 2
+leaf_count_by_branch = 10
+leaf_scale = 0.088
+leaf_texture = ExtResource("2_arrir")
+leaf_color1 = Color(0.866667, 0.898039, 0.713726, 1)
+leaf_color2 = Color(0.678431, 0.756863, 0.470588, 1)
+
+[node name="Test_TreeGenerator" type="Node2D"]
+
+[node name="TreeGenerator_Tree" type="Node2D" parent="."]
+position = Vector2(569, 504)
+script = ExtResource("1_0dp2k")
+config = SubResource("Resource_qk4xq")
