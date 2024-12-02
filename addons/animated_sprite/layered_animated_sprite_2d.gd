@@ -24,9 +24,9 @@ func _init() -> void:
 	frame = 0
 
 func _ready() -> void:
-	for child in get_children():
-		remove_child(child)
-		child.queue_free()
+	#for child in get_children():
+		#remove_child(child)
+		#child.queue_free()
 	frame = 0
 	frame_changed.connect(_on_frame_changed)
 	_delegate.frame_changed.connect(_on_delegate_frame_changed)
@@ -35,7 +35,6 @@ func _ready() -> void:
 	_delegate.animation_looped.connect(animation_looped.emit)
 	_delegate.sprite_frames_changed.connect(_on_sprite_frames_changed)
 	_delegate._ready()
-	_update_ui()
 
 func _process(delta: float) -> void:
 	if _delegate:
@@ -54,6 +53,7 @@ func _on_frame_changed():
 	
 func _on_delegate_frame_changed():
 	_frame_changed_by_delegate = true
+	hframes = _delegate.sprite_frames.get_frame_count(animation)
 	frame = _delegate.frame
 	_update_ui()
 
@@ -63,8 +63,6 @@ func _on_animation_changed():
 
 func _update_ui():
 	if not is_inside_tree(): await ready
-	if get_child_count() != sprite_frames.size():
-		set_sprite_frames(sprite_frames)
 	for index in range(get_child_count()):
 		var layer_node: Sprite2D = get_child(index)
 		if sprite_frames and sprite_frames[index] and sprite_frames[index].has_animation(animation):
@@ -74,13 +72,16 @@ func _update_ui():
 
 #region getters/setters
 func set_animation(value: StringName) -> void:
+	if not is_inside_tree(): await ready
 	_delegate.set_animation(value)
 	hframes = sprite_frames[0].get_frame_count(animation)
+	_update_ui()
 
 func get_animation() -> StringName:
 	return _delegate.animation
 
 func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
+	if not is_inside_tree(): await ready
 	sprite_frames = new_frames
 	texture = null
 	if sprite_frames.is_empty():
@@ -91,20 +92,27 @@ func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
 		hframes = sprite_frames[0].get_frame_count(animation)
 	notify_property_list_changed()
 	self_modulate = Color.TRANSPARENT
-	
+	var children = get_children()
+	var internal_children = get_children(true)
 	for layer_index in range(sprite_frames.size()):
 		var layer_node: Sprite2D
-		if layer_index < get_child_count():
+		if layer_index < get_child_count(true):
 			layer_node = get_child(layer_index)
 		else:
 			layer_node = Sprite2D.new()
 			add_child(layer_node)
-			#layer_node.name = layer.resource_name
 		for prop in get_property_list():
 			if prop.usage & (PROPERTY_USAGE_SCRIPT_VARIABLE | PROPERTY_USAGE_GROUP | PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP | PROPERTY_USAGE_NEVER_DUPLICATE) == 0 :
-				if prop.name not in ["texture", "frame", "hframes", "vframes", "self_modulate", "sprite_frames", "centered", "offset", "position", "unique_name_in_owner", "global_position"]:
+				if prop.name not in ["texture", "frame", "hframes", "vframes", "modulate", "self_modulate", "sprite_frames", "centered", "offset", "position", "unique_name_in_owner", "global_position"]:
 					layer_node.set(prop.name, get(prop.name))
 		layer_node.position = Vector2.ZERO
+
+	for too_much in range(sprite_frames.size(), get_child_count()):
+		var child = get_child(too_much)
+		remove_child(child)
+		child.queue_free()
+
+	_update_ui()
 	
 func get_sprite_frames() -> Array[SpriteFrames]:
 	return sprite_frames

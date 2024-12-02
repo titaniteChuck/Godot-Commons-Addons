@@ -27,6 +27,21 @@ func import_spritesheet(texture: Texture2D):
 		for d in directions:
 			_add_animation(sprite_frames, texture, animation+"_"+d, _current_line, _get_range(animation))
 			_current_line += 1
+
+	_add_animation(sprite_frames, texture, "hurt_down", _current_line, _get_range("hurt"))
+	_current_line += 1
+	_add_animation(sprite_frames, texture, "climb_up", _current_line, _get_range("climb"))
+	_current_line += 1
+	
+	for d in directions:
+		for animation in ["idle", "combat_idle"]:
+			_add_animation(sprite_frames, texture, animation+"_"+d, _current_line, _get_range(animation))
+		_current_line += 1
+
+	for animation in ["jump", "sit", "run"]:
+		for d in directions:
+			_add_animation(sprite_frames, texture, animation+"_"+d, _current_line, _get_range(animation))
+			_current_line += 1
 	
 	sprite_frames.take_over_path(sprite_frames_path)
 	ResourceSaver.save(sprite_frames, sprite_frames_path, ResourceSaver.FLAG_CHANGE_PATH)
@@ -49,10 +64,13 @@ func _get_range(animation: String) -> Array:
 		"shoot": return range(13)
 		"hurt": return range(6)
 		"climb": return range(6)
-		"combat_idle": return range(4)
+		"idle": return range(2)
+		"combat_idle": return range(2, 4)
 		"jump": return range(5)
 		"sit": return range(3)
 		"emote": return range(3, 6)
+		"run": return range(8)
+		"backslash": return range(8)
 		"run": return range(8)
 		_: return range(0)
 	

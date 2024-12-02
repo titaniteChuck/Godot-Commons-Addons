@@ -79,7 +79,7 @@ func generate_tree_curve_points(length: float, first_angle: float) -> PackedVect
 	rough_points.append(new_point)
 	var cumulated_length: float = segment_length
 	while cumulated_length < length:
-		direction = Vector2.RIGHT.rotated(randf_range(config.child_angle_min, config.child_angle_max) + first_angle)
+		direction = Vector2.RIGHT.rotated(randf_range(config.branch_angle_min, config.branch_angle_max) + first_angle)
 		segment_length = first_segment_length * randf_range(config.branch_length_min, config.branch_length_max) # segments are smaller and smaller
 		new_point += direction * segment_length
 		cumulated_length += segment_length
