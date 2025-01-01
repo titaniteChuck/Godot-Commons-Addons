@@ -1,31 +1,25 @@
-class_name ItemSystem_UI_ItemSlot extends Control
+class_name ItemSystem_UI_ItemSlot extends Button
 
-signal pressed
-
+@export var item_texture: TextureRect
+@export var item_name: Label
+@export var item_quantity: Label
 @export var part_of_inventory: ItemSystem_Inventory
 #TODO implement can_receive(item_stack) with max_stack
 @export var max_item_in_stack := 0
 @export var is_draggable := true
 @export var is_droppable := true
+@export var switch_enabled := true
 
-var slot_index: int = -1:
+@export var slot_index: int = -1:
 	set(value):
 		if slot_index != value:
 			slot_index = value
 			_read_model()
 
-
-@onready var item_texture: TextureRect = %ItemTexture
-@onready var item_name: Label = %ItemName
-@onready var item_quantity: Label = %ItemQuantity
-@onready var button: Button = %Button
-
 var draggable: DragAndDrop_Draggable
 var droppable: DragAndDrop_Droppable
 
 func _ready() -> void:
-	if button:
-		button.pressed.connect(pressed.emit)
 	if is_draggable:
 		draggable = DragAndDrop_Draggable.new()
 		add_child(draggable)
@@ -47,15 +41,21 @@ func _read_model():
 	_update_ui()
 
 func _update_ui():
-	if not is_inside_tree(): return
-	if get_slot_item():
-		item_name.text = get_slot_item().item.id
-		item_texture.texture = get_slot_item().item.texture2D
-		item_quantity.text = str(get_slot_item().quantity)
-	else:
-		item_name.text = ""
-		item_texture.texture = null
-		item_quantity.text = ""
+	if not is_inside_tree(): 
+		await ready
+	var slot_item: ItemSystem_ItemStack = get_slot_item()
+	if item_name:
+		item_name.text = slot_item.item.id if slot_item else ""
+	if item_texture:
+		item_texture.texture = slot_item.item.texture2D if slot_item else null
+	if item_quantity:
+		item_quantity.text = str(get_slot_item().quantity) if slot_item else ""
+
+func _get_drag_preview() -> Control:
+	var preview = duplicate(true)
+	preview.size = size
+	return preview
+	
 
 # DragAndDrop support
 # Draggable
@@ -63,9 +63,7 @@ func _on_drag_requested() -> void:
 	if not get_slot_item():
 		return
 	var data = get_slot_item().duplicate()
-	var preview = $Slot_Parent.duplicate(true)
-	preview.size = size
-	draggable.set_drag_data(data, preview)
+	draggable.set_drag_data(data, _get_drag_preview())
 	part_of_inventory.remove_at(slot_index)
 
 func _on_drag_success(data: ItemSystem_ItemStack):
@@ -76,7 +74,6 @@ func _on_drag_failure(data: ItemSystem_ItemStack):
 		part_of_inventory.add_item_stack(data, slot_index)
 
 # Droppable
-@export var switch_enabled := true
 func _receive_drag_data(data: DragAndDrop_Data) -> void:
 	if data.data is not ItemSystem_ItemStack: 
 		droppable.reject_drop()

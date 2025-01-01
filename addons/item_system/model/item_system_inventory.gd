@@ -1,6 +1,6 @@
 class_name ItemSystem_Inventory extends Resource
 
-@export var item_stacks: Array[ItemSystem_ItemStack]:
+@export var item_stacks: Array[ItemSystem_ItemStack] = []:
 	set(value):
 		if item_stacks != value:
 			item_stacks = value
