@@ -24,18 +24,18 @@ func _init_slots():
 func _read_model():
 	if not is_inside_tree(): await draw
 	if inventory:
-		if not inventory.changed.is_connected(_update_ui):
-			inventory.changed.connect(_update_ui)
+		if not inventory.changed.is_connected(queue_redraw):
+			inventory.changed.connect(queue_redraw)
 		for item in inventory.item_stacks:
-			if item and not item.changed.is_connected(_update_ui):
-				item.changed.connect(_update_ui)
+			if item and not item.changed.is_connected(queue_redraw):
+				item.changed.connect(queue_redraw)
 		inventory.set_minimum_size(ui_slots.size())
 		for index in range(ui_slots.size()):
 			ui_slots[index].part_of_inventory = inventory
 			ui_slots[index].slot_index = index
-		_update_ui()
+		queue_redraw()
 
-func _update_ui():
+func _draw():
 	if not is_inside_tree(): await draw
 	if ui_slots.is_empty() and generate_slots and slot_factory:
 		for child in get_children():
@@ -47,4 +47,4 @@ func _update_ui():
 	for index in range(ui_slots.size()):
 		ui_slots[index].part_of_inventory = inventory
 		ui_slots[index].slot_index = index
-		ui_slots[index]._update_ui()
+		ui_slots[index].queue_redraw()

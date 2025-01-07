@@ -96,6 +96,7 @@ func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
 			if prop.usage & (PROPERTY_USAGE_SCRIPT_VARIABLE | PROPERTY_USAGE_GROUP | PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP | PROPERTY_USAGE_NEVER_DUPLICATE) == 0 :
 				if prop.name not in ["texture", "frame", "self_modulate", "sprite_frames", "centered", "offset", "position", "unique_name_in_owner", "global_position"]:
 					layer_node.set(prop.name, get(prop.name))
+		layer_node.set_anchors_preset(Control.PRESET_FULL_RECT)
 		layer_node.position = Vector2.ZERO
 	
 func get_sprite_frames() -> Array[SpriteFrames]:

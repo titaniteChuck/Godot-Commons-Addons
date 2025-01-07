@@ -14,27 +14,32 @@ func add_item_stacks(array: Array[ItemSystem_ItemStack], index := -1) -> Error:
 			break
 	return error
 
-func add_item_stack(new_stack: ItemSystem_ItemStack, index := _first_empty_index()) -> Error:
-	var stacks_with_this_item: Array[ItemSystem_ItemStack] = item_stacks.filter(func(my_stack): return my_stack and my_stack.item.equals(new_stack.item))
+func add_item_stack(new_stack: ItemSystem_ItemStack, index := -1) -> Error:
 	var error := OK
-	if stacks_with_this_item.is_empty():
-		if index == -1 or index >= item_stacks.size():
-			if inventory_is_full():
-				error = ERR_CANT_ACQUIRE_RESOURCE
-			else:
-				item_stacks.append(new_stack)
+	var stacks_with_this_item: Array[ItemSystem_ItemStack] = item_stacks.filter(func(my_stack): return my_stack and my_stack.item.equals(new_stack.item))
+	if index != -1: # insert at a specific index is asked
+		if item_stacks[index] == null:
+			item_stacks[index] = new_stack # if slot is empty, ok
+		elif item_stacks[index].item.equals(new_stack.item):
+			item_stacks[index].quantity += new_stack.quantity # if slot not empty but same item, ok
 		else:
-			if item_stacks[index] == null:
-				item_stacks[index] = new_stack
-			else:
-				error = ERR_CANT_ACQUIRE_RESOURCE
-	else:
+			error = ERR_CANT_ACQUIRE_RESOURCE
+	elif  not stacks_with_this_item.is_empty():
 		stacks_with_this_item[0].quantity += new_stack.quantity
-	emit_changed()
+	else:
+		index = _first_empty_index()
+		if index == -1: # inventory full, no empty slot
+			error = ERR_CANT_ACQUIRE_RESOURCE
+		else:
+			item_stacks[index] = new_stack
+
+	if error == OK:
+		emit_changed()
+
 	return error
 
 func inventory_is_full():
-	return item_stacks.find(null) == -1
+	return _first_empty_index() == -1
 
 func _first_empty_index() -> int:
 	return item_stacks.find(null)
@@ -50,6 +55,7 @@ func add_item(item: ItemSystem_Item, quantity := 1, index := _first_empty_index(
 	return add_item_stack(new_stack, index)
 
 func remove_items_in_bulk(ingredients: Array[ItemSystem_ItemStack]) -> Error:
+	
 	if ingredients.any(func(el): el.quantity > get_quantity(el.item)):
 		return ERR_PARAMETER_RANGE_ERROR
 	

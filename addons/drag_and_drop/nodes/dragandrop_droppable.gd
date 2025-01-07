@@ -21,7 +21,7 @@ func _ready():
 	drop_node = get_parent()
 	mouse_exited.connect(_on_mouse_exit)
 	visible = false
-	name = "DragAndDrop_Draggable"
+	name = "DragAndDrop_Droppable"
 
 func reject_drop():
 	_reject_drop = true
@@ -33,6 +33,8 @@ func _can_drop_data(_at_position:Vector2, data:Variant) -> bool:
 	var can_receive = true
 	if not data or data is not DragAndDrop_Data:
 		can_receive = false
+	else:
+		can_receive = _can_drop_data_overridable.call(_at_position, data)
 
 	#if not data.is_class(parent_property.hint_string):
 		#can_receive = false
@@ -44,6 +46,10 @@ func _can_drop_data(_at_position:Vector2, data:Variant) -> bool:
 #
 	#current_state = State.HOVERED_AND_DROPPABLE if can_receive else State.HOVERED_BUT_NOT_DROPPABLE
 	return can_receive
+
+
+var _can_drop_data_overridable: Callable = func(_at_position: Vector2, data: DragAndDrop_Data) -> bool:
+	return true
 
 func _drop_data(_at_position:Vector2, data: Variant) -> void:
 	current_state = State.IDLE

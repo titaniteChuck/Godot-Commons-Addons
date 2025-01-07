@@ -5,6 +5,7 @@ class_name ItemSystem_Recipe extends Resource
 @export var ingredients: Array[ItemSystem_ItemStack]
 @export var results: Array[ItemSystem_ItemStack]
 @export var consume_ingredients := true
+@export var craft_time: float = 0
 
 func can_be_crafted_with(to_evaluate: Array[ItemSystem_ItemStack]) -> bool:
 	if not to_evaluate:
