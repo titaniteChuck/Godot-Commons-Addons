@@ -1,6 +1,6 @@
 @tool
 class_name AnimatedSpriteDelegate extends Object
-	
+
 signal animation_changed
 signal animation_finished
 signal animation_looped
@@ -23,7 +23,7 @@ var _state: State = State.STOPPED
 var _last_frame_index := 0
 
 #region getters/setters
-	
+
 func _get_property_list() -> Array[Dictionary]:
 	var properties: Array[Dictionary] = []
 	properties.append({
@@ -56,7 +56,7 @@ func set_frame(value: int) -> void:
 		value = clamp(value, 0, _last_frame_index)
 
 	_frame_progress_internal = 0
-	
+
 	if frame != value:
 		frame = value
 		frame_changed.emit()
@@ -66,7 +66,7 @@ func set_sprite_frames(new_frames: SpriteFrames) -> void:
 		sprite_frames = new_frames
 		sprite_frames_changed.emit()
 		notify_property_list_changed()
-		
+
 func set_frame_progress(progress: float) -> void:
 	if _is_playing_backwards():
 		_frame_progress_internal = 1.0 - progress
@@ -81,7 +81,7 @@ func get_frame_progress() -> float:
 
 func _set_frame_progress_internal(progress: float) -> void:
 	_frame_progress_internal = clamp(progress, 0.0, 1.0)
-	
+
 func set_speed_scale(new_value: float) -> void:
 	if speed_scale != new_value:
 		speed_scale = new_value
@@ -114,7 +114,7 @@ func play(name: StringName = &"", custom_speed := 1.0, from_end := false) -> voi
 		_frame_progress_internal = 1.0
 		if from_end:
 			frame = _last_frame_index
-	
+
 	_state = State.PLAYING
 
 func play_backwards(name: StringName = &"") -> void:
@@ -139,12 +139,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_playing() and sprite_frames and sprite_frames.has_animation(animation):
 		delta /= _time_per_frame()
-		var next_frame_progress = fmod(_frame_progress_internal + delta, 1.0) 
+		var next_frame_progress = fmod(_frame_progress_internal + delta, 1.0)
 		_frame_progress_internal = _frame_progress_internal + delta
 		if _frame_progress_internal == 1.0:
 			_next_frame()
 			_frame_progress_internal = next_frame_progress
-			
+
 
 func _get_time_in_frame() -> float:
 	return _frame_progress_internal * _time_per_frame()

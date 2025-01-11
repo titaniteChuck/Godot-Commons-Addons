@@ -14,5 +14,5 @@ class_name ItemSystem_ItemStack extends Resource
 func equals(other: Variant) -> bool:
 	if other == null or other is not ItemSystem_Item:
 		return false
-	
+
 	return item.equals(other.item)

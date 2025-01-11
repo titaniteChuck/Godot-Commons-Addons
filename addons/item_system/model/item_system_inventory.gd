@@ -55,14 +55,14 @@ func add_item(item: ItemSystem_Item, quantity := 1, index := _first_empty_index(
 	return add_item_stack(new_stack, index)
 
 func remove_items_in_bulk(ingredients: Array[ItemSystem_ItemStack]) -> Error:
-	
+
 	if ingredients.any(func(el): el.quantity > get_quantity(el.item)):
 		return ERR_PARAMETER_RANGE_ERROR
-	
+
 	var stacks_to_remove: Array[ItemSystem_ItemStack] = []
 	for ingredient_to_remove in ingredients:
 		var remaining_qty_to_remove := ingredient_to_remove.quantity
-		
+
 		for my_stack in item_stacks.filter(func(el): return el and el.item.equals(ingredient_to_remove.item)):
 			my_stack.quantity -= remaining_qty_to_remove
 			if my_stack.quantity <= 0:
@@ -73,7 +73,7 @@ func remove_items_in_bulk(ingredients: Array[ItemSystem_ItemStack]) -> Error:
 
 	for stack_to_remove in stacks_to_remove:
 		remove_at(item_stacks.find(stack_to_remove))
-		
+
 	emit_changed()
 	return OK
 

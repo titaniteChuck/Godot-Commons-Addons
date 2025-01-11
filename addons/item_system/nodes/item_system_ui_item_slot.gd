@@ -1,3 +1,4 @@
+@tool
 class_name ItemSystem_UI_ItemSlot extends PanelContainer
 
 signal pressed
@@ -51,6 +52,13 @@ func _ready() -> void:
 		droppable.data_dropped.connect(_receive_drag_data)
 		droppable._can_drop_data_overridable = _can_drop_data_overridable
 
+func _notification(what: int) -> void:
+	if button_node:
+		if what == NOTIFICATION_DRAG_BEGIN:
+			button_node.disabled = not droppable._can_drop_data(Vector2.ZERO, get_viewport().gui_get_drag_data())
+		if what == NOTIFICATION_DRAG_END:
+			button_node.disabled = false
+
 func get_slot_item() -> ItemSystem_ItemStack:
 	return part_of_inventory.item_stacks[slot_index] if part_of_inventory and slot_index < part_of_inventory.item_stacks.size() else null
 
@@ -78,7 +86,7 @@ func _get_drag_preview() -> Control:
 	var preview = duplicate(true)
 	preview.size = size
 	return preview
-	
+
 
 # DragAndDrop support
 # Draggable
@@ -98,7 +106,7 @@ func _on_drag_failure(data: ItemSystem_ItemStack):
 
 # Droppable
 func _can_drop_data_overridable(_at_position: Vector2, data: DragAndDrop_Data) -> bool:
-	if data.data is not ItemSystem_ItemStack: 
+	if data.data is not ItemSystem_ItemStack:
 		return false
 	var incoming_stack = data.data as ItemSystem_ItemStack
 	if item_type != ItemSystem_Item.Type.NONE and incoming_stack.item.type != item_type:
@@ -106,9 +114,9 @@ func _can_drop_data_overridable(_at_position: Vector2, data: DragAndDrop_Data) -
 	if item_subtype != ItemSystem_Item.SubType.NONE and incoming_stack.item.subtype != item_subtype:
 		return false
 	return true
-		
+
 func _receive_drag_data(data: DragAndDrop_Data) -> void:
-	if data.data is not ItemSystem_ItemStack: 
+	if data.data is not ItemSystem_ItemStack:
 		droppable.reject_drop()
 		return
 	var incoming_stack = data.data as ItemSystem_ItemStack
@@ -138,6 +146,6 @@ func _receive_drag_data(data: DragAndDrop_Data) -> void:
 		error = ERR_BUSY
 	else:
 		error = ERR_BUSY
-		
+
 	if error != OK:
 		droppable.reject_drop()

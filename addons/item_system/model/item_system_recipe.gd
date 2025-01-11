@@ -11,10 +11,10 @@ func can_be_crafted_with(to_evaluate: Array[ItemSystem_ItemStack]) -> bool:
 	if not to_evaluate:
 		return false
 	to_evaluate = to_evaluate.filter(func(stack): return stack != null)
-	if ingredients.size() != to_evaluate.size(): 
+	if ingredients.size() != to_evaluate.size():
 		return false
-	return ingredients.all(func(from_recipe): 
-			return to_evaluate.any(func(from_input): 
+	return ingredients.all(func(from_recipe):
+			return to_evaluate.any(func(from_input):
 					return 	from_recipe.item.id == from_input.item.id and from_input.quantity >= from_recipe.quantity))
 
 func execute_recipe() -> Array[ItemSystem_ItemStack]:

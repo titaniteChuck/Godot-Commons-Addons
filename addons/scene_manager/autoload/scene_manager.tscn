@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://ban31snx5h0ac"]
 
-[ext_resource type="Script" path="res://addons/scene_manager/autoload/scene_manager.gd" id="1_2bai4"]
-[ext_resource type="Script" path="res://addons/scene_manager/transition_manager/transition_manager.gd" id="2_thgyn"]
-[ext_resource type="Script" path="res://addons/scene_manager/scene_loader/scene_loader.gd" id="3_jatpt"]
+[ext_resource type="Script" uid="uid://dnmnbikeyorp5" path="res://addons/scene_manager/autoload/scene_manager.gd" id="1_2bai4"]
+[ext_resource type="Script" uid="uid://1lyjy6wr77fj" path="res://addons/scene_manager/transition_manager/transition_manager.gd" id="2_thgyn"]
+[ext_resource type="Script" uid="uid://d3cc4vmdfmi42" path="res://addons/scene_manager/scene_loader/scene_loader.gd" id="3_jatpt"]
 
 [node name="SceneManager" type="Node"]
 script = ExtResource("1_2bai4")

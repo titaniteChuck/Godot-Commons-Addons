@@ -1,12 +1,14 @@
 [gd_resource type="Resource" script_class="ItemSystem_Item" load_steps=3 format=3 uid="uid://bd6j61t5bfxnx"]
 
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_item.gd" id="1_oo4nh"]
-[ext_resource type="Texture2D" uid="uid://dd1xtjsfkr7db" path="res://examples/item_system/resources/items/gold.png" id="2_1nlt3"]
+
+[sub_resource type="Resource" id="Resource_pwk2b"]
+metadata/__load_path__ = "res://examples/item_system/resources/items/gold.png"
 
 [resource]
 script = ExtResource("1_oo4nh")
 id = "gold"
-name = {
-"en": "gold"
-}
-texture2D = ExtResource("2_1nlt3")
+name = ""
+texture2D = SubResource("Resource_pwk2b")
+rarity = 0
+type = 0

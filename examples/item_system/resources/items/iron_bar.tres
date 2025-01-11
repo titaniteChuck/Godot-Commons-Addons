@@ -1,12 +1,14 @@
 [gd_resource type="Resource" script_class="ItemSystem_Item" load_steps=3 format=3 uid="uid://dr3fp8g3axrld"]
 
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_item.gd" id="1_tt8p8"]
-[ext_resource type="Texture2D" uid="uid://bhahdky3efmdq" path="res://examples/item_system/resources/items/iron_bar.png" id="2_6x04q"]
+
+[sub_resource type="Resource" id="Resource_c1dd7"]
+metadata/__load_path__ = "res://examples/item_system/resources/items/iron_bar.png"
 
 [resource]
 script = ExtResource("1_tt8p8")
 id = "iron_bar"
-name = {
-"en": "iron bar"
-}
-texture2D = ExtResource("2_6x04q")
+name = ""
+texture2D = SubResource("Resource_c1dd7")
+rarity = 0
+type = 0

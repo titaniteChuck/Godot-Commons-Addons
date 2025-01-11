@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://df7f8s0rl0jxq"]
 
-[ext_resource type="Script" path="res://addons/save_system/autoload/save_system.gd" id="1_umha8"]
+[ext_resource type="Script" uid="uid://dom0nxtksdlgv" path="res://addons/save_system/autoload/save_system.gd" id="1_umha8"]
 
 [node name="SaveSystem" type="Node"]
 script = ExtResource("1_umha8")

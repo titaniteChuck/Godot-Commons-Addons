@@ -1,4 +1,4 @@
-# ResourceSaver.FLAG_BUNDLE_RESOURCES leads to error when loading. 
+# ResourceSaver.FLAG_BUNDLE_RESOURCES leads to error when loading.
 # So we save duplicates that will not replace those in cache once loaded
 # But will be used by the caller as they please
 class_name Save_System extends Node
@@ -19,7 +19,7 @@ var save_object: SaveSystem_SaveFile
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST and save_on_exit:
 		save()
-		
+
 #region ##################### Public Save/Load Methods ############################
 func save_entity(id: String, what: Variant):
 	if what is Array:
@@ -60,14 +60,14 @@ func load_savefile(file_path : String = default_file_path):
 		assert(save_object)
 	save_object = null
 #endregion
-		
+
 #region ##################### Encryption utils ############################
 func _encrypt_file(filepath: String):
 	var encrypted_filepath = _get_encrypted_file_name(filepath)
 	var cleartext_file : FileAccess = FileAccess.open(filepath, FileAccess.READ)
 	var encrypted_file: FileAccess = FileAccess.open_encrypted_with_pass(encrypted_filepath, FileAccess.WRITE, encryption_key)
 	encrypted_file.store_string(cleartext_file.get_as_text())
-	
+
 	cleartext_file.close()
 	encrypted_file.close()
 
@@ -76,7 +76,7 @@ func _decrypt_file(filepath: String):
 	var cleartext_file : FileAccess = FileAccess.open(filepath, FileAccess.WRITE)
 	var encrypted_file: FileAccess = FileAccess.open_encrypted_with_pass(encrypted_filepath, FileAccess.READ, encryption_key)
 	cleartext_file.store_string(encrypted_file.get_as_text())
-	
+
 	cleartext_file.close()
 	encrypted_file.close()
 
@@ -101,7 +101,7 @@ func save_ini() -> void:
 	var object: Label = Label.new()
 
 	config_file.set_value("<Section_name>", "text", object.text)
-	
+
 	var error := config_file.save(save_path_ini)
 	if error:
 		print("An error happened while saving data: ", error)
@@ -123,19 +123,19 @@ func fixBundledResource(file_path) -> Error:
 	var file := FileAccess.open(file_path, FileAccess.READ)
 	if !file:
 		return ERR_CANT_OPEN
-	
+
 	var lines := file.get_as_text().split("\n")
 	file.close()
-	
+
 	var skip := false
 	var current_class := ""
 	var match_class = RegEx.create_from_string("class_name (\\w+)")
 	var skipped_lines: PackedStringArray = []
-	
+
 	file = FileAccess.open(file_path, FileAccess.WRITE)
 	if !file:
 		return ERR_CANT_OPEN
-	
+
 	for line in lines:
 		if line.begins_with("script/source"):
 			skip = true

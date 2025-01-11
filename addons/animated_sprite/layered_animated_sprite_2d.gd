@@ -17,16 +17,30 @@ var frame_progress: float : set = set_frame_progress, get = get_frame_progress
 
 var _frame_changed_by_delegate := false
 
-func _get_property_list() -> Array[Dictionary]:
-	return _delegate._get_property_list()
+var delegate_frames: SpriteFrames
 
-func _init() -> void:
-	frame = 0
+func _get_property_list() -> Array[Dictionary]:
+	var properties: Array[Dictionary] = []
+	if sprite_frames:
+		var temp_dict: Dictionary = {}
+		for one_spriteframe in sprite_frames:
+			for animation_name in one_spriteframe.get_animation_names():
+				temp_dict[animation_name] = null
+		properties.append({
+			"name": "animation",
+			"type": TYPE_STRING_NAME,
+			"hint": PROPERTY_HINT_ENUM,
+			"hint_string": ",".join(temp_dict.keys()),
+		})
+		properties.append({
+			"name": "autoplay",
+			"type": TYPE_STRING_NAME,
+			"hint": PROPERTY_HINT_ENUM,
+			"hint_string": ",".join(temp_dict.keys()),
+		})
+	return properties
 
 func _ready() -> void:
-	#for child in get_children():
-		#remove_child(child)
-		#child.queue_free()
 	frame = 0
 	frame_changed.connect(_on_frame_changed)
 	_delegate.frame_changed.connect(_on_delegate_frame_changed)
@@ -50,7 +64,7 @@ func _on_frame_changed():
 		_frame_changed_by_delegate = false
 	else:
 		_delegate.frame = frame
-	
+
 func _on_delegate_frame_changed():
 	_frame_changed_by_delegate = true
 	hframes = _delegate.sprite_frames.get_frame_count(animation)
@@ -74,7 +88,10 @@ func _update_ui():
 func set_animation(value: StringName) -> void:
 	if not is_inside_tree(): await ready
 	_delegate.set_animation(value)
-	hframes = sprite_frames[0].get_frame_count(animation)
+	if not _delegate.sprite_frames and sprite_frames:
+		_delegate.sprite_frames = sprite_frames.filter(func(el): return el.has_animation(animation)).front()
+
+	hframes = _delegate.sprite_frames.get_frame_count(animation) if _delegate.sprite_frames else 1
 	_update_ui()
 
 func get_animation() -> StringName:
@@ -84,36 +101,36 @@ func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
 	if not is_inside_tree(): await ready
 	sprite_frames = new_frames
 	texture = null
-	if sprite_frames.is_empty():
-		_delegate.set_sprite_frames(null)
-		hframes = 1
-	else:
-		_delegate.set_sprite_frames(sprite_frames[0])
-		hframes = sprite_frames[0].get_frame_count(animation)
-	notify_property_list_changed()
 	self_modulate = Color.TRANSPARENT
-	var children = get_children()
-	var internal_children = get_children(true)
-	for layer_index in range(sprite_frames.size()):
+	_delegate.sprite_frames = null
+	if new_frames and new_frames.any(func(el): return el.has_animation(animation)):
+		_delegate.sprite_frames = new_frames.filter(func(el): return el.has_animation(animation)).front()
+	hframes = _delegate.sprite_frames.get_frame_count(animation) if _delegate.sprite_frames else 1
+	notify_property_list_changed()
+	for layer_index in sprite_frames.size():
 		var layer_node: Sprite2D
 		if layer_index < get_child_count(true):
 			layer_node = get_child(layer_index)
 		else:
 			layer_node = Sprite2D.new()
 			add_child(layer_node)
-		for prop in get_property_list():
-			if prop.usage & (PROPERTY_USAGE_SCRIPT_VARIABLE | PROPERTY_USAGE_GROUP | PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP | PROPERTY_USAGE_NEVER_DUPLICATE) == 0 :
-				if prop.name not in ["texture", "frame", "hframes", "vframes", "modulate", "self_modulate", "sprite_frames", "centered", "offset", "position", "unique_name_in_owner", "global_position"]:
-					layer_node.set(prop.name, get(prop.name))
-		layer_node.position = Vector2.ZERO
+		_transfer_properties_to_child(layer_node)
 
 	for too_much in range(sprite_frames.size(), get_child_count()):
 		var child = get_child(too_much)
-		remove_child(child)
-		child.queue_free()
+		if is_instance_valid(child):
+			remove_child(child)
+			child.queue_free()
 
 	_update_ui()
-	
+
+func _transfer_properties_to_child(node: Sprite2D):
+	for prop in get_property_list():
+		if prop.usage & (PROPERTY_USAGE_SCRIPT_VARIABLE | PROPERTY_USAGE_GROUP | PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP | PROPERTY_USAGE_NEVER_DUPLICATE) == 0 :
+			if prop.name not in ["name", "texture", "frame", "hframes", "vframes", "modulate", "self_modulate", "sprite_frames", "centered", "offset", "position", "unique_name_in_owner", "global_position"]:
+				node.set(prop.name, get(prop.name))
+	node.position = Vector2.ZERO
+
 func get_sprite_frames() -> Array[SpriteFrames]:
 	return sprite_frames
 func set_speed_scale(value: float) -> void:
@@ -146,4 +163,3 @@ func set_frame_and_progress(new_frame: int, progress: float) -> void:
 func stop() -> void:
 	_delegate.stop()
 #endregion API
-

@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://b7xf50iwwu1ls"]
 
-[ext_resource type="Script" path="res://addons/tree_generator/nodes/tree_generator_tree.gd" id="1_0dp2k"]
+[ext_resource type="Script" uid="uid://bkoyfioir2ftx" path="res://addons/tree_generator/nodes/tree_generator_tree.gd" id="1_0dp2k"]
 [ext_resource type="Texture2D" uid="uid://drlkam00ssrdf" path="res://addons/tree_generator/resources/leaf.png" id="2_arrir"]
-[ext_resource type="Script" path="res://addons/tree_generator/model/tree_generator_config.gd" id="3_rn7lr"]
+[ext_resource type="Script" uid="uid://cspr7gycsej8s" path="res://addons/tree_generator/model/tree_generator_config.gd" id="3_rn7lr"]
 
 [sub_resource type="Resource" id="Resource_qk4xq"]
 script = ExtResource("3_rn7lr")

@@ -17,5 +17,5 @@ func type_as_str() -> String:
 func equals(other: Variant) -> bool:
 	if other == null or other is not ItemSystem_Item:
 		return false
-	
+
 	return id == other.id

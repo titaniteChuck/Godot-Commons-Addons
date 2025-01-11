@@ -23,7 +23,7 @@ func craft_recipe(recipe: ItemSystem_Recipe, inventory_src: ItemSystem_Inventory
 				inventory_src.add_item_stacks(recipe.ingredients)
 	else:
 		error = ERR_PARAMETER_RANGE_ERROR
-		
+
 	if error != OK:
 		recipe_craft_failed.emit(recipe)
 

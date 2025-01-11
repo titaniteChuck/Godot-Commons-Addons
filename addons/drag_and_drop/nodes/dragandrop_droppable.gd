@@ -38,9 +38,9 @@ func _can_drop_data(_at_position:Vector2, data:Variant) -> bool:
 
 	#if not data.is_class(parent_property.hint_string):
 		#can_receive = false
-	
+
 	# 2. if category
-	
+
 	#if replace_if_occupied:
 		#can_receive = true
 #
@@ -71,4 +71,3 @@ func _notification(what: int) -> void:
 		visible = true
 	if what == NOTIFICATION_DRAG_END:
 		visible = false
-

@@ -14,13 +14,13 @@ class_name ItemSystem_UI_InventorySlots extends Control
 func _ready() -> void:
 	_init_slots()
 	pass # Replace with function body.
-	
+
 func _init_slots():
 	if not ui_slots:
 		ui_slots = []
 		ui_slots.assign(get_children().filter(func(child): return child is ItemSystem_UI_ItemSlot))
-	
-	
+
+
 func _read_model():
 	if not is_inside_tree(): await draw
 	if inventory:

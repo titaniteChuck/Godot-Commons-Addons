@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://bcrcs6wvwk3qg"]
 
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_ui_item_slot.gd" id="1_bsj02"]
-[ext_resource type="Texture2D" uid="uid://dd1xtjsfkr7db" path="res://examples/item_system/resources/items/gold.png" id="2_i8f22"]
+
+[sub_resource type="Resource" id="Resource_ckjss"]
+metadata/__load_path__ = "res://examples/item_system/resources/items/gold.png"
 
 [node name="ItemSystem_UI_ItemSlot" type="PanelContainer"]
 anchors_preset = 15
@@ -22,7 +24,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("2_i8f22")
+texture = SubResource("Resource_ckjss")
 expand_mode = 1
 stretch_mode = 5
 
