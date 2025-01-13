@@ -38,29 +38,29 @@ func _ready() -> void:
 	_delegate.frame_changed.connect(_on_frame_changed)
 	_delegate.sprite_frames_changed.connect(_on_sprite_frames_changed)
 	_delegate._ready()
-	_update_ui()
+	queue_redraw()
 
 func _process(delta: float) -> void:
 	if _delegate:
 		_delegate._process(delta)
 
 func _on_sprite_frames_changed() -> void:
-	_update_ui()
+	queue_redraw()
 	sprite_frames_changed.emit()
 
 func _on_frame_changed():
-	_update_ui()
+	queue_redraw()
 	frame_changed.emit()
 
 func _on_animation_changed():
-	_update_ui()
+	queue_redraw()
 	animation_changed.emit()
 
-func _update_ui():
+func _draw():
 	if not is_inside_tree(): await ready
-	if get_child_count() != sprite_frames.size():
-		set_sprite_frames(sprite_frames)
-	for index in range(get_child_count()):
+	#if get_child_count() != sprite_frames.size():
+		#set_sprite_frames(sprite_frames)
+	for index in get_child_count():
 		if sprite_frames and sprite_frames[index] and sprite_frames[index].has_animation(animation):
 			get_child(index).texture = sprite_frames[index].get_frame_texture(animation, _delegate.frame)
 		else:
@@ -83,8 +83,9 @@ func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
 		_delegate.set_sprite_frames(null)
 	else:
 		_delegate.set_sprite_frames(sprite_frames[0])
-	notify_property_list_changed()
-	for layer_index in range(sprite_frames.size()):
+	if Engine.is_editor_hint():
+		notify_property_list_changed()
+	for layer_index in sprite_frames.size():
 		var layer_node: TextureRect
 		if layer_index < get_child_count():
 			layer_node = get_child(layer_index)
@@ -98,6 +99,14 @@ func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
 					layer_node.set(prop.name, get(prop.name))
 		layer_node.set_anchors_preset(Control.PRESET_FULL_RECT)
 		layer_node.position = Vector2.ZERO
+
+	for too_much in range(sprite_frames.size(), get_child_count()):
+		var child = get_child(too_much)
+		if is_instance_valid(child):
+			remove_child(child)
+			child.queue_free()
+
+	queue_redraw()
 
 func get_sprite_frames() -> Array[SpriteFrames]:
 	return sprite_frames

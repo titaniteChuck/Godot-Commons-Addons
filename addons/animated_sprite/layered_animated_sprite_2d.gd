@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 		_delegate._process(delta)
 
 func _on_sprite_frames_changed() -> void:
-	_update_ui()
+	queue_redraw()
 	sprite_frames_changed.emit()
 
 
@@ -69,15 +69,15 @@ func _on_delegate_frame_changed():
 	_frame_changed_by_delegate = true
 	hframes = _delegate.sprite_frames.get_frame_count(animation)
 	frame = _delegate.frame
-	_update_ui()
+	queue_redraw()
 
 func _on_animation_changed():
-	_update_ui()
+	queue_redraw()
 	animation_changed.emit()
 
-func _update_ui():
+func _draw():
 	if not is_inside_tree(): await ready
-	for index in range(get_child_count()):
+	for index in get_child_count():
 		var layer_node: Sprite2D = get_child(index)
 		if sprite_frames and sprite_frames[index] and sprite_frames[index].has_animation(animation):
 			layer_node.texture = sprite_frames[index].get_frame_texture(animation, _delegate.frame)
@@ -92,7 +92,7 @@ func set_animation(value: StringName) -> void:
 		_delegate.sprite_frames = sprite_frames.filter(func(el): return el.has_animation(animation)).front()
 
 	hframes = _delegate.sprite_frames.get_frame_count(animation) if _delegate.sprite_frames else 1
-	_update_ui()
+	queue_redraw()
 
 func get_animation() -> StringName:
 	return _delegate.animation
@@ -116,13 +116,14 @@ func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
 			add_child(layer_node)
 		_transfer_properties_to_child(layer_node)
 
-	for too_much in range(sprite_frames.size(), get_child_count()):
-		var child = get_child(too_much)
-		if is_instance_valid(child):
-			remove_child(child)
-			child.queue_free()
+	if not sprite_frames.is_empty():
+		for too_much in range(sprite_frames.size(), get_child_count()):
+			var child = get_child(too_much)
+			if is_instance_valid(child):
+				remove_child(child)
+				child.queue_free()
 
-	_update_ui()
+	queue_redraw()
 
 func _transfer_properties_to_child(node: Sprite2D):
 	for prop in get_property_list():
