@@ -5,7 +5,7 @@ enum Type {NONE, HELM, CHEST, SHOULDERS, ARMS, BRACERS, GLOVES, BELT, PANTS, BOO
 enum SubType {NONE}
 @export var id: String
 @export var name: String
-@export var texture2D: Texture2D
+@export var icon: Texture2D
 @export var rarity: Rarity = Rarity.NONE
 @export var type: Type = Type.NONE
 

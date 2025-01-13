@@ -78,7 +78,7 @@ func _draw():
 	if name_node:
 		name_node.text = get_slot_item().item.name if has_item else ""
 	if texture_node:
-		texture_node.texture = get_slot_item().item.texture2D if has_item else texture_placeholder
+		texture_node.texture = get_slot_item().item.icon if has_item else texture_placeholder
 	if quantity_node:
 		quantity_node.text = str(get_slot_item().quantity) if has_item else ""
 
