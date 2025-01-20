@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bughykkrb7hpv"]
+[gd_scene load_steps=11 format=3 uid="uid://bughykkrb7hpv"]
 
 [ext_resource type="Script" uid="uid://c8e81snedsumv" path="res://addons/animated_sprite/animated_sprite_control.gd" id="1_0jwip"]
 [ext_resource type="Texture2D" uid="uid://cbnli5j7olddw" path="res://addons/lpc_spritesheet/resources/body/bodies.png" id="1_efesh"]
@@ -6,20 +6,17 @@
 [ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_control.gd" id="5_43vqb"]
 [ext_resource type="Texture2D" uid="uid://de56hdwgowjue" path="res://addons/lpc_spritesheet/resources/head/human.png" id="5_g2rvy"]
 [ext_resource type="SpriteFrames" uid="uid://v4d401ltr6u3" path="res://addons/lpc_spritesheet/resources/head/human.tres" id="6_5f0l0"]
-[ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_2d.gd" id="7_rpo00"]
+[ext_resource type="Script" uid="uid://1e0mo6js4c5b" path="res://addons/animated_sprite/layered_animated_sprite_2d.gd" id="7_rpo00"]
 
-[sub_resource type="Resource" id="Resource_k2rnd"]
-metadata/__load_path__ = "res://addons/animated_sprite/examples/animated_sprite_test.gd"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b52bo"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hobmn"]
 atlas = ExtResource("1_efesh")
 region = Rect2(0, 1152, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yi5gr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6na6j"]
 atlas = ExtResource("1_efesh")
 region = Rect2(0, 1216, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hf2gh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_aa7wx"]
 atlas = ExtResource("5_g2rvy")
 region = Rect2(0, 1216, 64, 64)
 
@@ -116,7 +113,7 @@ layout_mode = 0
 offset_top = 112.0
 offset_right = 64.0
 offset_bottom = 176.0
-texture = SubResource("AtlasTexture_b52bo")
+texture = SubResource("AtlasTexture_hobmn")
 script = ExtResource("1_0jwip")
 sprite_frames = ExtResource("2_xt4qo")
 animation = &"shoot_down"
@@ -224,13 +221,13 @@ animation = &"shoot_right"
 auto_translate_mode = 1
 offset_right = 40.0
 offset_bottom = 40.0
-texture = SubResource("AtlasTexture_yi5gr")
+texture = SubResource("AtlasTexture_6na6j")
 
 [node name="LayeredAnimatedSpriteControl2" type="TextureRect" parent="CanvasLayer/LayeredAnimatedSpriteControl"]
 auto_translate_mode = 1
 offset_right = 40.0
 offset_bottom = 40.0
-texture = SubResource("AtlasTexture_hf2gh")
+texture = SubResource("AtlasTexture_aa7wx")
 
 [node name="Label_LayeredAnimatedSprite2D" type="Label" parent="CanvasLayer"]
 offset_top = 352.0
@@ -260,7 +257,7 @@ animation = &"shoot_right"
 animation = &"shoot_right"
 
 [node name="LayeredAnimatedSprite2D" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
-texture = SubResource("AtlasTexture_yi5gr")
+texture = SubResource("AtlasTexture_6na6j")
 
 [node name="LayeredAnimatedSprite2D2" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
-texture = SubResource("AtlasTexture_hf2gh")
+texture = SubResource("AtlasTexture_aa7wx")

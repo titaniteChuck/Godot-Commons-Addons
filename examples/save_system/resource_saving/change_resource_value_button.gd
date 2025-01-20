@@ -17,4 +17,3 @@ func _on_button_pressed():
 		else:
 			current_value -= 1
 		label.counter.value = current_value
-			

@@ -53,7 +53,7 @@ func _ready() -> void:
 		droppable._can_drop_data_overridable = _can_drop_data_overridable
 
 func _notification(what: int) -> void:
-	if button_node:
+	if button_node and droppable:
 		if what == NOTIFICATION_DRAG_BEGIN:
 			button_node.disabled = not droppable._can_drop_data(Vector2.ZERO, get_viewport().gui_get_drag_data())
 		if what == NOTIFICATION_DRAG_END:

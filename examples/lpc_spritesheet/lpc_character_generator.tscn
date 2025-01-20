@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdjqd5wn728iw"]
+[gd_scene load_steps=9 format=3 uid="uid://cdjqd5wn728iw"]
 
 [ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_control.gd" id="2_aoun6"]
 [ext_resource type="SpriteFrames" uid="uid://cp2rkti3ri0c8" path="res://addons/lpc_spritesheet/resources/body/bodies.tres" id="3_7x0b8"]
@@ -7,16 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://de56hdwgowjue" path="res://addons/lpc_spritesheet/resources/head/human.png" id="6_2ru61"]
 [ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_2d.gd" id="7_ypv30"]
 
-[sub_resource type="Resource" id="Resource_vgype"]
-metadata/__load_path__ = "res://addons/lpc_spritesheet/examples/lpc_character_generator.gd"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_arne8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6hex"]
 atlas = ExtResource("5_1cs1p")
-region = Rect2(448, 1216, 64, 64)
+region = Rect2(704, 1216, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sr5bu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5snwp"]
 atlas = ExtResource("6_2ru61")
-region = Rect2(448, 1216, 64, 64)
+region = Rect2(704, 1216, 64, 64)
 
 [node name="CharacterGenerator" type="Control"]
 layout_mode = 3
@@ -25,7 +22,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("Resource_vgype")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -146,34 +142,10 @@ stretch_mode = 5
 script = ExtResource("2_aoun6")
 sprite_frames = Array[SpriteFrames]([ExtResource("3_7x0b8"), ExtResource("4_e2m82")])
 animation = &"shoot_right"
-frame = 7
+frame = 12
 autoplay = &"shoot_right"
 animation = &"shoot_right"
 autoplay = &"shoot_right"
-
-[node name="LayeredAnimatedSpriteControl" type="TextureRect" parent="VBoxContainer/Line2/Control/LayeredAnimatedSpriteControl"]
-auto_translate_mode = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-texture = SubResource("AtlasTexture_arne8")
-stretch_mode = 5
-
-[node name="LayeredAnimatedSpriteControl2" type="TextureRect" parent="VBoxContainer/Line2/Control/LayeredAnimatedSpriteControl"]
-auto_translate_mode = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-texture = SubResource("AtlasTexture_sr5bu")
-stretch_mode = 5
 
 [node name="Right_panel" type="VBoxContainer" parent="VBoxContainer/Line2"]
 layout_mode = 2
@@ -184,7 +156,7 @@ self_modulate = Color(1, 1, 1, 0)
 position = Vector2(966, 364)
 scale = Vector2(6, 6)
 hframes = 13
-frame = 7
+frame = 11
 script = ExtResource("7_ypv30")
 sprite_frames = Array[SpriteFrames]([ExtResource("3_7x0b8"), ExtResource("4_e2m82")])
 animation = &"shoot_right"
@@ -193,7 +165,7 @@ animation = &"shoot_right"
 autoplay = &"shoot_right"
 
 [node name="LayeredAnimatedSprite2D" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
-texture = SubResource("AtlasTexture_arne8")
+texture = SubResource("AtlasTexture_e6hex")
 
 [node name="LayeredAnimatedSprite2D2" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
-texture = SubResource("AtlasTexture_sr5bu")
+texture = SubResource("AtlasTexture_5snwp")

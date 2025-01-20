@@ -6,7 +6,6 @@ signal recipe_craft_failed(recipe: ItemSystem_Recipe)
 @export var recipes: Array[ItemSystem_Recipe]
 
 func check_for_enough_ingredients(inventory: ItemSystem_Inventory, recipe: ItemSystem_Recipe) -> bool:
-
 	return inventory and recipe and recipe.ingredients.all(func(el): return el.quantity <= inventory.get_quantity(el.item))
 
 func craft_recipe(recipe: ItemSystem_Recipe, inventory_src: ItemSystem_Inventory, inventory_dest = inventory_src) -> Error:

@@ -5,4 +5,3 @@ class_name CounterModel extends Resource
 		if value != new_value:
 			value = new_value
 			emit_changed()
-

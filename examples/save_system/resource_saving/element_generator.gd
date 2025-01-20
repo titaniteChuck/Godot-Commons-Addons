@@ -13,4 +13,3 @@ func _generate_child():
 		new_child.text = str(randi_range(0, 10))
 		parent_of_generated_nodes.add_child(new_child)
 		new_child.position = Vector2(randi_range(0, 800), randi_range(0, 400))
-

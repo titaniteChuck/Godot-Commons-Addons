@@ -1,17 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcrcs6wvwk3qg"]
+[gd_scene load_steps=2 format=3 uid="uid://bcrcs6wvwk3qg"]
 
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_ui_item_slot.gd" id="1_bsj02"]
 
-[sub_resource type="Resource" id="Resource_ckjss"]
-metadata/__load_path__ = "res://examples/item_system/resources/items/gold.png"
-
-[node name="ItemSystem_UI_ItemSlot" type="PanelContainer"]
+[node name="ItemSystem_UI_ItemSlot" type="PanelContainer" node_paths=PackedStringArray("texture_node", "name_node", "quantity_node", "button_node")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bsj02")
+texture_node = NodePath("Slot_Parent/VBoxContainer/ItemTexture")
+name_node = NodePath("Slot_Parent/VBoxContainer/ItemName")
+quantity_node = NodePath("Slot_Parent/ItemQuantity")
+button_node = NodePath("Slot_Parent/Button")
 
 [node name="Slot_Parent" type="PanelContainer" parent="."]
 self_modulate = Color(1, 1, 1, 0)
@@ -24,7 +25,6 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-texture = SubResource("Resource_ckjss")
 expand_mode = 1
 stretch_mode = 5
 

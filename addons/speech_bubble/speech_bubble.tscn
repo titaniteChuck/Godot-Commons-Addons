@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqujgkfp7yv44"]
+
+[ext_resource type="Script" path="res://src/_common/speech_bubble/speech_bubble.gd" id="1_vgjos"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5d2eg"]
+content_margin_left = 20.0
+content_margin_top = 5.0
+content_margin_right = 20.0
+content_margin_bottom = 5.0
+bg_color = Color(0.529412, 0.807843, 0.921569, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+shadow_color = Color(0, 0, 0, 0.231373)
+shadow_size = 1
+shadow_offset = Vector2(0, 5)
+
+[node name="SpeechBubble" type="PanelContainer"]
+offset_right = 194.0
+offset_bottom = 59.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_5d2eg")
+script = ExtResource("1_vgjos")
+bubble_pin_position = Vector2(200, 250)
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "It's me, doctor boooones"
+autowrap_mode = 3

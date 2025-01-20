@@ -1,43 +1,35 @@
 [gd_resource type="Resource" script_class="ItemSystem_Recipe" load_steps=11 format=3 uid="uid://c37v6i483ccrl"]
 
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="1_aqv5w"]
+[ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="2_80j1h"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_recipe.gd" id="2_bunns"]
-
-[sub_resource type="Resource" id="Resource_evbfm"]
-metadata/__load_path__ = "res://examples/item_system/resources/items/iron_bar.tres"
+[ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="3_f6f24"]
+[ext_resource type="Resource" uid="uid://db4cch4ac5di4" path="res://examples/item_system/resources/items/pickaxe.tres" id="4_3egcd"]
+[ext_resource type="Resource" uid="uid://c2h2ht50hufdo" path="res://examples/item_system/resources/items/xp.tres" id="5_uqgiv"]
 
 [sub_resource type="Resource" id="Resource_uswja"]
 script = ExtResource("1_aqv5w")
-item = SubResource("Resource_evbfm")
+item = ExtResource("2_80j1h")
 quantity = 1
-
-[sub_resource type="Resource" id="Resource_b467w"]
-metadata/__load_path__ = "res://examples/item_system/resources/items/stick.tres"
 
 [sub_resource type="Resource" id="Resource_61tav"]
 script = ExtResource("1_aqv5w")
-item = SubResource("Resource_b467w")
+item = ExtResource("3_f6f24")
 quantity = 1
-
-[sub_resource type="Resource" id="Resource_mkkei"]
-metadata/__load_path__ = "res://examples/item_system/resources/items/pickaxe.tres"
 
 [sub_resource type="Resource" id="Resource_v6375"]
 script = ExtResource("1_aqv5w")
-item = SubResource("Resource_mkkei")
+item = ExtResource("4_3egcd")
 quantity = 1
-
-[sub_resource type="Resource" id="Resource_xoxd3"]
-metadata/__load_path__ = "res://examples/item_system/resources/items/xp.tres"
 
 [sub_resource type="Resource" id="Resource_ghj3m"]
 script = ExtResource("1_aqv5w")
-item = SubResource("Resource_xoxd3")
+item = ExtResource("5_uqgiv")
 quantity = 15
 
 [resource]
 script = ExtResource("2_bunns")
-id = ""
+id = "example_recipe_pickaxe"
 ingredients = Array[ExtResource("1_aqv5w")]([SubResource("Resource_uswja"), SubResource("Resource_61tav")])
 results = Array[ExtResource("1_aqv5w")]([SubResource("Resource_v6375"), SubResource("Resource_ghj3m")])
 consume_ingredients = true

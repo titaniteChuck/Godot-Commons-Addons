@@ -31,7 +31,7 @@ func _read_model():
 	for value in values:
 		value.changed.connect(_update_ui)
 	_update_ui()
-	
+
 func _update_ui():
 	if not is_inside_tree(): await draw
 	var label_list = [label, label_2, label_3, label_4]

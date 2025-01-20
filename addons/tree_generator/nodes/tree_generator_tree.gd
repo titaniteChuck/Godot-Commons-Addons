@@ -23,7 +23,7 @@ func generate_tree()-> void:
 		child.queue_free()
 
 	add_child(create_branch(Vector2.ZERO, Vector2.UP.angle(), config.trunk_length, config.trunk_width, config.trunk_subbranches, config.total_iterations, false))
-	
+
 	#if not Engine.is_editor_hint():
 		#change_owner_recursively()
 
@@ -72,7 +72,7 @@ func create_leaf_on_branch(branch: Line2D):
 func generate_tree_curve_points(length: float, first_angle: float) -> PackedVector2Array:
 	var rough_points: PackedVector2Array = []
 	rough_points.append(Vector2.ZERO)
-	var first_segment_length: float = length * config.length_min_before_curve # no curve near the root of the branch 
+	var first_segment_length: float = length * config.length_min_before_curve # no curve near the root of the branch
 	var segment_length: float = first_segment_length
 	var direction: Vector2 = Vector2.RIGHT.rotated(first_angle)
 	var new_point: Vector2 = direction * segment_length
@@ -99,10 +99,10 @@ func generate_tree_curve_points(length: float, first_angle: float) -> PackedVect
 func _update_ui()-> void:
 	pass
 
-func light_update(branch: Node = get_child(0), iteration := 0) -> void: 
+func light_update(branch: Node = get_child(0), iteration := 0) -> void:
 	if not branch: return
 	branch.default_color = config.trunk_color
-	
+
 	for child in branch.get_children():
 		if child is Sprite2D:
 			child.texture = config.leaf_texture
@@ -114,4 +114,3 @@ func change_owner_recursively(node: Node = get_child(0)):
 	node.owner = get_tree().edited_scene_root
 	for child in node.get_children():
 		change_owner_recursively(child)
-

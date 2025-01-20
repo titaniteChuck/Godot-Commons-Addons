@@ -57,9 +57,6 @@ func _on_animation_changed():
 	animation_changed.emit()
 
 func _draw():
-	if not is_inside_tree(): await ready
-	#if get_child_count() != sprite_frames.size():
-		#set_sprite_frames(sprite_frames)
 	for index in get_child_count():
 		if sprite_frames and sprite_frames[index] and sprite_frames[index].has_animation(animation):
 			get_child(index).texture = sprite_frames[index].get_frame_texture(animation, _delegate.frame)

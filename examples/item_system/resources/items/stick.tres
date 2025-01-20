@@ -1,14 +1,12 @@
 [gd_resource type="Resource" script_class="ItemSystem_Item" load_steps=3 format=3 uid="uid://4s8250jsb6wd"]
 
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_item.gd" id="1_k0bbv"]
-
-[sub_resource type="Resource" id="Resource_vtonc"]
-metadata/__load_path__ = "res://examples/item_system/resources/items/stick.png"
+[ext_resource type="Texture2D" uid="uid://bcnt6yfwis6xs" path="res://examples/item_system/resources/items/stick.png" id="1_mwyn7"]
 
 [resource]
 script = ExtResource("1_k0bbv")
 id = "stick"
-name = ""
-texture2D = SubResource("Resource_vtonc")
+name = "Stick"
+icon = ExtResource("1_mwyn7")
 rarity = 0
 type = 0

@@ -48,7 +48,7 @@ func _on_sprite_frames_changed() -> void:
 func _on_animation_changed():
 	_update_ui()
 	frame_changed.emit()
-	
+
 func _on_frame_changed():
 	_update_ui()
 	animation_changed.emit()
