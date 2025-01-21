@@ -7,13 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://de56hdwgowjue" path="res://addons/lpc_spritesheet/resources/head/human.png" id="6_2ru61"]
 [ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_2d.gd" id="7_ypv30"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_e6hex"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vgh4x"]
 atlas = ExtResource("5_1cs1p")
-region = Rect2(704, 1216, 64, 64)
+region = Rect2(128, 1216, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5snwp"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2cy2"]
 atlas = ExtResource("6_2ru61")
-region = Rect2(704, 1216, 64, 64)
+region = Rect2(128, 1216, 64, 64)
 
 [node name="CharacterGenerator" type="Control"]
 layout_mode = 3
@@ -142,7 +142,7 @@ stretch_mode = 5
 script = ExtResource("2_aoun6")
 sprite_frames = Array[SpriteFrames]([ExtResource("3_7x0b8"), ExtResource("4_e2m82")])
 animation = &"shoot_right"
-frame = 12
+frame = 3
 autoplay = &"shoot_right"
 animation = &"shoot_right"
 autoplay = &"shoot_right"
@@ -156,7 +156,7 @@ self_modulate = Color(1, 1, 1, 0)
 position = Vector2(966, 364)
 scale = Vector2(6, 6)
 hframes = 13
-frame = 11
+frame = 2
 script = ExtResource("7_ypv30")
 sprite_frames = Array[SpriteFrames]([ExtResource("3_7x0b8"), ExtResource("4_e2m82")])
 animation = &"shoot_right"
@@ -165,7 +165,7 @@ animation = &"shoot_right"
 autoplay = &"shoot_right"
 
 [node name="LayeredAnimatedSprite2D" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
-texture = SubResource("AtlasTexture_e6hex")
+texture = SubResource("AtlasTexture_vgh4x")
 
 [node name="LayeredAnimatedSprite2D2" type="Sprite2D" parent="LayeredAnimatedSprite2D"]
-texture = SubResource("AtlasTexture_5snwp")
+texture = SubResource("AtlasTexture_e2cy2")

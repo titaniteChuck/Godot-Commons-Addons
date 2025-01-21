@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://bcrcs6wvwk3qg"]
+
+[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_slot_control.gd" id="1_bsj02"]
+[ext_resource type="Resource" uid="uid://bd6j61t5bfxnx" path="res://examples/item_system/resources/items/gold.tres" id="2_hb2je"]
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="3_odygu"]
+[ext_resource type="Texture2D" uid="uid://dd1xtjsfkr7db" path="res://examples/item_system/resources/items/gold.png" id="4_gkt37"]
+
+[sub_resource type="Resource" id="Resource_s780p"]
+script = ExtResource("3_odygu")
+item = ExtResource("2_hb2je")
+quantity = 1
+
+[node name="ItemSystem_InventorySlotControl" type="Button" node_paths=PackedStringArray("quantity_node")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "gold"
+icon = ExtResource("4_gkt37")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+script = ExtResource("1_bsj02")
+item_stack = SubResource("Resource_s780p")
+quantity_node = NodePath("ItemQuantity")
+
+[node name="ItemQuantity" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1152.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 20
+text = "1"
+horizontal_alignment = 2

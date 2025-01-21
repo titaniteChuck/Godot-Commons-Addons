@@ -1,36 +1,87 @@
-[gd_scene load_steps=15 format=3 uid="uid://cuyifqfxg0s33"]
+[gd_scene load_steps=29 format=3 uid="uid://cuyifqfxg0s33"]
 
 [ext_resource type="Script" path="res://examples/item_system/trigger_craft_button.gd" id="1_ale1r"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_recipe.gd" id="2_jjimw"]
 [ext_resource type="Resource" uid="uid://c37v6i483ccrl" path="res://examples/item_system/resources/recipes/pickaxe_recipe.tres" id="3_kp746"]
-[ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="6_cafdv"]
-[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_ui_inventory_slots.gd" id="6_e7pm8"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="6_t02yy"]
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="6_640h7"]
+[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_control.gd" id="6_e7pm8"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="7_5vkbn"]
-[ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="7_lyvpe"]
-[ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_ui_item_slot.tscn" id="8_22d16"]
+[ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_inventory_slot_control.tscn" id="8_22d16"]
+[ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="8_niv2h"]
+[ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="9_udp2x"]
+[ext_resource type="Texture2D" uid="uid://bhahdky3efmdq" path="res://examples/item_system/resources/items/iron_bar.png" id="11_46vd6"]
+[ext_resource type="Texture2D" uid="uid://bcnt6yfwis6xs" path="res://examples/item_system/resources/items/stick.png" id="12_os1ju"]
 
-[sub_resource type="Resource" id="Resource_otd82"]
+[sub_resource type="Resource" id="Resource_f7l3f"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_su0sb"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_m14sp"]
 script = ExtResource("7_5vkbn")
-item_stacks = Array[ExtResource("6_t02yy")]([])
+slots = Array[ExtResource("6_640h7")]([SubResource("Resource_f7l3f"), SubResource("Resource_su0sb")])
+
+[sub_resource type="Resource" id="Resource_oljha"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_01psi"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_pr2hr"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_hgb6g"]
+script = ExtResource("6_640h7")
+quantity = 0
 
 [sub_resource type="Resource" id="Resource_1joca"]
 script = ExtResource("7_5vkbn")
-item_stacks = Array[ExtResource("6_t02yy")]([])
+slots = Array[ExtResource("6_640h7")]([SubResource("Resource_oljha"), SubResource("Resource_01psi"), SubResource("Resource_pr2hr"), SubResource("Resource_hgb6g")])
 
-[sub_resource type="Resource" id="Resource_4qa0p"]
-script = ExtResource("6_t02yy")
-item = ExtResource("6_cafdv")
-quantity = 3
+[sub_resource type="Resource" id="Resource_52shv"]
+script = ExtResource("6_640h7")
+item = ExtResource("8_niv2h")
+quantity = 5
 
-[sub_resource type="Resource" id="Resource_unv32"]
-script = ExtResource("6_t02yy")
-item = ExtResource("7_lyvpe")
-quantity = 2
+[sub_resource type="Resource" id="Resource_bceas"]
+script = ExtResource("6_640h7")
+item = ExtResource("9_udp2x")
+quantity = 5
+
+[sub_resource type="Resource" id="Resource_5ukob"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_du14t"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_vu2xm"]
+script = ExtResource("6_640h7")
+item = ExtResource("9_udp2x")
+quantity = 1
+
+[sub_resource type="Resource" id="Resource_tmeev"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_e0evs"]
+script = ExtResource("6_640h7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_smhf0"]
+script = ExtResource("6_640h7")
+quantity = 0
 
 [sub_resource type="Resource" id="Resource_8wp7i"]
 script = ExtResource("7_5vkbn")
-item_stacks = Array[ExtResource("6_t02yy")]([SubResource("Resource_4qa0p"), SubResource("Resource_unv32")])
+slots = Array[ExtResource("6_640h7")]([SubResource("Resource_52shv"), SubResource("Resource_bceas"), SubResource("Resource_5ukob"), SubResource("Resource_du14t"), SubResource("Resource_vu2xm"), SubResource("Resource_tmeev"), SubResource("Resource_e0evs"), SubResource("Resource_smhf0")])
 
 [node name="RecipeExample" type="Node2D"]
 
@@ -41,96 +92,144 @@ offset_right = 990.0
 offset_bottom = 649.0
 
 [node name="Button" type="Button" parent="Craft_Machine" node_paths=PackedStringArray("ingredients_slots", "results_slots")]
+layout_mode = 0
 offset_left = 321.0
 offset_top = 119.0
 offset_right = 389.0
 offset_bottom = 170.0
 text = "craft"
 script = ExtResource("1_ale1r")
-ingredients_slots = NodePath("../Ingredients_Slots")
+ingredients_slots = NodePath("../InventoryControl")
 results_slots = NodePath("../Results_Slots")
 known_recipes = Array[ExtResource("2_jjimw")]([ExtResource("3_kp746")])
 
-[node name="Ingredients_Slots" type="HBoxContainer" parent="Craft_Machine"]
+[node name="InventoryControl" type="HBoxContainer" parent="Craft_Machine" node_paths=PackedStringArray("ui_slots")]
+layout_mode = 0
 offset_left = 133.0
 offset_top = 187.0
 offset_right = 293.0
 offset_bottom = 279.0
 script = ExtResource("6_e7pm8")
-inventory = SubResource("Resource_otd82")
+inventory = SubResource("Resource_m14sp")
+ui_slots = [NodePath("InventorySlotControl"), NodePath("InventorySlotControl2")]
 
-[node name="ItemSystem_UI_ItemSlot" parent="Craft_Machine/Ingredients_Slots" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl" parent="Craft_Machine/InventoryControl" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_f7l3f")
 
-[node name="ItemSystem_UI_ItemSlot2" parent="Craft_Machine/Ingredients_Slots" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl2" parent="Craft_Machine/InventoryControl" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_su0sb")
 
-[node name="Results_Slots" type="HBoxContainer" parent="Craft_Machine"]
+[node name="Results_Slots" type="HBoxContainer" parent="Craft_Machine" node_paths=PackedStringArray("ui_slots")]
+layout_mode = 0
 offset_left = 431.0
 offset_top = 185.0
 offset_right = 743.0
 offset_bottom = 277.0
 script = ExtResource("6_e7pm8")
 inventory = SubResource("Resource_1joca")
+ui_slots = [NodePath("InventorySlotControl"), NodePath("InventorySlotControl2"), NodePath("InventorySlotControl3"), NodePath("InventorySlotControl4")]
 
-[node name="ItemSystem_UI_ItemSlot" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_oljha")
 is_droppable = false
 
-[node name="ItemSystem_UI_ItemSlot2" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl2" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_01psi")
 is_droppable = false
 
-[node name="ItemSystem_UI_ItemSlot3" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl3" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_pr2hr")
 is_droppable = false
 
-[node name="ItemSystem_UI_ItemSlot4" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl4" parent="Craft_Machine/Results_Slots" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_hgb6g")
 is_droppable = false
 
-[node name="Quick_inventory" type="HBoxContainer" parent="."]
+[node name="Quick_inventory" type="HBoxContainer" parent="." node_paths=PackedStringArray("ui_slots")]
 offset_left = 160.0
 offset_top = 475.0
 offset_right = 788.0
 offset_bottom = 625.0
 script = ExtResource("6_e7pm8")
 inventory = SubResource("Resource_8wp7i")
+ui_slots = [NodePath("InventorySlotControl"), NodePath("InventorySlotControl2"), NodePath("InventorySlotControl3"), NodePath("InventorySlotControl4"), NodePath("InventorySlotControl5"), NodePath("InventorySlotControl6"), NodePath("InventorySlotControl7"), NodePath("InventorySlotControl8")]
 
-[node name="ItemSystem_UI_ItemSlot3" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = "iron_bar"
+icon = ExtResource("11_46vd6")
+item_stack = SubResource("Resource_52shv")
 
-[node name="ItemSystem_UI_ItemSlot4" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl2" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = "Stick"
+icon = ExtResource("12_os1ju")
+item_stack = SubResource("Resource_bceas")
 
-[node name="ItemSystem_UI_ItemSlot5" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl3" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_5ukob")
 
-[node name="ItemSystem_UI_ItemSlot6" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl4" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_du14t")
 
-[node name="ItemSystem_UI_ItemSlot7" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl5" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = "Stick"
+icon = ExtResource("12_os1ju")
+item_stack = SubResource("Resource_vu2xm")
 
-[node name="ItemSystem_UI_ItemSlot8" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl6" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_tmeev")
 
-[node name="ItemSystem_UI_ItemSlot9" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl7" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_e0evs")
 
-[node name="ItemSystem_UI_ItemSlot10" parent="Quick_inventory" instance=ExtResource("8_22d16")]
+[node name="InventorySlotControl8" parent="Quick_inventory" instance=ExtResource("8_22d16")]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+text = ""
+icon = null
+item_stack = SubResource("Resource_smhf0")

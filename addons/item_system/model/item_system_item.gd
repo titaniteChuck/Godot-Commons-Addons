@@ -1,3 +1,4 @@
+@tool
 class_name ItemSystem_Item extends Resource
 
 enum Rarity {NONE, COMMON, UNCOMMON, RARE, EPIC, LEGENDARY}

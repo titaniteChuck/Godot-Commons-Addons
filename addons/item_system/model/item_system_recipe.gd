@@ -1,5 +1,8 @@
 class_name ItemSystem_Recipe extends Resource
 
+signal crafted
+signal craft_failed
+
 # TODO: With godot 4.4, to retest with typed dictionaries
 @export var id := ""
 @export var ingredients: Array[ItemSystem_ItemStack]
@@ -22,3 +25,26 @@ func execute_recipe() -> Array[ItemSystem_ItemStack]:
 	for item_stack in results:
 		output.append(item_stack.duplicate())
 	return output
+
+func craft_recipe(inventory_src: ItemSystem_Inventory, inventory_dest = inventory_src) -> Error:
+	var error = OK
+	if check_for_enough_ingredients(inventory_src):
+		if consume_ingredients:
+			error = inventory_src.remove_items_in_bulk(ingredients)
+		if error == OK:
+			error = inventory_dest.add_stacks(results)
+			if error == OK:
+				crafted.emit()
+			else:
+				# revert operation
+				inventory_src.add_stacks(ingredients)
+	else:
+		error = ERR_PARAMETER_RANGE_ERROR
+
+	if error != OK:
+		craft_failed.emit()
+
+	return error
+
+func check_for_enough_ingredients(inventory: ItemSystem_Inventory) -> bool:
+	return inventory and ingredients.all(func(el): return el.quantity <= inventory.get_quantity(el.item))

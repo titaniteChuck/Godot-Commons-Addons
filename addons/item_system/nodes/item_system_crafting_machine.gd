@@ -1,6 +1,6 @@
 extends Node
-@export var ingredients_slots: ItemSystem_UI_InventorySlots
-@export var results_slots: ItemSystem_UI_InventorySlots
+@export var ingredients_slots: ItemSystem_InventoryControl
+@export var results_slots: ItemSystem_InventoryControl
 @export var trigger_button: Button
 
 # Called when the node enters the scene tree for the first time.
@@ -11,6 +11,5 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func _trigger_craft():
-	var temp_result: Array[ItemSystem_ItemStack] = ItemSystem.RecipeService.craft_recipe(ingredients_slots.inventory, ingredients_slots.inventory.item_stacks)
-	if not temp_result.is_empty():
-		results_slots.inventory.add_item_stacks(temp_result)
+	var recipe = ItemSystem.RecipeService.get_recipe_from_inventory(ingredients_slots.inventory)
+	ItemSystem.RecipeService.craft_recipe(recipe, ingredients_slots.inventory)
