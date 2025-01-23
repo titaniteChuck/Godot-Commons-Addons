@@ -22,4 +22,4 @@ SceneManager="*res://addons/scene_manager/autoload/scene_manager.tscn"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/drag_and_drop/plugin.cfg", "res://addons/item_system/plugin.cfg", "res://addons/save_system/plugin.cfg", "res://addons/scene_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/drag_and_drop/plugin.cfg", "res://addons/item_system/plugin.cfg", "res://addons/save_system/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/spanning_table/plugin.cfg")

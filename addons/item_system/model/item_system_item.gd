@@ -9,6 +9,11 @@ enum SubType {NONE}
 @export var icon: Texture2D
 @export var rarity: Rarity = Rarity.NONE
 @export var type: Type = Type.NONE
+@export var slot_size: Vector2i = Vector2i(1, 1):
+	set(value):
+		if value:
+			value = Vector2i(max(value.x, 1), max(value.y, 1))
+			slot_size = value
 
 func rarity_as_str() -> String:
 	return Rarity.find_key(rarity)

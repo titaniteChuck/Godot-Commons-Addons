@@ -14,14 +14,14 @@ func _can_drop_data(_at_position:Vector2, data:Variant) -> bool:
 	if not data or data is not DragAndDrop_Data:
 		can_receive = false
 	else:
-		can_receive = _can_drop_data_substitute.call(_at_position, data)
+		can_receive = _can_drop_data_delegate.call(_at_position, data)
 
 	return can_receive
 
 
-var _can_drop_data_substitute: Callable = func(_at_position: Vector2, data: DragAndDrop_Data) -> bool:
+var _can_drop_data_delegate: Callable = func(_at_position: Vector2, data: DragAndDrop_Data) -> bool:
 	return true
-var _receive_data_substitute: Callable = func(_at_position: Vector2, data: DragAndDrop_Data) -> bool:
+var _receive_data_delegate: Callable = func(_at_position: Vector2, data: DragAndDrop_Data) -> bool:
 	return true
 
 func _drop_data(_at_position:Vector2, data: Variant) -> void:
@@ -29,9 +29,10 @@ func _drop_data(_at_position:Vector2, data: Variant) -> void:
 	data.receiver = self
 	if data.receiver.get_parent() == data.emitter.get_parent():
 		data.drop_rejected.emit()
+		return
 
 	data_dropped.emit(data)
-	if _receive_data_substitute.call(_at_position, data) == OK:
+	if _receive_data_delegate.call(_at_position, data) == OK:
 		data.drop_complete.emit()
 	else:
 		data.drop_rejected.emit()

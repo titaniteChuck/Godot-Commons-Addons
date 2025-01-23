@@ -20,24 +20,18 @@ func add_stacks(array: Array[ItemSystem_ItemStack], index := -1) -> Error:
 	return error
 
 func add_stack(new_stack: ItemSystem_ItemStack, index := -1) -> Error:
-	var error := OK
+	var error := ERR_CANT_ACQUIRE_RESOURCE
 	var stacks_with_this_item: Array[ItemSystem_ItemStack] = slots.filter(func(my_stack): return my_stack.item and my_stack.item.equals(new_stack.item))
 	if index != -1: # insert at a specific index is asked
-		if slots[index] == null:
-			slots[index] = new_stack # if slot is empty, ok
-		elif slots[index].item.equals(new_stack.item):
-			slots[index].quantity += new_stack.quantity # if slot not empty but same item, ok
-		else:
-			error = ERR_CANT_ACQUIRE_RESOURCE
-	elif  not stacks_with_this_item.is_empty():
-		stacks_with_this_item[0].quantity += new_stack.quantity
+		error = slots[index].transfer(new_stack)
+	elif not stacks_with_this_item.is_empty():
+		stacks_with_this_item[0].quantity += new_stack.quantity #TODO ignores stack_size
 	else:
 		index = _first_empty_index()
-		if index == -1: # inventory full, no empty slot
-			error = ERR_CANT_ACQUIRE_RESOURCE
-		else:
+		if index != -1:
 			slots[index].item = new_stack.item
 			slots[index].quantity = new_stack.quantity
+			error = OK
 
 	if error == OK:
 		emit_changed()
@@ -48,13 +42,10 @@ func inventory_is_full() -> bool:
 	return _first_empty_index() == -1
 
 func _first_empty_index() -> int:
-	var index = -1
-	if slots.any(func(slot): return slot.item == null):
-		for slot in slots:
-			index += 1
-			if slot.item == null:
-				break
-	return index
+	for index in slots.size():
+		if slots[index].item == null:
+			return index
+	return -1
 
 func add_item(item: ItemSystem_Item, quantity := 1, index := _first_empty_index()) -> Error:
 	var new_stack := ItemSystem_ItemStack.new()
@@ -81,8 +72,5 @@ func remove_items_in_bulk(stacks: Array[ItemSystem_ItemStack]) -> Error:
 	emit_changed()
 	return OK
 
-func get_quantity(item: ItemSystem_Item):
-	var quantity := 0
-	for my_stack in slots.filter(func(stack: ItemSystem_ItemStack): return stack and stack.item.equals(item)):
-		quantity += my_stack.quantity
-	return quantity
+func get_quantity(item: ItemSystem_Item) -> int:
+	return slots.reduce(func(qtty, stack): return qtty + (stack.quantity if stack.has_item(item) else 0))

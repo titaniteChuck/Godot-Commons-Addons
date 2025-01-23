@@ -91,7 +91,7 @@ anchors_preset = 0
 offset_right = 990.0
 offset_bottom = 649.0
 
-[node name="Button" type="Button" parent="Craft_Machine" node_paths=PackedStringArray("ingredients_slots", "results_slots")]
+[node name="Button" type="Button" parent="Craft_Machine" node_paths=PackedStringArray("ingredients_slots", "results_slots", "quickaccess_slots")]
 layout_mode = 0
 offset_left = 321.0
 offset_top = 119.0
@@ -101,6 +101,7 @@ text = "craft"
 script = ExtResource("1_ale1r")
 ingredients_slots = NodePath("../InventoryControl")
 results_slots = NodePath("../Results_Slots")
+quickaccess_slots = NodePath("../../Quick_inventory")
 known_recipes = Array[ExtResource("2_jjimw")]([ExtResource("3_kp746")])
 
 [node name="InventoryControl" type="HBoxContainer" parent="Craft_Machine" node_paths=PackedStringArray("ui_slots")]

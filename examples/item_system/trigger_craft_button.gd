@@ -1,11 +1,22 @@
 extends Button
 @export var ingredients_slots: ItemSystem_InventoryControl
 @export var results_slots: ItemSystem_InventoryControl
+@export var quickaccess_slots: ItemSystem_InventoryControl
 @export var known_recipes: Array[ItemSystem_Recipe] = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pressed.connect(_trigger_craft)
+	for slot in ingredients_slots.ui_slots:
+		slot.quick_move_requested.connect(_move_between_inventories.bind(slot.item_stack, quickaccess_slots.inventory))
+	for slot in results_slots.ui_slots:
+		slot.quick_move_requested.connect(_move_between_inventories.bind(slot.item_stack, quickaccess_slots.inventory))
+	for slot in quickaccess_slots.ui_slots:
+		slot.quick_move_requested.connect(_move_between_inventories.bind(slot.item_stack, ingredients_slots.inventory))
 	pass # Replace with function body.
+
+func _move_between_inventories(item_stack: ItemSystem_ItemStack, dest: ItemSystem_Inventory):
+	if dest.add_stack(item_stack) == OK:
+		item_stack.item = null
 
 func _trigger_craft():
 	var matching_recipes: Array[ItemSystem_Recipe] = get_recipe_from_ingredients(ingredients_slots.inventory.slots)

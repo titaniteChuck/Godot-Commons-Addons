@@ -10,3 +10,4 @@ name = "iron_bar"
 icon = ExtResource("1_3qmme")
 rarity = 0
 type = 0
+slot_size = Vector2i(1, 3)
