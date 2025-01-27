@@ -16,8 +16,6 @@ class_name ItemSystem_ItemStack extends Resource
 		if item == null:
 			value = 0
 		value = max(value, 0)
-		if value == 15:
-			var catchme = true
 		if quantity != value:
 			quantity = value
 			emit_changed()

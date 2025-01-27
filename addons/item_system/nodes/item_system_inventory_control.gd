@@ -13,7 +13,18 @@ class_name ItemSystem_InventoryControl extends Control
 	set(value):
 		generate_slots = value
 		_init_slots()
-@export var slots_parent: Node = self
+@export var slots_parent: Node = $".":
+	set(value):
+		if not value:
+			return
+		if slots_parent and slots_parent != value and is_instance_valid(slots_parent):
+			for child in slots_parent.get_children():
+				if child == value:
+					continue
+				slots_parent.remove_child(child)
+				child.queue_free()
+		slots_parent = value
+		_init_slots()
 @export var slot_factory: PackedScene = preload("res://addons/item_system/nodes/item_system_inventory_slot_control.tscn")
 @export var slot_min_size: Vector2 = Vector2.ZERO:
 	set(value):
@@ -35,7 +46,7 @@ func _ready() -> void:
 
 
 func _init_slots():
-	if generate_slots:
+	if generate_slots and slots_parent:
 		if not slot_factory:
 			push_error("No slot factory defined")
 			return

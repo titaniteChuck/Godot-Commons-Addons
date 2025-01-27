@@ -23,16 +23,18 @@ signal quick_move_requested
 @export var texture_placeholder: Texture2D
 @export var display_item_name := true:
 	set(value):
-		display_item_name = value
-		_update_state()
+		if value != display_item_name:
+			display_item_name = value
+			_update_state()
 
 var draggable: DragAndDrop_Draggable
 var droppable: DragAndDrop_Droppable
 
 var inventory_control: ItemSystem_InventoryControl:
 	set(value):
-		inventory_control = value
-		_update_state()
+		if value != inventory_control:
+			inventory_control = value
+			_update_state()
 
 func _ready() -> void:
 	if is_draggable:
@@ -60,15 +62,14 @@ func _notification(what: int) -> void:
 			disabled = false
 
 
-func _update_state():
+func _update_state() -> void:
 	if not item_stack:
 		return
 	if quantity_node:
 		quantity_node.text = str(item_stack.quantity) if item_stack.item else ""
 	icon = item_stack.item.icon if item_stack.item else texture_placeholder
 	text = item_stack.item.name if item_stack.item and display_item_name else ""
-	queue_redraw()
-
+	pass
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.double_click:
