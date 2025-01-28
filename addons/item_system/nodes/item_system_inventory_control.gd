@@ -39,8 +39,6 @@ class_name ItemSystem_InventoryControl extends Control
 		show_in_tree = value
 		_init_slots()
 
-@export var can_speak := false
-
 func _ready() -> void:
 	_init_slots()
 

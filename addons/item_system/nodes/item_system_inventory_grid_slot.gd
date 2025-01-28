@@ -64,13 +64,13 @@ func _get_slots_covered_by_item(item: ItemSystem_Item = item_stack.item) -> Arra
 	if not inventory_control or not item:
 		return output
 	var my_index_in_inventory: int = inventory_control.inventory.slots.find(item_stack)
-	var grid_dimensions: Vector2i = Vector2i(inventory_control.columns, inventory_control.inventory.slots.size() / inventory_control.columns +1)
+	var grid_dimensions: Vector2i = Vector2i(inventory_control.slots_parent.columns, inventory_control.inventory.slots.size() / inventory_control.slots_parent.columns +1)
 	var my_grid_coordinates: Vector2i = Vector2i(my_index_in_inventory % grid_dimensions.x, my_index_in_inventory / grid_dimensions.x)
 	for x in item.slot_size.x:
 		for y in item.slot_size.y:
 			var neighbor_index_in_grid: Vector2i = my_grid_coordinates + Vector2i(x, y)
 			var neighbor_index_in_inventory: int = (my_grid_coordinates.y + y) * grid_dimensions.x + my_grid_coordinates.x + x
-			if neighbor_index_in_grid.x > grid_dimensions.x or neighbor_index_in_grid.y > grid_dimensions.y:
+			if neighbor_index_in_grid.x not in range(grid_dimensions.x) or neighbor_index_in_grid.y not in range(grid_dimensions.y):
 				break
 			if neighbor_index_in_inventory >= inventory_control.inventory.slots.size():
 				break

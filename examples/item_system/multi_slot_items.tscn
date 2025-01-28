@@ -1,400 +1,93 @@
-[gd_scene load_steps=70 format=3 uid="uid://bkouh56w14vqn"]
+[gd_scene load_steps=26 format=3 uid="uid://bkouh56w14vqn"]
 
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_control.gd" id="1_ctnve"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="2_qyj58"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="3_sgsx7"]
-[ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_inventory_slot_control.tscn" id="5_4w27y"]
 [ext_resource type="Resource" uid="uid://db4cch4ac5di4" path="res://examples/item_system/resources/items/pickaxe.tres" id="5_7iwop"]
 [ext_resource type="PackedScene" uid="uid://b07xgc27d82ht" path="res://addons/item_system/nodes/item_system_inventory_grid_slot.tscn" id="8_c6nc3"]
 [ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="8_n3v7q"]
 [ext_resource type="Script" path="res://addons/spanning_table/spanning_table_container.gd" id="8_tv2vr"]
 [ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="8_vifr8"]
-[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_grid.gd" id="8_yaqh5"]
 [ext_resource type="Script" path="res://addons/spanning_table/spanning_cell_container.gd" id="11_2e4ir"]
 
-[sub_resource type="Resource" id="Resource_6asuj"]
-script = ExtResource("3_sgsx7")
-item = ExtResource("5_7iwop")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_bif7j"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_y01mn"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_5vka7"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_huuok"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_lgmor"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_oxatv"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_kqfby"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_57d81"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_f7b3c"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_6x0ri"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_0l7pi"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_n3oqd"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_p6iuq"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_c0whq"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_inohs"]
-script = ExtResource("2_qyj58")
-slots = Array[ExtResource("3_sgsx7")]([SubResource("Resource_6asuj"), SubResource("Resource_bif7j"), SubResource("Resource_y01mn"), SubResource("Resource_5vka7"), SubResource("Resource_huuok"), SubResource("Resource_lgmor"), SubResource("Resource_oxatv"), SubResource("Resource_kqfby"), SubResource("Resource_57d81"), SubResource("Resource_f7b3c"), SubResource("Resource_6x0ri"), SubResource("Resource_0l7pi"), SubResource("Resource_n3oqd"), SubResource("Resource_p6iuq"), SubResource("Resource_c0whq")])
-
-[sub_resource type="Resource" id="Resource_70a2t"]
-script = ExtResource("3_sgsx7")
-item = ExtResource("8_n3v7q")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_lj81k"]
-script = ExtResource("3_sgsx7")
-item = ExtResource("5_7iwop")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_wesr0"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_6r68n"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_g5xx2"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_8jkxg"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_apxkk"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_b5sil"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_kvdun"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_sc0dy"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_5jq1k"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_mdrva"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_xrwfh"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_5eolp"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_ynsvu"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_3e381"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_mgr57"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_bum5m"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_dsiuj"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_4s18d"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_68va6"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_0y3im"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_0nlk1"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_nmtu7"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_x3yw1"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_tfo4m"]
-script = ExtResource("2_qyj58")
-slots = Array[ExtResource("3_sgsx7")]([SubResource("Resource_70a2t"), SubResource("Resource_lj81k"), SubResource("Resource_wesr0"), SubResource("Resource_6r68n"), SubResource("Resource_g5xx2"), SubResource("Resource_8jkxg"), SubResource("Resource_apxkk"), SubResource("Resource_b5sil"), SubResource("Resource_kvdun"), SubResource("Resource_sc0dy"), SubResource("Resource_5jq1k"), SubResource("Resource_mdrva"), SubResource("Resource_xrwfh"), SubResource("Resource_5eolp"), SubResource("Resource_ynsvu"), SubResource("Resource_3e381"), SubResource("Resource_mgr57"), SubResource("Resource_bum5m"), SubResource("Resource_dsiuj"), SubResource("Resource_4s18d"), SubResource("Resource_68va6"), SubResource("Resource_0y3im"), SubResource("Resource_0nlk1"), SubResource("Resource_nmtu7"), SubResource("Resource_x3yw1")])
-
-[sub_resource type="Resource" id="Resource_hwqph"]
-script = ExtResource("3_sgsx7")
-item = ExtResource("8_n3v7q")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_n0kgm"]
-script = ExtResource("3_sgsx7")
-item = ExtResource("5_7iwop")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_j8vte"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
-[sub_resource type="Resource" id="Resource_13knr"]
+[sub_resource type="Resource" id="Resource_vlwjp"]
 script = ExtResource("3_sgsx7")
 item = ExtResource("8_vifr8")
 quantity = 1
 
-[sub_resource type="Resource" id="Resource_asfhg"]
+[sub_resource type="Resource" id="Resource_2ypny"]
+script = ExtResource("3_sgsx7")
+item = ExtResource("5_7iwop")
+quantity = 1
+
+[sub_resource type="Resource" id="Resource_b5h01"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_y7aer"]
+[sub_resource type="Resource" id="Resource_neepd"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_5eedv"]
+[sub_resource type="Resource" id="Resource_dd08t"]
+script = ExtResource("3_sgsx7")
+item = ExtResource("8_n3v7q")
+quantity = 1
+
+[sub_resource type="Resource" id="Resource_s26km"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_xde2r"]
+[sub_resource type="Resource" id="Resource_4cm11"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_64mro"]
+[sub_resource type="Resource" id="Resource_tkhqt"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_c2k0v"]
+[sub_resource type="Resource" id="Resource_tra2o"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_3ovir"]
+[sub_resource type="Resource" id="Resource_xthle"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_5mdb0"]
+[sub_resource type="Resource" id="Resource_q8wuq"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_u6yvw"]
+[sub_resource type="Resource" id="Resource_r3mrk"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_fnmid"]
+[sub_resource type="Resource" id="Resource_s82lr"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_da3q2"]
+[sub_resource type="Resource" id="Resource_hbabo"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_d4lwk"]
+[sub_resource type="Resource" id="Resource_ql4l4"]
+script = ExtResource("3_sgsx7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_wuan0"]
 script = ExtResource("2_qyj58")
-slots = Array[ExtResource("3_sgsx7")]([SubResource("Resource_hwqph"), SubResource("Resource_n0kgm"), SubResource("Resource_j8vte"), SubResource("Resource_13knr"), SubResource("Resource_asfhg"), SubResource("Resource_y7aer"), SubResource("Resource_5eedv"), SubResource("Resource_xde2r"), SubResource("Resource_64mro"), SubResource("Resource_c2k0v"), SubResource("Resource_3ovir"), SubResource("Resource_5mdb0"), SubResource("Resource_u6yvw"), SubResource("Resource_fnmid"), SubResource("Resource_da3q2")])
+slots = Array[ExtResource("3_sgsx7")]([SubResource("Resource_vlwjp"), SubResource("Resource_2ypny"), SubResource("Resource_b5h01"), SubResource("Resource_neepd"), SubResource("Resource_dd08t"), SubResource("Resource_s26km"), SubResource("Resource_4cm11"), SubResource("Resource_tkhqt"), SubResource("Resource_tra2o"), SubResource("Resource_xthle"), SubResource("Resource_q8wuq"), SubResource("Resource_r3mrk"), SubResource("Resource_s82lr"), SubResource("Resource_hbabo"), SubResource("Resource_ql4l4")])
 
 [node name="MultiSlotItems" type="Node2D"]
 
-[node name="FlowContainer" type="FlowContainer" parent="." node_paths=PackedStringArray("ui_slots", "slots_parent")]
-visible = false
-offset_left = 37.0
-offset_top = 328.0
-offset_right = 277.0
-offset_bottom = 544.0
-script = ExtResource("1_ctnve")
-inventory = SubResource("Resource_inohs")
-ui_slots = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
-slots_parent = NodePath(".")
-slot_min_size = Vector2(50, 50)
-
-[node name="ItemSystem_InventorySlotControl" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl2" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl3" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl4" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl5" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl6" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl7" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl8" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl9" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl10" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl11" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl12" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl13" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl14" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="ItemSystem_InventorySlotControl15" parent="FlowContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="Spanning_inventory" type="Control" parent="." node_paths=PackedStringArray("slots_parent")]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = 443.0
-offset_top = 45.0
-offset_right = 443.0
-offset_bottom = 45.0
-script = ExtResource("1_ctnve")
-inventory = SubResource("Resource_tfo4m")
-slots_parent = NodePath(".")
-
-[node name="ItemSystem_InventoryGrid" type="PanelContainer" parent="." node_paths=PackedStringArray("foreground_grid", "ui_slots", "slots_parent")]
+[node name="ItemSystem_InventoryGrid" type="PanelContainer" parent="." node_paths=PackedStringArray("ui_slots", "slots_parent")]
 offset_right = 270.0
 offset_bottom = 160.0
-script = ExtResource("8_yaqh5")
-columns = 5
-foreground_grid = NodePath("SpanningTableContainer")
-inventory = SubResource("Resource_d4lwk")
+script = ExtResource("1_ctnve")
+inventory = SubResource("Resource_wuan0")
 ui_slots = [NodePath("SpanningTableContainer/SpanningCellContainer/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer2/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer3/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer4/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer5/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer6/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer7/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer8/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer9/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer10/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer11/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer12/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer13/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer14/ItemSystem_InventorySlotControl"), NodePath("SpanningTableContainer/SpanningCellContainer15/ItemSystem_InventorySlotControl")]
 generate_slots = true
 slots_parent = NodePath("SpanningTableContainer")
 slot_factory = ExtResource("8_c6nc3")
-slot_min_size = Vector2(50, 50)
-expand_slots = false
-can_speak = true
 
 [node name="SpanningTableContainer" type="Container" parent="ItemSystem_InventoryGrid"]
 layout_mode = 2
@@ -402,378 +95,99 @@ script = ExtResource("8_tv2vr")
 columns = 5
 
 [node name="SpanningCellContainer" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
-row_span = 3
 
 [node name="SpanningCellContainer2" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 col_span = 2
 row_span = 2
 
 [node name="SpanningCellContainer3" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer4" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer5" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
+row_span = 3
 
 [node name="SpanningCellContainer6" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-visible = false
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer7" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer8" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer9" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer10" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
+visible = false
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer11" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-visible = false
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer12" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer13" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer14" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
 [node name="SpanningCellContainer15" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="Container" type="PanelContainer" parent="." node_paths=PackedStringArray("ui_slots", "slots_parent")]
 visible = false
-offset_left = 340.0
-offset_top = 35.0
-offset_right = 650.0
-offset_bottom = 364.0
-size_flags_horizontal = 0
-script = ExtResource("1_ctnve")
-ui_slots = [NodePath("SpanningTableContainer/SpanningCellContainer/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer2/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer3/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer4/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer5/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer6/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer7/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer8/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer9/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer10/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer11/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer12/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer13/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer14/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer15/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer16/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer17/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer18/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer19/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer20/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer21/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer22/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer23/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer24/ItemSystem_InventorySlotControl15"), NodePath("SpanningTableContainer/SpanningCellContainer25/ItemSystem_InventorySlotControl15")]
-slots_parent = NodePath(".")
-
-[node name="SpanningTableContainer" type="Container" parent="Container"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-script = ExtResource("8_tv2vr")
-columns = 5
-
-[node name="SpanningCellContainer" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-row_span = 4
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer2" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
 script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer2" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer3" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer3" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer4" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer4" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer5" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer5" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer6" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer6" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer7" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer7" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer8" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer8" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer9" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer9" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer10" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer10" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer11" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer11" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer12" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer12" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer13" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer13" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer14" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer14" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer15" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer15" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer16" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer16" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer17" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer17" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer18" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer18" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer19" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer19" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer20" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer20" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer21" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer21" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer22" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer22" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer23" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer23" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer24" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer24" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
-
-[node name="SpanningCellContainer25" type="Container" parent="Container/SpanningTableContainer"]
-layout_mode = 2
-script = ExtResource("11_2e4ir")
-
-[node name="ItemSystem_InventorySlotControl15" parent="Container/SpanningTableContainer/SpanningCellContainer25" instance=ExtResource("5_4w27y")]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-icon = null
