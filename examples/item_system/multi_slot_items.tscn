@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bkouh56w14vqn"]
+[gd_scene load_steps=30 format=3 uid="uid://bkouh56w14vqn"]
 
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_control.gd" id="1_ctnve"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="2_qyj58"]
@@ -8,7 +8,10 @@
 [ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="8_n3v7q"]
 [ext_resource type="Script" path="res://addons/spanning_table/spanning_table_container.gd" id="8_tv2vr"]
 [ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="8_vifr8"]
+[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_grid.gd" id="10_238b1"]
 [ext_resource type="Script" path="res://addons/spanning_table/spanning_cell_container.gd" id="11_2e4ir"]
+[ext_resource type="PackedScene" uid="uid://42hebm464hbj" path="res://addons/item_system/nodes/item_system_inventory_grid_slot2.tscn" id="11_l0t3l"]
+[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_grid_slot2.gd" id="12_fwmly"]
 
 [sub_resource type="Resource" id="Resource_vlwjp"]
 script = ExtResource("3_sgsx7")
@@ -24,16 +27,16 @@ quantity = 1
 script = ExtResource("3_sgsx7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_neepd"]
-script = ExtResource("3_sgsx7")
-quantity = 0
-
 [sub_resource type="Resource" id="Resource_dd08t"]
 script = ExtResource("3_sgsx7")
 item = ExtResource("8_n3v7q")
 quantity = 1
 
 [sub_resource type="Resource" id="Resource_s26km"]
+script = ExtResource("3_sgsx7")
+quantity = 0
+
+[sub_resource type="Resource" id="Resource_neepd"]
 script = ExtResource("3_sgsx7")
 quantity = 0
 
@@ -75,11 +78,13 @@ quantity = 0
 
 [sub_resource type="Resource" id="Resource_wuan0"]
 script = ExtResource("2_qyj58")
-slots = Array[ExtResource("3_sgsx7")]([SubResource("Resource_vlwjp"), SubResource("Resource_2ypny"), SubResource("Resource_b5h01"), SubResource("Resource_neepd"), SubResource("Resource_dd08t"), SubResource("Resource_s26km"), SubResource("Resource_4cm11"), SubResource("Resource_tkhqt"), SubResource("Resource_tra2o"), SubResource("Resource_xthle"), SubResource("Resource_q8wuq"), SubResource("Resource_r3mrk"), SubResource("Resource_s82lr"), SubResource("Resource_hbabo"), SubResource("Resource_ql4l4")])
+slots = Array[ExtResource("3_sgsx7")]([SubResource("Resource_vlwjp"), SubResource("Resource_2ypny"), SubResource("Resource_b5h01"), SubResource("Resource_dd08t"), SubResource("Resource_s26km"), SubResource("Resource_neepd"), SubResource("Resource_4cm11"), SubResource("Resource_tkhqt"), SubResource("Resource_tra2o"), SubResource("Resource_xthle"), SubResource("Resource_q8wuq"), SubResource("Resource_r3mrk"), SubResource("Resource_s82lr"), SubResource("Resource_hbabo"), SubResource("Resource_ql4l4")])
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgem3"]
 
 [node name="MultiSlotItems" type="Node2D"]
 
-[node name="ItemSystem_InventoryGrid" type="PanelContainer" parent="." node_paths=PackedStringArray("ui_slots", "slots_parent")]
+[node name="ItemSystem_InventoryControl" type="PanelContainer" parent="." node_paths=PackedStringArray("ui_slots", "slots_parent")]
 offset_right = 270.0
 offset_bottom = 160.0
 script = ExtResource("1_ctnve")
@@ -89,18 +94,18 @@ generate_slots = true
 slots_parent = NodePath("SpanningTableContainer")
 slot_factory = ExtResource("8_c6nc3")
 
-[node name="SpanningTableContainer" type="Container" parent="ItemSystem_InventoryGrid"]
+[node name="SpanningTableContainer" type="Container" parent="ItemSystem_InventoryControl"]
 layout_mode = 2
 script = ExtResource("8_tv2vr")
 columns = 5
 
-[node name="SpanningCellContainer" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer2" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer2" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -108,86 +113,273 @@ script = ExtResource("11_2e4ir")
 col_span = 2
 row_span = 2
 
-[node name="SpanningCellContainer3" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer3" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer4" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("11_2e4ir")
-
-[node name="SpanningCellContainer5" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer4" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 row_span = 3
 
-[node name="SpanningCellContainer6" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer5" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer7" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer6" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="SpanningCellContainer7" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer8" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer8" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer9" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("11_2e4ir")
-
-[node name="SpanningCellContainer10" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer9" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer11" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer10" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer12" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer11" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer13" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer12" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer14" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer13" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
 
-[node name="SpanningCellContainer15" type="Container" parent="ItemSystem_InventoryGrid/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+[node name="SpanningCellContainer14" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("11_2e4ir")
+
+[node name="SpanningCellContainer15" type="Container" parent="ItemSystem_InventoryControl/SpanningTableContainer" instance=ExtResource("8_c6nc3")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="ItemSystem_InventoryGrid" type="Container" parent="." node_paths=PackedStringArray("ui_slots", "slots_parent")]
+offset_left = 499.0
+offset_top = 16.0
+offset_right = 731.0
+offset_bottom = 163.0
+script = ExtResource("10_238b1")
+inventory = SubResource("Resource_wuan0")
+ui_slots = [NodePath("ItemSystemInventoryGridSlot2"), NodePath("ItemSystemInventoryGridSlot3"), NodePath("ItemSystemInventoryGridSlot4"), NodePath("ItemSystemInventoryGridSlot5"), NodePath("ItemSystemInventoryGridSlot6"), NodePath("ItemSystemInventoryGridSlot7"), NodePath("ItemSystemInventoryGridSlot8"), NodePath("ItemSystemInventoryGridSlot9"), NodePath("ItemSystemInventoryGridSlot10"), NodePath("ItemSystemInventoryGridSlot11"), NodePath("ItemSystemInventoryGridSlot12"), NodePath("ItemSystemInventoryGridSlot13"), NodePath("ItemSystemInventoryGridSlot14"), NodePath("ItemSystemInventoryGridSlot15"), NodePath("ItemSystemInventoryGridSlot16")]
+generate_slots = true
+slots_parent = NodePath(".")
+slot_factory = ExtResource("11_l0t3l")
+columns = 5
+
+[node name="ItemSystemInventoryGridSlot2" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_vlwjp")
+
+[node name="ItemSystemInventoryGridSlot3" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+col_span = 2
+row_span = 2
+item_stack = SubResource("Resource_2ypny")
+
+[node name="ItemSystemInventoryGridSlot4" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_b5h01")
+
+[node name="ItemSystemInventoryGridSlot5" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+row_span = 3
+item_stack = SubResource("Resource_dd08t")
+
+[node name="ItemSystemInventoryGridSlot6" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_s26km")
+
+[node name="ItemSystemInventoryGridSlot7" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_neepd")
+
+[node name="ItemSystemInventoryGridSlot8" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_4cm11")
+
+[node name="ItemSystemInventoryGridSlot9" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_tkhqt")
+
+[node name="ItemSystemInventoryGridSlot10" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_tra2o")
+
+[node name="ItemSystemInventoryGridSlot11" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_xthle")
+
+[node name="ItemSystemInventoryGridSlot12" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_q8wuq")
+
+[node name="ItemSystemInventoryGridSlot13" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_r3mrk")
+
+[node name="ItemSystemInventoryGridSlot14" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_s82lr")
+
+[node name="ItemSystemInventoryGridSlot15" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_hbabo")
+
+[node name="ItemSystemInventoryGridSlot16" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
+script = ExtResource("12_fwmly")
+item_stack = SubResource("Resource_ql4l4")
+
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot3" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot3/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot3" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot3/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot3" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot3/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot4" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot4/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot4" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot4/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot4" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot4/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot5" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot5/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot5" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot5/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot5" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot5/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot6" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot6/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot6" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot6/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot6" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot6/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot7" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot7/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot7" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot7/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot7" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot7/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot8" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot8/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot8" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot8/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot8" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot8/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot9" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot9/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot9" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot9/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot9" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot9/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot10" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot10/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot10" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot10/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot10" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot10/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot11" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot11/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot11" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot11/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot11" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot11/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot12" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot12/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot12" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot12/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot12" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot12/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot13" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot13/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot13" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot13/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot13" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot13/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot14" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot14/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot14" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot14/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot14" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot14/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot15" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot15/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot15" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot15/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot15" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot15/Button" method="set_button_icon"]
+[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot16" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot16/Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot16" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot16/Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot16" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot16/Button" method="set_button_icon"]
