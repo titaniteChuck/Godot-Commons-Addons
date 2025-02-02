@@ -22,7 +22,7 @@ func _can_drop_data_delegate(_at_position:Vector2, data:Variant) -> bool:
 		if slots_covered_by_item.size() != incoming_stack.item.slot_size.x * incoming_stack.item.slot_size.y:
 			return false
 		for slot_covered_by_item in slots_covered_by_item:
-			if slot_covered_by_item.visible == false:
+			if not slot_covered_by_item or slot_covered_by_item.visible == false:
 				return false
 	return output
 
@@ -72,7 +72,7 @@ func _get_slots_covered_by_item(item: ItemSystem_Item = item_stack.item) -> Arra
 				break
 			if not (x==0 and y==0) and inventory_control.inventory.slots[neighbor_index_in_inventory].item:
 				break
-			var new_append = inventory_control.slots_parent.get_child(neighbor_index_in_inventory)
+			var new_append = inventory_control.slots_parent.get_children().filter(func(child): return child is ItemSystem_InventorySlotControl2)[neighbor_index_in_inventory]
 			output.append(new_append)
 	return output
 

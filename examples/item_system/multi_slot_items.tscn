@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bkouh56w14vqn"]
+[gd_scene load_steps=32 format=3 uid="uid://bkouh56w14vqn"]
 
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_control.gd" id="1_ctnve"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="2_qyj58"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_grid.gd" id="10_238b1"]
 [ext_resource type="Script" path="res://addons/spanning_table/spanning_cell_container.gd" id="11_2e4ir"]
 [ext_resource type="PackedScene" uid="uid://42hebm464hbj" path="res://addons/item_system/nodes/item_system_inventory_grid_slot2.tscn" id="11_l0t3l"]
+[ext_resource type="Script" path="res://addons/item_system/nodes/span_grid_controller.gd" id="12_aqllm"]
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_grid_slot2.gd" id="12_fwmly"]
 
 [sub_resource type="Resource" id="Resource_vlwjp"]
@@ -81,6 +82,8 @@ script = ExtResource("2_qyj58")
 slots = Array[ExtResource("3_sgsx7")]([SubResource("Resource_vlwjp"), SubResource("Resource_2ypny"), SubResource("Resource_b5h01"), SubResource("Resource_dd08t"), SubResource("Resource_s26km"), SubResource("Resource_neepd"), SubResource("Resource_4cm11"), SubResource("Resource_tkhqt"), SubResource("Resource_tra2o"), SubResource("Resource_xthle"), SubResource("Resource_q8wuq"), SubResource("Resource_r3mrk"), SubResource("Resource_s82lr"), SubResource("Resource_hbabo"), SubResource("Resource_ql4l4")])
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgem3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7ac7"]
 
 [node name="MultiSlotItems" type="Node2D"]
 
@@ -199,15 +202,20 @@ script = ExtResource("11_2e4ir")
 
 [node name="ItemSystem_InventoryGrid" type="Container" parent="." node_paths=PackedStringArray("ui_slots", "slots_parent")]
 offset_left = 499.0
-offset_top = 16.0
-offset_right = 731.0
-offset_bottom = 163.0
+offset_top = 15.0
+offset_right = 853.0
+offset_bottom = 191.0
 script = ExtResource("10_238b1")
 inventory = SubResource("Resource_wuan0")
 ui_slots = [NodePath("ItemSystemInventoryGridSlot2"), NodePath("ItemSystemInventoryGridSlot3"), NodePath("ItemSystemInventoryGridSlot4"), NodePath("ItemSystemInventoryGridSlot5"), NodePath("ItemSystemInventoryGridSlot6"), NodePath("ItemSystemInventoryGridSlot7"), NodePath("ItemSystemInventoryGridSlot8"), NodePath("ItemSystemInventoryGridSlot9"), NodePath("ItemSystemInventoryGridSlot10"), NodePath("ItemSystemInventoryGridSlot11"), NodePath("ItemSystemInventoryGridSlot12"), NodePath("ItemSystemInventoryGridSlot13"), NodePath("ItemSystemInventoryGridSlot14"), NodePath("ItemSystemInventoryGridSlot15"), NodePath("ItemSystemInventoryGridSlot16")]
 generate_slots = true
 slots_parent = NodePath(".")
 slot_factory = ExtResource("11_l0t3l")
+columns = 5
+
+[node name="SpanGridController" type="Node" parent="ItemSystem_InventoryGrid" node_paths=PackedStringArray("grid_node")]
+script = ExtResource("12_aqllm")
+grid_node = NodePath("..")
 columns = 5
 
 [node name="ItemSystemInventoryGridSlot2" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
@@ -229,7 +237,6 @@ row_span = 2
 item_stack = SubResource("Resource_2ypny")
 
 [node name="ItemSystemInventoryGridSlot4" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -263,7 +270,6 @@ script = ExtResource("12_fwmly")
 item_stack = SubResource("Resource_neepd")
 
 [node name="ItemSystemInventoryGridSlot8" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -272,7 +278,6 @@ script = ExtResource("12_fwmly")
 item_stack = SubResource("Resource_4cm11")
 
 [node name="ItemSystemInventoryGridSlot9" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -281,7 +286,6 @@ script = ExtResource("12_fwmly")
 item_stack = SubResource("Resource_tkhqt")
 
 [node name="ItemSystemInventoryGridSlot10" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -322,7 +326,6 @@ script = ExtResource("12_fwmly")
 item_stack = SubResource("Resource_s82lr")
 
 [node name="ItemSystemInventoryGridSlot15" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("11_l0t3l")]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -337,6 +340,144 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_kgem3")
 script = ExtResource("12_fwmly")
 item_stack = SubResource("Resource_ql4l4")
+
+[node name="SpanningTableContainer" type="Container" parent="."]
+offset_left = 269.0
+offset_top = 280.0
+offset_right = 753.0
+offset_bottom = 662.0
+scale = Vector2(1, 1.01617)
+size_flags_horizontal = 6
+size_flags_vertical = 3
+script = ExtResource("8_tv2vr")
+columns = 5
+theme_h_separation = 10
+theme_v_separation = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer2" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer3" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+col_span = 2
+
+[node name="PanelContainer4" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer5" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer6" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer7" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer8" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer9" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer10" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k7ac7")
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer11" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer12" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer13" type="PanelContainer" parent="SpanningTableContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer14" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer15" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer16" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer17" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer18" type="PanelContainer" parent="SpanningTableContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer19" type="PanelContainer" parent="SpanningTableContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("11_2e4ir")
+
+[node name="PanelContainer20" type="PanelContainer" parent="SpanningTableContainer"]
+visible = false
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+script = ExtResource("11_2e4ir")
 
 [connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2/Button" method="set_disabled"]
 [connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2" to="ItemSystem_InventoryGrid/ItemSystemInventoryGridSlot2/Button/Label" method="set_text"]
