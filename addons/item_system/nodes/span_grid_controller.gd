@@ -22,6 +22,8 @@ class_name SpanGridController extends Node
 			_refresh()
 @export_group("")
 
+var grid: Grid
+
 
 func _refresh():
 	if grid_node:
@@ -34,293 +36,248 @@ func _notification(what):
 		Container.NOTIFICATION_SORT_CHILDREN:
 			_handle_sort_children()
 
+func _init_table_cell():
+	grid = Grid.new(columns)
+	for cell in grid_node.get_children().filter(_child_is_resizable).map(Cell.new):
+		grid.append(cell)
+
+	# We sanity check for holes
+	for ci in grid.columns.size():
+		for ri in grid.rows.size():
+			if grid.get_cell(Vector2i(ci, ri)) == null:
+				grid.insert(Vector2i(ci, ri), Cell.new(null))
+
+func _child_is_resizable(node: Node) -> bool:
+	return node and node is Control and node.is_visible_in_tree() and not node.is_set_as_top_level()
+
+func can_insert(pos: Vector2i, node: Node) -> Error:
+	if not _child_is_resizable(node):
+		return OK
+	if not node:
+		return ERR_INVALID_PARAMETER
+	return grid.can_insert(pos, Cell.new(node))
+
+func get_spanned_cells(pos: Vector2i) -> Array[Control]:
+	return grid.get_spanned_cells(pos).map(func(cell): return cell.control)
+
+####################################################################################################################################
+####################################################################################################################################
+#region layout methods #############################################################################################################
 
 # Perform the shorting of the children of this control
 func _handle_sort_children():
 	_init_table_cell()
-
-	var theme_separation: Vector2i = Vector2i(theme_h_separation, theme_v_separation)
-
-	## 1. Consider the custom_size hardcoded.
-	## 2. Consider the borders
-	var inner_margins: Vector2 = theme_separation * Vector2i(maxi(grid_cols() - 1, 0), maxi(grid_rows() - 1, 0))
-	var known_min_size: Vector2 = theme_separation * Vector2i(maxi(grid_cols() - 1, 0), maxi(grid_rows() - 1, 0))
-	known_min_size.x = grid_spancols.reduce(func(min_size, col: SpanCol): return min_size + col.minw if not col.has_expand_flag else 0,      0)
-	known_min_size.y = grid_spanrows.reduce(func(min_size, row: SpanRow): return min_size + row.minh if not row.has_expand_flag else 0,      0)
+	var theme_separation := Vector2i(theme_h_separation, theme_v_separation)
+	## 1. Compute the min size: borders + min_size elements that do not have the expand flag
+	var inner_margins: Vector2 = theme_separation * Vector2i(maxi(grid.columns.size() - 1, 0), maxi(grid.rows.size() - 1, 0))
+	var known_min_size: Vector2 = Vector2(
+		grid.columns.reduce(func(min_size, col: Column): return min_size + col.min_width if not col.has_expand_flag else 0,      0),
+		grid.rows   .reduce(func(min_size, row: Row):    return min_size + row.min_height if not row.has_expand_flag else 0,      0)
+	)
 	var remaining_space: Vector2i = grid_node.get_size() - known_min_size - inner_margins
 
-	## 3. Ne reste que les colonnes qui ont flag = expand et qui vont se partager le reste de l'espace
-	## Si une cellule avait demandé en custom_min_size + que ce qu'elle va recevoir,
-	## 			=> on ne considère plus qu'elle est expand
-	## 			=> on applique son custom_min_size
-	var expanded_cols: Array[SpanCol] = grid_spancols.filter(func(col: SpanCol): return col.has_expand_flag)
-	var expanded_rows: Array[SpanRow] = grid_spanrows.filter(func(row: SpanRow): return row.has_expand_flag)
+	## 2. We are left with either:
+	##- cells that did not specify a min_size : those are ignored all the way
+	##- cells that only specify the expand_flag : those will share what is left
+	##- cells with expand + min_size : if they ask for a bigger size from what they will receive just by sharing, we must consider the min_size
+	var expanded_cols: Array[Column] = grid.columns.filter(func(col: Column): return col.has_expand_flag)
+	var expanded_rows: Array[Row] = grid.rows.filter(func(row: Row): return row.has_expand_flag)
 	var expanded_cell_size: Vector2i = Vector2i.ZERO
 
 	if expanded_cols.size() > 0:
 		expanded_cell_size.x = remaining_space.x / expanded_cols.size()
-		while expanded_cols.any(func(col: SpanCol): return col.minw > expanded_cell_size.x):
-			var largest_col: SpanCol = expanded_cols.reduce(func(largest: SpanCol, col: SpanCol): return largest if largest and largest.minw > col.minw else col)
-			remaining_space.x -= largest_col.minw
+		while expanded_cols.any(func(col: Column): return col.min_width > expanded_cell_size.x):
+			var largest_col: Column = expanded_cols.reduce(func(largest: Column, col: Column): return largest if largest and largest.min_width > col.min_width else col)
+			remaining_space.x -= max(largest_col.min_width, 0)
 			largest_col.expand_is_ignored = true
 			expanded_cols.erase(largest_col)
-			expanded_cell_size = remaining_space / Vector2i(expanded_cols.size(), expanded_rows.size())
+			expanded_cell_size.x = remaining_space.x / expanded_cols.size() if expanded_cols.size() > 0 else 0
 
 	if expanded_rows.size() > 0:
 		expanded_cell_size.y = remaining_space.y / expanded_rows.size()
-		while expanded_rows.any(func(row: SpanRow): return row.minh > expanded_cell_size.y):
-			var largest_row: SpanRow = expanded_rows.reduce(func(largest: SpanRow, row: SpanRow): return largest if largest and largest.minh > row.minh else row)
-			remaining_space.y -= largest_row.minh
+		while expanded_rows.any(func(row: Row): return row.min_height > expanded_cell_size.y):
+			var largest_row: Row = expanded_rows.reduce(func(largest: Row, row: Row): return largest if largest and largest.min_height > row.min_height else row)
+			remaining_space.y -= max(largest_row.min_height, 0)
 			largest_row.expand_is_ignored = true
 			expanded_rows.erase(largest_row)
-			expanded_cell_size = remaining_space / Vector2i(expanded_cols.size(), expanded_rows.size())
+			expanded_cell_size.y = remaining_space.y / expanded_rows.size() if expanded_rows.size() > 0 else 0
 
-	## 4. expanded_size: size shared over all the expanded cells
-	##	   size_remaining_pixel: le reste de la division entière de expanded_size
-	var remaining_pixels_after_expand: Vector2i = remaining_space - expanded_cell_size * Vector2i(expanded_cols.size(), expanded_rows.size())
-	# we split because of https://github.com/godotengine/godot-proposals/issues/2085
-	var rx: int = remaining_pixels_after_expand.x
-	var ry: int = remaining_pixels_after_expand.y
-	for i in rx:
-		expanded_cols[i].computed_width += 1
-	for i in ry:
-		expanded_rows[i].computed_height += 1
+	## 3. splitting the size rarely fits perfectly. We give the remaining pixels to the first expand elements in the list
+	if not expanded_cols.is_empty() and expanded_cell_size.x > 0:
+		for i in remaining_space.x % expanded_cell_size.x:
+			expanded_cols[i].width += 1
+	if not expanded_rows.is_empty() and expanded_cell_size.y > 0:
+		for i in remaining_space.y % expanded_cell_size.y:
+			expanded_rows[i].height += 1
 
 
-	## 5. Définir les positions et tailles des colonnes / lignes + Répartir les pixels en trop
-	## Pour chacune des colonnes
-	##		=> si c'est une colonne "expand": size_expand + 1 pixel en trop
-	## 		=> si c'est une colonne "min_size": min_size
-	## BUG: RIGHT TO LEFT marche pô
+	## 4. We compute the size and position of every cell.
 	var col_position: int = 0
-	for col in grid_spancols:
-		if col.minw > 0:
-			if col.has_expand_flag and not col.expand_is_ignored:
-				col.computed_width += expanded_cell_size.x # += because expanded columns have already received the remaining pixels
-			else:
-				col.computed_width = col.minw
+	for col in grid.columns:
+		if col.min_width > 0 and not col.has_expand_flag or col.expand_is_ignored:
+			col.width = col.min_width
 		elif col.has_expand_flag:
-			col.computed_width += expanded_cell_size.x # += because expanded columns have already received the remaining pixels
-		else:
-			col.computed_width = 0
-
-		for col_cells in col.cells:
-			col_cells.computed_size.x = col.computed_width
-			col_cells.computed_position.x = col_position
-
-		col_position += col.computed_width + theme_h_separation
+			col.width += expanded_cell_size.x # += because expanded columns have already received the remaining pixels
+		col.position = col_position
+		col_position += col.width + theme_h_separation
 
 	var row_position: int = 0
-	for row in grid_spanrows:
-		if row.minh > 0:
-			if row.has_expand_flag and not row.expand_is_ignored:
-				row.computed_height += expanded_cell_size.y # += because expanded columns have already received the remaining pixels
-			else:
-				row.computed_height = row.minh
+	for row in grid.rows:
+		if row.min_height > 0 and not row.has_expand_flag or row.expand_is_ignored:
+			row.height = row.min_height
 		elif row.has_expand_flag:
-			row.computed_height += expanded_cell_size.y # += because expanded columns have already received the remaining pixels
-		else:
-			row.computed_height = 0
-
-		for row_cells in row.cells:
-			row_cells.computed_size.y = row.computed_height
-			row_cells.computed_position.y = row_position
-
-		row_position = row_position + row.computed_height + theme_v_separation
+			row.height += expanded_cell_size.y # += because expanded columns have already received the remaining pixels
+		row.position = row_position
+		row_position = row_position + row.height + theme_v_separation
 
 	## 6. On place les éléments
-	for cell in grid:
-		if cell.content and cell.is_origin:
-			var spanned_size: Vector2 = cell.computed_size
+	for cell in grid.cells:
+		if cell and cell.content and cell.is_origin:
+			var spanned_size: Vector2 = cell.size
 			for ci in range(1, cell.col_span):
-				spanned_size.x += get_cell(Vector2i(cell.col_index + ci, cell.row_index)).computed_size.x + theme_h_separation
+				spanned_size.x += grid.get_cell(Vector2i(cell.col_index + ci, cell.row_index)).size.x + theme_h_separation
 			for ri in range(1, cell.row_span):
-				spanned_size.y += get_cell(Vector2i(cell.col_index, cell.row_index + ri)).computed_size.y + theme_v_separation
-			grid_node.fit_child_in_rect(cell.content, Rect2(cell.computed_position, spanned_size))
-
+				spanned_size.y += grid.get_cell(Vector2i(cell.col_index, cell.row_index + ri)).size.y + theme_v_separation
+			grid_node.fit_child_in_rect(cell.content, Rect2(cell.position, spanned_size))
 
 
 # Calculate the minimum size for this control
 func _get_minimum_size() -> Vector2:
 	_init_table_cell()
 
-	var min_size : Vector2 = Vector2(theme_h_separation * (grid_cols() - 1), theme_v_separation * (grid_rows() - 1) )
-	for w in _get_minw_by_col().values():
-		min_size.x += w
-	for h in _get_minh_by_row().values():
-		min_size.y += h
-
+	var min_size: Vector2 = Vector2(grid.columns[0].min_width, grid.rows[0].min_height)
+	for ci in range(1, grid.columns.size()):
+		min_size.x += grid.columns[ci].min_width + theme_h_separation
+	for ri in range(1, grid.rows.size()):
+		min_size.y += grid.rows[ri].min_height + theme_v_separation
 	return min_size
 
 
+#endregion layout methods ##########################################################################################################
 ####################################################################################################################################
-####################################################################################################################################
-####################################################################################################################################
+#region inner classes ##############################################################################################################
 
 
-func _get_minw_by_col() -> Dictionary:
-	var output: Dictionary = {}
-	for ci in grid_cols():
-		for ri in grid_rows():
-			var cell: SpanCell = get_cell(Vector2i(ci, ri))
-			if cell:
-				if output.has(ci):
-					output[ci] = maxi(output[ci], cell.minimum_size.x)
-				else:
-					output[ci] = cell.minimum_size.x
-	return output
+class Grid:
+	var cells: Array[Cell] = []
+	var columns: Array[Column] = []
+	var rows: Array[Row] = []
 
-func _get_minh_by_row() -> Dictionary:
-	var output: Dictionary = {}
-	for ri in grid_rows():
-		for ci in grid_cols():
-			var cell: SpanCell = get_cell(Vector2i(ci, ri))
-			if cell:
-				if output.has(ri):
-					output[ri] = maxi(output[ri], cell.minimum_size.y)
-				else:
-					output[ri] = cell.minimum_size.y
-	return output
+	var _last_origin_cell_index: int = 0
 
-var grid: Array[SpanCell] = []
-var cells: Array[SpanCell] = []
+	func _init(column_count: int):
+		rows = [Row.new(self)]
+		for ci in column_count:
+			var column: Column = Column.new(self)
+			column.index = ci
+			columns.append(column)
 
-func _init_table_cell():
-	grid.clear()
-	grid_spancols.clear()
-	grid_spanrows.clear()
-	var cells = grid_node.get_children().filter(_child_is_resizable).map(SpanCell.new)
-	var children = grid_node.get_children()
-	var _current_pos := Vector2i.ZERO
-	var _current_insert_index = 0
-	for cell in cells:
-		if cell:
-			while _insert_in_array(_current_insert_index, cell) != OK:
-				_current_insert_index += 1
+	func append(value: Cell):
+		var index: int = _last_origin_cell_index
+		while insert(Vector2i(index % columns.size(), index / columns.size()), value) != OK:
+			index += 1
 
-	for i in range(_current_insert_index % columns, columns):
-		_insert_in_array(_current_insert_index, SpanCell.new(null))
-		_current_insert_index += 1
+	func insert(pos: Vector2i, value: Cell) -> Error:
+		var can_insert: Error = can_insert(pos, value)
+		if can_insert != OK:
+			return can_insert
 
-func _child_is_resizable(node: Node) -> bool:
-	# Child should be of control type, to be able to adjust positions
-	var control_child = node as Control
-	if control_child == null:
-		return false
-	if not control_child.is_visible_in_tree() || control_child.is_set_as_top_level():
-		return false
-	return true
+		for ci in value.col_span:
+			for ri in value.row_span:
+				var to_insert = value
+				if not(ci == 0 and ri == 0):
+					to_insert = value.duplicate()
+					to_insert.span_root = value
+				_set_cell(pos + Vector2i(ci, ri), to_insert)
 
-func _insert_in_array(index: int, value: SpanCell, array: Array[SpanCell] = grid) -> Error:
-	return _insert_in_grid(_index_to_coords(index), value, array)
+		return OK
 
-func _index_to_coords(index: int) -> Vector2i:
-	var col = index % columns
-	var row = index / columns
-	return Vector2i(col, row)
+	func can_insert(pos: Vector2i, value: Cell) -> Error:
+		if not value:
+			return ERR_INVALID_PARAMETER
 
-func _insert_in_grid(pos: Vector2i, value: SpanCell, array: Array[SpanCell] = grid) -> Error:
-	if pos.x + value.col_span > columns:
-		return ERR_PARAMETER_RANGE_ERROR
+		if pos.x + value.col_span > columns.size():
+			return ERR_PARAMETER_RANGE_ERROR
 
-	for ci in value.col_span:
-		for ri in value.row_span:
-			if get_cell(pos + Vector2i(ci, ri), array):
-				return ERR_ALREADY_IN_USE
+		for ci in value.col_span:
+			for ri in value.row_span:
+				if get_cell(pos + Vector2i(ci, ri)):
+					return ERR_ALREADY_IN_USE
 
-	for ci in value.col_span:
-		for ri in value.row_span:
-			value = value.duplicate()
-			value.is_origin = (ci == 0 and ri == 0)
-			_set_cell(pos + Vector2i(ci, ri), value, array)
+		return OK
 
-	return OK
+	func get_cell(pos: Vector2i) -> Cell:
+		var index = pos.y * columns.size() + pos.x
+		return cells[index] if index < cells.size() else null
 
-func get_cell(pos: Vector2i, array: Array[SpanCell] = grid) -> SpanCell:
-	var index = pos.y * columns + pos.x
-	return array[index] if index < array.size() else null
+	func get_spanned_cells(pos: Vector2i) -> Array[Cell]:
+		var root: Cell = get_cell(pos)
+		var output: Array[Cell] = []
+		if root.is_origin:
+			output.append(root)
+			for ci in root.col_span:
+				for ri in root.row_span:
+					output.append(get_cell(Vector2i(root.col_index + ci, root.row_index + ri)))
 
-func has_cell(pos: Vector2i, array: Array[SpanCell] = grid) -> bool:
-	return pos.y * columns + pos.x < array.size()
+		return output
 
-func _set_cell(pos: Vector2i, value: SpanCell, array: Array[SpanCell] = grid) -> void:
-	# Update the cell with its new coordinates
-	value.col_index = pos.x
-	value.row_index = pos.y
-	var index = pos.y * columns + pos.x
-	if array.size() <= index:
-		array.resize(index + 1)
-	# save the cell in the array
-	array[index] = value
+	func _set_cell(pos: Vector2i, value: Cell) -> void:
+		var index: int = pos.y * columns.size() + pos.x
+		if cells.size() <= index:
+			cells.resize(index + 1)
+		cells[index] = value
 
-	# Update grid data
-	if grid_spancols.size() <= value.col_index:
-		grid_spancols.resize(value.col_index + 1)
-		grid_spancols[value.col_index] = SpanCol.new(self)
-		grid_spancols[value.col_index].index = value.col_index
+		if rows.size() <= pos.y:
+			rows.resize(pos.y + 1)
+			rows[pos.y] = Row.new(self)
+			rows[pos.y].index = pos.y
 
-	if grid_spanrows.size() <= value.row_index:
-		grid_spanrows.resize(value.row_index + 1)
-		grid_spanrows[value.row_index] = SpanRow.new(self)
-		grid_spanrows[value.row_index].index = value.row_index
+		value.col_index = pos.x
+		value.row_index = pos.y
+		value.column = columns[value.col_index]
+		value.row = rows[value.row_index]
+		if value.is_origin:
+			_last_origin_cell_index = index
 
-	# save a reference to the cell
-	value.span_col = grid_spancols[value.col_index]
-	value.span_row = grid_spanrows[value.row_index]
-
-var grid_spancols: Array[SpanCol] = []
-var grid_spanrows: Array[SpanRow] = []
-
-func grid_rows() -> int:
-	return grid.size() / columns
-
-func grid_cols() -> int:
-	return min(grid.size(), columns)
-
-class SpanRow:
-	var grid: SpanGridController
+class Row:
+	var grid: Grid
 	var index: int = 0
-	var minh: int:
-		get: return cells.reduce(func(minh, cell): return max(minh, cell.minimum_size.y), 0)
+	var cells: Array[Cell]:
+		get: return grid.cells.filter(func(cell): return cell.row_index == index)
+	var min_height: int:
+		get: return cells.reduce(func(min_height, cell): return max(min_height, cell.minimum_size.y), 0)
 	var has_expand_flag: bool:
 		get: return cells.any(func(cell): return cell and cell.is_v_expanded)
-	var cells: Array[SpanCell]:
-		get:
-			var output: Array[SpanCell] = []
-			output.append_array(range(grid.grid_cols()).map(func(ci): return grid.get_cell(Vector2i(ci, index))))
-			return output
 
 	var expand_is_ignored: bool = false
-	var computed_height: int = 0
+	var height: int = 0
+	var position: int = 0
 
-	func _init(grid: SpanGridController) -> void:
+	func _init(grid: Grid) -> void:
 		self.grid = grid
 
-class SpanCol:
-	var grid: SpanGridController
+class Column:
+	var grid: Grid
 	var index: int = 0
-	var minw: int:
-		get: return cells.reduce(func(minw, cell): return max(minw, cell.minimum_size.x if cell else 0), 0)
+	var cells: Array[Cell]:
+		get: return grid.cells.filter(func(cell): return cell.col_index == index)
+	var min_width: int:
+		get: return cells.reduce(func(min_width, cell): return max(min_width, cell.minimum_size.x if cell else 0), 0)
 	var has_expand_flag: bool:
 		get: return cells.any(func(cell): return cell and cell.is_h_expanded)
-	var cells: Array[SpanCell]:
-		get:
-			var output: Array[SpanCell] = []
-			output.append_array(range(grid.grid_rows()).map(func(ri): return grid.get_cell(Vector2i(index, ri))))
-			return output
 
 	var expand_is_ignored: bool = false
-	var computed_width: int = 0
+	var width: int = 0
+	var position: int = 0
 
-	func _init(grid: SpanGridController) -> void:
+	func _init(grid: Grid) -> void:
+		assert(grid)
 		self.grid = grid
 
-class SpanCell:
+class Cell:
 	var content: Control
 	var minimum_size: Vector2:
-		get: return content.get_combined_minimum_size() / Vector2(col_span, row_span) if content else  Vector2.ZERO
-	var is_spanned: bool:
-		get: return col_span != 1 or row_span != 1
+		get: return content.get_combined_minimum_size() if content else  Vector2.ZERO
 	var col_span: int:
 		get: return content.col_span if content and "col_span" in content else 1
 	var row_span: int:
@@ -332,13 +289,18 @@ class SpanCell:
 
 	var row_index: int = -1
 	var col_index: int = -1
-	var span_row: SpanRow
-	var span_col: SpanCol
+	var row: Row
+	var column: Column
 
-	var computed_size: Vector2 = Vector2.ZERO
-	var computed_position: Vector2 = Vector2.ZERO
+	var span_root: Cell = self
+	var is_origin: bool:
+		get: return span_root == self
 
-	var is_origin := true
+	var size: Vector2 = Vector2.ZERO:
+		get: return Vector2(column.width, row.height) if column and row else Vector2.ZERO
+	var position: Vector2:
+		get: return Vector2(column.position, row.position) if column and row else Vector2.ZERO
+
 
 	func _init(content: Control):
 		self.content = content
@@ -346,16 +308,10 @@ class SpanCell:
 	func _to_string() -> String:
 		return "[(%s,%s); is_origin: %s ; col_span: %s ; row_span: %s ; child: %s]" % [col_index, row_index, is_origin, col_span, row_span, content.name]
 
-	func duplicate() -> SpanCell:
-		var output = SpanCell.new(content)
+	func duplicate() -> Cell:
+		var output = Cell.new(content)
 		output.row_index = row_index
 		output.col_index = col_index
 		output.is_origin = is_origin
 		return output
-
-	func equals(other: Variant) -> bool:
-		if not other:
-			return false
-		if other is not SpanCell:
-			return false
-		return content == other.content and row_index == other.row_index and col_index == other.col_index and is_origin == other.is_origin
+#endregion inner classes ###########################################################################################################

@@ -39,8 +39,16 @@ class_name ItemSystem_InventoryGrid extends Container
 		show_in_tree = value
 		_init_slots()
 
-@export var columns: int
+@export var columns: int:
+	set(value):
+		if columns != value:
+			columns = value
+			_refresh()
 
+
+func _refresh():
+	queue_sort()
+	update_minimum_size()
 
 func _ready() -> void:
 	_init_slots()
@@ -125,6 +133,7 @@ func _notification(what):
 @onready var span_grid_controller: SpanGridController = $SpanGridController
 func _handle_sort_children():
 	if span_grid_controller:
+		span_grid_controller.columns = columns
 		span_grid_controller._handle_sort_children()
 
 func _get_minimum_size() -> Vector2:

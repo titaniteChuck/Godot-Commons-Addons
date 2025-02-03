@@ -1,11 +1,12 @@
 @tool
 class_name ItemSystem_InventorySlotControl2 extends Container
 
-signal quick_move_requested
+signal double_clicked
 signal item_name_changed(text: String)
 signal item_texture_changed(texture: Texture2D)
 signal item_quantity_changed(qtty: String)
 signal is_impossible_drop_zone(is_impossible: bool)
+
 
 @export var item_stack: ItemSystem_ItemStack:
 	set(value):
@@ -31,8 +32,13 @@ signal is_impossible_drop_zone(is_impossible: bool)
 			display_item_name = value
 			_update_state()
 
+enum DragMode {REMOVE_ON_DROP, REMOVE_ON_DRAG, HIDE_ON_DRAG}
+@export var drag_mode: DragMode = DragMode.REMOVE_ON_DROP
+
 var draggable: DragAndDrop_Draggable
 var droppable: DragAndDrop_Droppable
+@export var col_span: int = 1
+@export var row_span: int = 1
 
 var inventory_control: ItemSystem_InventoryGrid:
 	set(value):
@@ -78,13 +84,11 @@ func _update_state() -> void:
 	item_name_changed.emit(item_stack.item.name if item_stack.item else "")
 	item_texture_changed.emit(item_stack.item.icon if item_stack.item else texture_placeholder)
 	item_quantity_changed.emit(str(item_stack.quantity) if item_stack.item else "")
-	#icon = item_stack.item.icon if item_stack.item else texture_placeholder
-	#text = item_stack.item.name if item_stack.item and display_item_name else ""
 	pass
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.double_click:
-		quick_move_requested.emit()
+		double_clicked.emit()
 
 
 # DragAndDrop support
@@ -98,12 +102,18 @@ func _get_drag_data(_at_position:Vector2) -> DragAndDrop_Data:
 
 
 func _on_drag_requested() -> void:
+	if drag_mode == DragMode.REMOVE_ON_DRAG:
+		row_span = 1
+		col_span = 1
+		item_stack.item = null
+		item_stack.quantity = 0
 	pass
 
 
 func _on_drag_success(data: ItemSystem_ItemStack):
-	item_stack.item = null
-	item_stack.quantity = 0
+	if drag_mode == DragMode.REMOVE_ON_DROP:
+		item_stack.item = null
+		item_stack.quantity = 0
 
 
 func _on_drag_failure(data: ItemSystem_ItemStack):

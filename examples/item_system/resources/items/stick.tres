@@ -10,3 +10,4 @@ name = "Stick"
 icon = ExtResource("1_mwyn7")
 rarity = 0
 type = 0
+slot_size = Vector2i(2, 1)
