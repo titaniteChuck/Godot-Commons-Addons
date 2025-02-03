@@ -22,8 +22,13 @@ class_name SpanGridController extends Node
 			_refresh()
 @export_group("")
 
-var grid: Grid
+@export var treat_as_grid: bool = false:
+	set(value):
+		if value != treat_as_grid:
+			treat_as_grid = value
+			_refresh()
 
+var grid: Grid
 
 func _refresh():
 	if grid_node:
@@ -48,14 +53,19 @@ func _init_table_cell():
 				grid.insert(Vector2i(ci, ri), Cell.new(null))
 
 func _child_is_resizable(node: Node) -> bool:
-	return node and node is Control and node.is_visible_in_tree() and not node.is_set_as_top_level()
+	# refactor
+	#return node and node is Control and node.is_visible_in_tree() and not node.is_set_as_top_level()
+	return node and node is Control and not node.is_set_as_top_level()
+
+func can_insert_at(index: int, node: Node) -> Error:
+	return can_insert(Vector2i(index % grid.columns.size(), index / grid.columns.size()), node)
 
 func can_insert(pos: Vector2i, node: Node) -> Error:
 	if not _child_is_resizable(node):
 		return OK
 	if not node:
 		return ERR_INVALID_PARAMETER
-	return grid.can_insert(pos, Cell.new(node))
+	return grid.can_insert_cell(pos, Cell.new(node))
 
 func get_spanned_cells(pos: Vector2i) -> Array[Control]:
 	return grid.get_spanned_cells(pos).map(func(cell): return cell.control)
@@ -130,16 +140,17 @@ func _handle_sort_children():
 		row.position = row_position
 		row_position = row_position + row.height + theme_v_separation
 
-	## 6. On place les éléments
+	## 6. We place the cells
 	for cell in grid.cells:
-		if cell and cell.content and cell.is_origin:
-			var spanned_size: Vector2 = cell.size
-			for ci in range(1, cell.col_span):
-				spanned_size.x += grid.get_cell(Vector2i(cell.col_index + ci, cell.row_index)).size.x + theme_h_separation
-			for ri in range(1, cell.row_span):
-				spanned_size.y += grid.get_cell(Vector2i(cell.col_index, cell.row_index + ri)).size.y + theme_v_separation
-			grid_node.fit_child_in_rect(cell.content, Rect2(cell.position, spanned_size))
-
+		if cell and cell.content:
+			cell.content.visible = cell.is_origin # refactor
+			if cell.is_origin:
+				var spanned_size: Vector2 = cell.size
+				for ci in range(1, cell.col_span):
+					spanned_size.x += grid.get_cell(Vector2i(cell.col_index + ci, cell.row_index)).size.x + theme_h_separation
+				for ri in range(1, cell.row_span):
+					spanned_size.y += grid.get_cell(Vector2i(cell.col_index, cell.row_index + ri)).size.y + theme_v_separation
+				grid_node.fit_child_in_rect(cell.content, Rect2(cell.position, spanned_size))
 
 # Calculate the minimum size for this control
 func _get_minimum_size() -> Vector2:
@@ -178,7 +189,7 @@ class Grid:
 			index += 1
 
 	func insert(pos: Vector2i, value: Cell) -> Error:
-		var can_insert: Error = can_insert(pos, value)
+		var can_insert: Error = can_insert_cell(pos, value)
 		if can_insert != OK:
 			return can_insert
 
@@ -187,12 +198,15 @@ class Grid:
 				var to_insert = value
 				if not(ci == 0 and ri == 0):
 					to_insert = value.duplicate()
+					to_insert.content = null
 					to_insert.span_root = value
 				_set_cell(pos + Vector2i(ci, ri), to_insert)
 
+		_last_origin_cell_index = pos.y * columns.size() + pos.x
+
 		return OK
 
-	func can_insert(pos: Vector2i, value: Cell) -> Error:
+	func can_insert_cell(pos: Vector2i, value: Cell) -> Error:
 		if not value:
 			return ERR_INVALID_PARAMETER
 
@@ -201,10 +215,12 @@ class Grid:
 
 		for ci in value.col_span:
 			for ri in value.row_span:
-				if get_cell(pos + Vector2i(ci, ri)):
+				var existing: Cell = get_cell(pos + Vector2i(ci, ri))
+				if existing and existing.content:
 					return ERR_ALREADY_IN_USE
 
 		return OK
+
 
 	func get_cell(pos: Vector2i) -> Cell:
 		var index = pos.y * columns.size() + pos.x
@@ -225,7 +241,10 @@ class Grid:
 		var index: int = pos.y * columns.size() + pos.x
 		if cells.size() <= index:
 			cells.resize(index + 1)
-		cells[index] = value
+		if cells[index] and not cells[index].content:
+			cells[index].content = value.content
+		else:
+			cells[index] = value
 
 		if rows.size() <= pos.y:
 			rows.resize(pos.y + 1)
@@ -236,8 +255,6 @@ class Grid:
 		value.row_index = pos.y
 		value.column = columns[value.col_index]
 		value.row = rows[value.row_index]
-		if value.is_origin:
-			_last_origin_cell_index = index
 
 class Row:
 	var grid: Grid

@@ -73,14 +73,21 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if droppable:
 		if what == NOTIFICATION_DRAG_BEGIN:
-			is_impossible_drop_zone.emit( not droppable._can_drop_data(Vector2.ZERO, get_viewport().gui_get_drag_data()))
+			call_deferred(&"_on_drag_begin_somewhere")
 		if what == NOTIFICATION_DRAG_END:
 			is_impossible_drop_zone.emit(false)
 		pass
 
+func _on_drag_begin_somewhere():
+	is_impossible_drop_zone.emit( not droppable._can_drop_data(Vector2.ZERO, get_viewport().gui_get_drag_data()))
+
 func _update_state() -> void:
 	if not item_stack:
 		return
+
+	row_span = item_stack.item.slot_size.y if item_stack.item else 1
+	col_span = item_stack.item.slot_size.x if item_stack.item else 1
+
 	item_name_changed.emit(item_stack.item.name if item_stack.item else "")
 	item_texture_changed.emit(item_stack.item.icon if item_stack.item else texture_placeholder)
 	item_quantity_changed.emit(str(item_stack.quantity) if item_stack.item else "")
@@ -145,6 +152,9 @@ func _can_drop_data_delegate(_at_position:Vector2, data:Variant) -> bool:
 	if not switch_enabled and item_stack and item_stack.item:
 		return false
 	if switch_enabled and item_stack and item_stack.item and not item_stack.item.equals(incoming_stack.item):
+		return false
+
+	if not inventory_control.can_insert_at(inventory_control.inventory.slots.find(item_stack), incoming_stack.item):
 		return false
 	return true
 
