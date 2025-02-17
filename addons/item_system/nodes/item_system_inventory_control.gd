@@ -6,7 +6,7 @@ class_name ItemSystem_InventoryControl extends Control
 		if inventory != value:
 			inventory = value
 			_read_model()
-@export var ui_slots: Array[ItemSystem_InventorySlotControl] = []
+@export var slots: Array[ItemSystem_InventorySlotControl] = []
 
 @export_subgroup("Slot Generation")
 @export var generate_slots := false:
@@ -52,9 +52,9 @@ func _init_slots():
 			slots_parent.remove_child(child)
 			child.queue_free()
 
-		ui_slots.clear()
+		slots.clear()
 		if inventory:
-			for inventory_stack in inventory.slots:
+			for inventory_stack in inventory.stacks:
 				var new_slot = slot_factory.instantiate()
 				slots_parent.add_child(new_slot, true)
 				if show_in_tree:
@@ -63,12 +63,12 @@ func _init_slots():
 					new_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 					new_slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
 				new_slot.custom_minimum_size = slot_min_size
-		ui_slots.assign(_find_slot_controls())
+		slots.assign(_find_slot_controls())
 
 
-	elif not ui_slots:
-		ui_slots = []
-		ui_slots.assign(_find_slot_controls())
+	elif not slots:
+		slots = []
+		slots.assign(_find_slot_controls())
 
 	queue_redraw()
 
@@ -93,15 +93,14 @@ func _read_model():
 
 func _draw():
 	if inventory:
-		if inventory.slots.size() != ui_slots.size():
-			push_error("Inventory stacks / Control Slots don't match (%s / %s)" % [inventory.slots.size(), ui_slots.size()])
+		if inventory.stacks.size() != slots.size():
+			push_error("Inventory stacks / Control Slots don't match (%s / %s)" % [inventory.stacks.size(), slots.size()])
 			return
 
-		for index in ui_slots.size():
-			if ui_slots[index]:
-				ui_slots[index].item_stack = inventory.slots[index]
-				ui_slots[index].inventory_control = self
+		for index in slots.size():
+			if slots[index]:
+				slots[index].item_stack = inventory.stacks[index]
 
-	for index in ui_slots.size():
-		if ui_slots[index]:
-			ui_slots[index].queue_redraw()
+	for index in slots.size():
+		if slots[index]:
+			slots[index].queue_redraw()

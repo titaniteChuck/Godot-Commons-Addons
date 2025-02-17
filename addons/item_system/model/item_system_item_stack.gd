@@ -6,7 +6,8 @@ class_name ItemSystem_ItemStack extends Resource
 		if item != value:
 			item = value
 			if item:
-				item.changed.connect(emit_changed)
+				if not item.changed.is_connected(emit_changed):
+					item.changed.connect(emit_changed)
 				quantity = 1
 			else:
 				quantity = 0

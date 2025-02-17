@@ -1,14 +1,14 @@
 @tool
 class_name ItemSystem_Inventory extends Resource
 
-@export var slots: Array[ItemSystem_ItemStack] = []:
+@export var stacks: Array[ItemSystem_ItemStack] = []:
 	set(value):
-		if slots != value:
-			slots = value
-			if slots:
-				for i in slots.size():
-					if slots[i] == null:
-						slots[i] = ItemSystem_ItemStack.new()
+		if stacks != value:
+			stacks = value
+			if stacks:
+				for i in stacks.size():
+					if stacks[i] == null:
+						stacks[i] = ItemSystem_ItemStack.new()
 			emit_changed()
 
 func add_stacks(array: Array[ItemSystem_ItemStack], index := -1) -> Error:
@@ -21,16 +21,16 @@ func add_stacks(array: Array[ItemSystem_ItemStack], index := -1) -> Error:
 
 func add_stack(new_stack: ItemSystem_ItemStack, index := -1) -> Error:
 	var error := ERR_CANT_ACQUIRE_RESOURCE
-	var stacks_with_this_item: Array[ItemSystem_ItemStack] = slots.filter(func(my_stack): return my_stack.item and my_stack.item.equals(new_stack.item))
+	var stacks_with_this_item: Array[ItemSystem_ItemStack] = stacks.filter(func(my_stack): return my_stack.item and my_stack.item.equals(new_stack.item))
 	if index != -1: # insert at a specific index is asked
-		error = slots[index].transfer(new_stack)
+		error = stacks[index].transfer(new_stack)
 	elif not stacks_with_this_item.is_empty():
 		stacks_with_this_item[0].quantity += new_stack.quantity #TODO ignores stack_size
 	else:
 		index = _first_empty_index()
 		if index != -1:
-			slots[index].item = new_stack.item
-			slots[index].quantity = new_stack.quantity
+			stacks[index].item = new_stack.item
+			stacks[index].quantity = new_stack.quantity
 			error = OK
 
 	if error == OK:
@@ -42,8 +42,8 @@ func inventory_is_full() -> bool:
 	return _first_empty_index() == -1
 
 func _first_empty_index() -> int:
-	for index in slots.size():
-		if slots[index].item == null:
+	for index in stacks.size():
+		if stacks[index].item == null:
 			return index
 	return -1
 
@@ -60,7 +60,7 @@ func remove_items_in_bulk(stacks: Array[ItemSystem_ItemStack]) -> Error:
 	for ingredient_to_remove in stacks:
 		var remaining_qty_to_remove := ingredient_to_remove.quantity
 
-		for my_stack in slots.filter(func(el): return el and el.item and el.item.equals(ingredient_to_remove.item)):
+		for my_stack in stacks.filter(func(el): return el and el.item and el.item.equals(ingredient_to_remove.item)):
 			my_stack.quantity -= remaining_qty_to_remove
 			if my_stack.quantity < remaining_qty_to_remove:
 				my_stack.item = null
@@ -73,4 +73,4 @@ func remove_items_in_bulk(stacks: Array[ItemSystem_ItemStack]) -> Error:
 	return OK
 
 func get_quantity(item: ItemSystem_Item) -> int:
-	return slots.reduce(func(qtty, stack): return qtty + (stack.quantity if stack.has_item(item) else 0))
+	return stacks.reduce(func(qtty, stack): return qtty + (stack.quantity if stack.has_item(item) else 0))

@@ -1,39 +1,66 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcrcs6wvwk3qg"]
+[gd_scene load_steps=7 format=3 uid="uid://bcrcs6wvwk3qg"]
 
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_slot_control.gd" id="1_bsj02"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="3_odygu"]
-[ext_resource type="Texture2D" uid="uid://c86iwjujnif68" path="res://examples/item_system/resources/items/xp.png" id="5_d3p8x"]
 
-[sub_resource type="Resource" id="Resource_s780p"]
-script = ExtResource("3_odygu")
-quantity = 0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8k4o4"]
 
-[node name="ItemSystem_InventorySlotControl" type="Button" node_paths=PackedStringArray("quantity_node")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b57jn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oypgm"]
+bg_color = Color(0.125911, 0.125911, 0.125911, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b5ry0"]
+bg_color = Color(0.160784, 0.160784, 0.160784, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h728d"]
+bg_color = Color(0.162066, 0.162066, 0.162065, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.458405, 0.458405, 0.458405, 1)
+
+[node name="InventorySlot" type="PanelContainer"]
+custom_minimum_size = Vector2(50, 50)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-icon = ExtResource("5_d3p8x")
-icon_alignment = 1
-vertical_icon_alignment = 0
-expand_icon = true
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("1_bsj02")
-item_stack = SubResource("Resource_s780p")
-quantity_node = NodePath("ItemQuantity")
 
-[node name="ItemQuantity" type="Label" parent="."]
-unique_name_in_owner = true
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_styles/focus = SubResource("StyleBoxEmpty_b57jn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_oypgm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_b5ry0")
+theme_override_styles/normal = SubResource("StyleBoxFlat_h728d")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Label" type="Label" parent="Button"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1152.0
+offset_left = -10.0
 offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
+size_flags_horizontal = 8
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 20
-horizontal_alignment = 2
+text = "2"
+
+[connection signal="is_impossible_drop_zone" from="." to="Button" method="set_disabled"]
+[connection signal="item_quantity_changed" from="." to="Button/Label" method="set_text"]
+[connection signal="item_texture_changed" from="." to="Button" method="set_button_icon"]

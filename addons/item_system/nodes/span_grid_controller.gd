@@ -28,6 +28,12 @@ class_name SpanGridController extends Node
 			treat_as_grid = value
 			_refresh()
 
+@export var disable_spanning: bool = false:
+	set(value):
+		if disable_spanning != value:
+			disable_spanning = value
+			_refresh()
+
 var grid: Grid
 
 func _refresh():
@@ -42,8 +48,12 @@ func _notification(what):
 			_handle_sort_children()
 
 func _init_table_cell():
+	if not grid_node:
+		return
 	grid = Grid.new(columns)
+	grid.treat_as_grid = treat_as_grid
 	for cell in grid_node.get_children().filter(_child_is_resizable).map(Cell.new):
+		cell.disable_spanning = disable_spanning
 		grid.append(cell)
 
 	# We sanity check for holes
@@ -53,9 +63,10 @@ func _init_table_cell():
 				grid.insert(Vector2i(ci, ri), Cell.new(null))
 
 func _child_is_resizable(node: Node) -> bool:
-	# refactor
-	#return node and node is Control and node.is_visible_in_tree() and not node.is_set_as_top_level()
-	return node and node is Control and not node.is_set_as_top_level()
+	if treat_as_grid:
+		return node and node is Control and not node.is_set_as_top_level()
+	else:
+		return node and node is Control and node.is_visible_in_tree() and not node.is_set_as_top_level()
 
 func can_insert_at(index: int, node: Node) -> Error:
 	return can_insert(Vector2i(index % grid.columns.size(), index / grid.columns.size()), node)
@@ -75,7 +86,9 @@ func get_spanned_cells(pos: Vector2i) -> Array[Control]:
 #region layout methods #############################################################################################################
 
 # Perform the shorting of the children of this control
-func _handle_sort_children():
+func _handle_sort_children() -> void:
+	if not grid_node:
+		return
 	_init_table_cell()
 	var theme_separation := Vector2i(theme_h_separation, theme_v_separation)
 	## 1. Compute the min size: borders + min_size elements that do not have the expand flag
@@ -143,7 +156,7 @@ func _handle_sort_children():
 	## 6. We place the cells
 	for cell in grid.cells:
 		if cell and cell.content:
-			cell.content.visible = cell.is_origin # refactor
+			cell.content.visible = cell.is_origin if treat_as_grid else cell.content.visible
 			if cell.is_origin:
 				var spanned_size: Vector2 = cell.size
 				for ci in range(1, cell.col_span):
@@ -154,6 +167,9 @@ func _handle_sort_children():
 
 # Calculate the minimum size for this control
 func _get_minimum_size() -> Vector2:
+	if not grid_node:
+		return Vector2.ZERO
+
 	_init_table_cell()
 
 	var min_size: Vector2 = Vector2(grid.columns[0].min_width, grid.rows[0].min_height)
@@ -173,6 +189,7 @@ class Grid:
 	var cells: Array[Cell] = []
 	var columns: Array[Column] = []
 	var rows: Array[Row] = []
+	var treat_as_grid: bool = false
 
 	var _last_origin_cell_index: int = 0
 
@@ -216,8 +233,9 @@ class Grid:
 		for ci in value.col_span:
 			for ri in value.row_span:
 				var existing: Cell = get_cell(pos + Vector2i(ci, ri))
-				if existing and existing.content:
-					return ERR_ALREADY_IN_USE
+				if existing:
+					if not treat_as_grid or (treat_as_grid and existing.content):
+						return ERR_ALREADY_IN_USE
 
 		return OK
 
@@ -296,14 +314,15 @@ class Cell:
 	var minimum_size: Vector2:
 		get: return content.get_combined_minimum_size() if content else  Vector2.ZERO
 	var col_span: int:
-		get: return content.col_span if content and "col_span" in content else 1
+		get: return content.col_span if not disable_spanning and content and "col_span" in content else 1
 	var row_span: int:
-		get: return content.row_span if content and "row_span" in content else 1
+		get: return content.row_span if not disable_spanning and content and "row_span" in content else 1
 	var is_h_expanded: bool:
 		get: return content.get_h_size_flags() & Container.SIZE_EXPAND if content else true
 	var is_v_expanded: bool:
 		get: return content.get_v_size_flags() & Container.SIZE_EXPAND if content else false
 
+	var disable_spanning: bool = false
 	var row_index: int = -1
 	var col_index: int = -1
 	var row: Row
