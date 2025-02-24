@@ -2,6 +2,8 @@
 This repository serves for the little bits I create here and there.
 Using the addons approach allows me to really separate concerns and make every addon completly independent from the others
 
+**WARNING: This repo IS NOT PRODUCTION READY. I use it to share my features across my projects, and I go back to it often. Use it to understand how I do things, but everything method, class and general organizations are subject to change A LOT**
+
 ## How to use
 I recommend using the git submodule / ln approach.
 In the `scripts` folder, you will find a script that does all the heavy work for you, with a README to better understand how to use it
