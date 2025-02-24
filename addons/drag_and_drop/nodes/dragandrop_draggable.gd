@@ -35,28 +35,22 @@ func _end_drag() -> void:
 	if is_instance_valid(dragged_data.preview):
 		dragged_data.preview.queue_free()
 
-func _get_drag_preview() -> Control:
-	var preview: Control = _get_drag_preview_delegate.call()
-	if preview:
-		preview.name = "DragAndDrop_Preview_" + preview.name
-	return preview
-
 func _get_drag_data(_at_position:Vector2) -> DragAndDrop_Data:
-	dragged_data.data = _get_drag_data_delegate.call()
-	dragged_data.preview = _get_drag_preview()
+	var drag_data: Array[Variant] = _get_drag_data_delegate.call()
+	dragged_data.data = drag_data[0] if drag_data.size() > 0 else null
+	dragged_data.preview = drag_data[1] if drag_data.size() > 1 else null
 	if dragged_data.preview:
 		set_drag_preview(dragged_data.preview)
 	drag_requested.emit(dragged_data.data)
 	return dragged_data if dragged_data.data else null
 
 func trigger_force_drag() -> void:
-	dragged_data.data = _get_drag_data_delegate.call()
+	var drag_data: Array[Variant] = _get_drag_data_delegate.call()
+	dragged_data.data = drag_data[0] if drag_data.size() > 0 else null
 	if dragged_data.data:
-		dragged_data.preview = _get_drag_preview()
+		dragged_data.preview = drag_data[1] if drag_data.size() > 1 else null
 		drag_requested.emit(dragged_data.data)
 		is_force_dragging = true
-		#force_drag(dragged_data, dragged_data.preview.duplicate(DUPLICATE_SCRIPTS) if dragged_data.preview else null)
-		#force_drag(dragged_data, dragged_data.preview.duplicate(0))
 
 func trigger_force_drop() -> void:
 	var hovered_control: Control = get_viewport().gui_get_hovered_control()
@@ -68,7 +62,6 @@ func trigger_force_drop() -> void:
 			dragged_data.drop_rejected.emit()
 	else:
 		dragged_data.drop_rejected.emit()
-	_end_drag()
 
 func cancel_force_drag() -> void:
 	if _is_dragging():
@@ -92,11 +85,9 @@ func _look_for_droppable() -> DragAndDrop_Droppable:
 				output = as_a_sibling
 	return output
 
-var once: bool = false
-
 func _process(delta: float) -> void:
 	if is_force_dragging:
-		force_drag(dragged_data, dragged_data.preview.duplicate(DUPLICATE_SCRIPTS) if dragged_data.preview else null)
+		force_drag(dragged_data, dragged_data.preview.duplicate() if dragged_data.preview else null)
 
 func _on_drop_successfull(dragged_data: DragAndDrop_Data):
 	drag_successful.emit(dragged_data.data)
@@ -106,11 +97,8 @@ func _on_drop_rejected(dragged_data: DragAndDrop_Data):
 	drag_failed.emit(dragged_data.data)
 	_end_drag()
 
-var _get_drag_data_delegate: Callable = func() -> Variant:
-	return get_parent()
-
-var _get_drag_preview_delegate: Callable = func() -> Control:
-	return null
+var _get_drag_data_delegate: Callable = func() -> Array[Variant]:
+	return [get_parent(), null]
 
 func _emitter_is_also_droppable() -> bool:
 	return get_parent().get_children()\

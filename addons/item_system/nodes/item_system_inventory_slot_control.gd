@@ -70,7 +70,6 @@ func _ready() -> void:
 		draggable.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	if draggable:
 		draggable._get_drag_data_delegate = _get_drag_data_delegate
-		draggable._get_drag_preview_delegate = _get_drag_preview_delegate
 		draggable.drag_requested.connect(_on_drag_requested)
 		draggable.drag_successful.connect(_on_drag_success)
 		draggable.drag_failed.connect(_on_drag_failure)
@@ -107,14 +106,24 @@ func _update_state() -> void:
 	item_quantity_changed.emit(str(item_stack.quantity) if item_stack.item else "")
 	pass
 
+func _draw():
+	item_name_changed.emit(item_stack.item.name if item_stack.item else "")
+	item_texture_changed.emit(item_stack.item.icon if item_stack.item else texture_placeholder)
+	item_quantity_changed.emit(str(item_stack.quantity) if item_stack.item else "")
+
+var ignore_event: bool = false
 
 func _input(event: InputEvent) -> void:
+	if ignore_event and event.get("button_index") == MOUSE_BUTTON_LEFT:
+		ignore_event = false
+		return
 	if draggable and draggable._is_dragging():
-		if event.is_action_released(&"itemsystem_drag_all") or event.is_action_released(&"itemsystem_drag_half") or event.is_action_released(&"itemsystem_drag_one"):
+		if event.is_action_released(&"itemsystem_drop_all") or event.is_action_released(&"itemsystem_drop_one"):
 			if draggable.is_force_dragging:
 				# send a left click to cancel force_drag until godot 4.4 gui_cancel_drag()
 				event = event.duplicate()
 				event.button_index = MOUSE_BUTTON_LEFT
+				ignore_event = true
 				Input.parse_input_event(event)
 			draggable.trigger_force_drop()
 			accept_event()
@@ -145,10 +154,11 @@ func _gui_input(event: InputEvent) -> void:
 # DragAndDrop support
 #region Draggable
 
-func _get_drag_data_delegate() -> Variant:
+func _get_drag_data_delegate() -> Array[Variant]:
 	var to_drag: ItemSystem_ItemStack = ItemSystem_ItemStack.new()
 	if not item_stack.item:
-		return null
+		return [null, null]
+
 	to_drag.item = item_stack.item
 	if Input.is_action_just_pressed(&"itemsystem_drag_all") or Input.is_action_pressed(&"itemsystem_drag_all") or Input.is_action_just_released(&"itemsystem_drag_all"):
 		to_drag.quantity = item_stack.quantity
@@ -156,14 +166,12 @@ func _get_drag_data_delegate() -> Variant:
 		to_drag.quantity = floor(item_stack.quantity / 2)
 	elif Input.is_action_just_pressed(&"itemsystem_drag_one") or Input.is_action_pressed(&"itemsystem_drag_one") or Input.is_action_just_released(&"itemsystem_drag_one"):
 		to_drag.quantity = 1
-	return to_drag
 
-func _get_drag_preview_delegate() -> Control:
 	var preview: ItemSystem_InventorySlotControl = duplicate(DUPLICATE_SCRIPTS + DUPLICATE_SIGNALS) as ItemSystem_InventorySlotControl
 	preview.size = size
-	preview.item_stack = _get_drag_data_delegate()
+	preview.item_stack = to_drag
 	preview._update_state()
-	return preview
+	return [to_drag, preview]
 
 
 func _on_drag_requested(data: ItemSystem_ItemStack) -> void:
@@ -224,26 +232,36 @@ func _can_drop_data_delegate(_at_position:Vector2, data: DragAndDrop_Data) -> bo
 
 func _receive_data_delegate(_at_position: Vector2, data: DragAndDrop_Data) -> Error:
 	var incoming_stack: ItemSystem_ItemStack = data.data as ItemSystem_ItemStack
-
+	var incoming_quantity: int = incoming_stack.quantity
 	var error: Error = OK
+	if Input.is_action_just_released(&"itemsystem_drop_one"):
+		incoming_quantity = 1
+		if incoming_quantity != incoming_stack.quantity:
+			error = ERR_SKIP
+	incoming_stack.quantity -= incoming_quantity
+
 	if not item_stack.item or incoming_stack.item.equals(item_stack.item):
 		var current_quantity: int = item_stack.quantity
-		var new_quantity: int = current_quantity + incoming_stack.quantity
-		var total_quantity: int = incoming_stack.quantity + current_quantity
+		var new_quantity: int = current_quantity + incoming_quantity
+		var total_quantity: int = incoming_quantity + current_quantity
 		if max_quantity > 0 and total_quantity > max_quantity:
-			incoming_stack.quantity = total_quantity - max_quantity
+			incoming_stack.quantity += total_quantity - max_quantity
 			new_quantity = min(new_quantity, max_quantity)
-			error = ERR_CANT_ACQUIRE_RESOURCE
+			if drag_mode == DragMode.HOLD:
+				error = ERR_CANT_ACQUIRE_RESOURCE
+			if drag_mode == DragMode.TOGGLE:
+				error = ERR_SKIP
 		item_stack.item = incoming_stack.item
 		item_stack.quantity = new_quantity
 	elif switch_enabled:
 		if data.emitter._emitter_is_also_droppable():
 			var replace_with: ItemSystem_ItemStack = item_stack.duplicate()
 			item_stack.item = incoming_stack.item
-			item_stack.quantity = incoming_stack.quantity
+			item_stack.quantity = incoming_quantity
 			data.data = replace_with
 		error = ERR_BUSY
 	else:
 		error = ERR_BUSY
+
 	return error
 #endregion Droppable

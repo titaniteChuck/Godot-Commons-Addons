@@ -4,7 +4,6 @@ signal drag_is_hovering(data: DragAndDrop_Data)
 signal drag_stopped_hovering
 signal data_dropped(data: DragAndDrop_Data)
 
-var debug: bool = true
 var receive_drag_data
 
 func _ready():
@@ -28,7 +27,6 @@ var _receive_data_delegate: Callable = func(_at_position: Vector2, data: DragAnd
 	return true
 
 func _drop_data(_at_position:Vector2, data: Variant) -> void:
-	if debug: print("Droppable._drop_data")
 	data = data as DragAndDrop_Data
 	data.receiver = self
 	if data.receiver.get_parent() == data.emitter.get_parent():
@@ -36,9 +34,10 @@ func _drop_data(_at_position:Vector2, data: Variant) -> void:
 		return
 
 	data_dropped.emit(data)
-	if _receive_data_delegate.call(_at_position, data) == OK:
+	var error: Error = _receive_data_delegate.call(_at_position, data)
+	if error == OK:
 		data.drop_complete.emit()
-	else:
+	elif error != ERR_SKIP:
 		data.drop_rejected.emit()
 
 func _notification(what: int) -> void:
