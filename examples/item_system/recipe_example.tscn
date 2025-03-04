@@ -1,16 +1,20 @@
 [gd_scene load_steps=29 format=3 uid="uid://cuyifqfxg0s33"]
 
-[ext_resource type="Script" path="res://examples/item_system/trigger_craft_button.gd" id="1_ale1r"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_recipe.gd" id="2_jjimw"]
+[ext_resource type="Script" uid="uid://gx1t5yprxp8y" path="res://examples/item_system/trigger_craft_button.gd" id="1_ale1r"]
+[ext_resource type="Script" uid="uid://d2l6bjtjfqwpt" path="res://addons/item_system/model/item_system_recipe.gd" id="2_jjimw"]
 [ext_resource type="Resource" uid="uid://c37v6i483ccrl" path="res://examples/item_system/resources/recipes/pickaxe_recipe.tres" id="3_kp746"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="6_640h7"]
-[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_control.gd" id="6_e7pm8"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="7_5vkbn"]
+[ext_resource type="Script" uid="uid://b1pk2nc6sg1om" path="res://addons/item_system/model/item_system_item_stack.gd" id="6_640h7"]
+[ext_resource type="Script" uid="uid://fbrf8x31nm26" path="res://addons/item_system/nodes/item_system_inventory_control.gd" id="6_e7pm8"]
+[ext_resource type="Script" uid="uid://b3br0uqvacm20" path="res://addons/item_system/model/item_system_inventory.gd" id="7_5vkbn"]
 [ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_inventory_slot_control.tscn" id="8_22d16"]
 [ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="8_niv2h"]
 [ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="9_udp2x"]
 [ext_resource type="Texture2D" uid="uid://bhahdky3efmdq" path="res://examples/item_system/resources/items/iron_bar.png" id="11_46vd6"]
 [ext_resource type="Texture2D" uid="uid://bcnt6yfwis6xs" path="res://examples/item_system/resources/items/stick.png" id="12_os1ju"]
+
+[sub_resource type="Resource" id="Resource_m14sp"]
+script = ExtResource("7_5vkbn")
+stacks = Array[ExtResource("6_640h7")]([])
 
 [sub_resource type="Resource" id="Resource_f7l3f"]
 script = ExtResource("6_640h7")
@@ -20,9 +24,9 @@ quantity = 0
 script = ExtResource("6_640h7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_m14sp"]
+[sub_resource type="Resource" id="Resource_1joca"]
 script = ExtResource("7_5vkbn")
-slots = Array[ExtResource("6_640h7")]([SubResource("Resource_f7l3f"), SubResource("Resource_su0sb")])
+stacks = Array[ExtResource("6_640h7")]([])
 
 [sub_resource type="Resource" id="Resource_oljha"]
 script = ExtResource("6_640h7")
@@ -40,9 +44,9 @@ quantity = 0
 script = ExtResource("6_640h7")
 quantity = 0
 
-[sub_resource type="Resource" id="Resource_1joca"]
+[sub_resource type="Resource" id="Resource_8wp7i"]
 script = ExtResource("7_5vkbn")
-slots = Array[ExtResource("6_640h7")]([SubResource("Resource_oljha"), SubResource("Resource_01psi"), SubResource("Resource_pr2hr"), SubResource("Resource_hgb6g")])
+stacks = Array[ExtResource("6_640h7")]([])
 
 [sub_resource type="Resource" id="Resource_52shv"]
 script = ExtResource("6_640h7")
@@ -78,10 +82,6 @@ quantity = 0
 [sub_resource type="Resource" id="Resource_smhf0"]
 script = ExtResource("6_640h7")
 quantity = 0
-
-[sub_resource type="Resource" id="Resource_8wp7i"]
-script = ExtResource("7_5vkbn")
-slots = Array[ExtResource("6_640h7")]([SubResource("Resource_52shv"), SubResource("Resource_bceas"), SubResource("Resource_5ukob"), SubResource("Resource_du14t"), SubResource("Resource_vu2xm"), SubResource("Resource_tmeev"), SubResource("Resource_e0evs"), SubResource("Resource_smhf0")])
 
 [node name="RecipeExample" type="Node2D"]
 

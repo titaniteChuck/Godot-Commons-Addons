@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://cdjqd5wn728iw"]
 
-[ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_control.gd" id="2_aoun6"]
+[ext_resource type="Script" uid="uid://da4kaxbbhg3fd" path="res://addons/animated_sprite/layered_animated_sprite_control.gd" id="2_aoun6"]
 [ext_resource type="SpriteFrames" uid="uid://cp2rkti3ri0c8" path="res://addons/lpc_spritesheet/resources/body/bodies.tres" id="3_7x0b8"]
 [ext_resource type="SpriteFrames" uid="uid://v4d401ltr6u3" path="res://addons/lpc_spritesheet/resources/head/human.tres" id="4_e2m82"]
 [ext_resource type="Texture2D" uid="uid://cbnli5j7olddw" path="res://addons/lpc_spritesheet/resources/body/bodies.png" id="5_1cs1p"]
 [ext_resource type="Texture2D" uid="uid://de56hdwgowjue" path="res://addons/lpc_spritesheet/resources/head/human.png" id="6_2ru61"]
-[ext_resource type="Script" path="res://addons/animated_sprite/layered_animated_sprite_2d.gd" id="7_ypv30"]
+[ext_resource type="Script" uid="uid://d2bb5ifj5og2o" path="res://addons/animated_sprite/layered_animated_sprite_2d.gd" id="7_ypv30"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgh4x"]
 atlas = ExtResource("5_1cs1p")

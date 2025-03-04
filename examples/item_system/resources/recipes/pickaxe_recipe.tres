@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="ItemSystem_Recipe" load_steps=11 format=3 uid="uid://c37v6i483ccrl"]
 
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="1_aqv5w"]
+[ext_resource type="Script" uid="uid://b1pk2nc6sg1om" path="res://addons/item_system/model/item_system_item_stack.gd" id="1_aqv5w"]
 [ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="2_80j1h"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_recipe.gd" id="2_bunns"]
+[ext_resource type="Script" uid="uid://d2l6bjtjfqwpt" path="res://addons/item_system/model/item_system_recipe.gd" id="2_bunns"]
 [ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="3_f6f24"]
 [ext_resource type="Resource" uid="uid://db4cch4ac5di4" path="res://examples/item_system/resources/items/pickaxe.tres" id="4_3egcd"]
 [ext_resource type="Resource" uid="uid://c2h2ht50hufdo" path="res://examples/item_system/resources/items/xp.tres" id="5_uqgiv"]

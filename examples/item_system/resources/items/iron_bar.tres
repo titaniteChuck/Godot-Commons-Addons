@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemSystem_Item" load_steps=3 format=3 uid="uid://dr3fp8g3axrld"]
 
 [ext_resource type="Texture2D" uid="uid://bhahdky3efmdq" path="res://examples/item_system/resources/items/iron_bar.png" id="1_3qmme"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_item.gd" id="1_tt8p8"]
+[ext_resource type="Script" uid="uid://2w6refxw12o1" path="res://addons/item_system/model/item_system_item.gd" id="1_tt8p8"]
 
 [resource]
 script = ExtResource("1_tt8p8")

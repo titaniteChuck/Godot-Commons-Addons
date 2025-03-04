@@ -1,15 +1,14 @@
-[gd_scene load_steps=45 format=3 uid="uid://bkouh56w14vqn"]
+[gd_scene load_steps=44 format=3 uid="uid://bkouh56w14vqn"]
 
-[ext_resource type="Script" path="res://examples/item_system/multi_slot_items.gd" id="1_75e7k"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="2_qyj58"]
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="3_euo8e"]
+[ext_resource type="Script" uid="uid://rd1n81tb1hy4" path="res://examples/item_system/multi_slot_items.gd" id="1_75e7k"]
+[ext_resource type="Script" uid="uid://b3br0uqvacm20" path="res://addons/item_system/model/item_system_inventory.gd" id="2_qyj58"]
+[ext_resource type="Script" uid="uid://b1pk2nc6sg1om" path="res://addons/item_system/model/item_system_item_stack.gd" id="3_euo8e"]
 [ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="4_2i37b"]
 [ext_resource type="Resource" uid="uid://db4cch4ac5di4" path="res://examples/item_system/resources/items/pickaxe.tres" id="5_36e6m"]
 [ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="6_bg777"]
 [ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_inventory_slot_control.tscn" id="8_vqlj7"]
-[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_slot_control.gd" id="9_0buer"]
 [ext_resource type="Resource" uid="uid://bp0yv72gg2knc" path="res://examples/item_system/resources/slot_conf.tres" id="10_0fnuk"]
-[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_grid.gd" id="10_238b1"]
+[ext_resource type="Script" uid="uid://cq6sos1igvaq0" path="res://addons/item_system/nodes/item_system_inventory_grid.gd" id="10_238b1"]
 
 [sub_resource type="Resource" id="Resource_i7rdv"]
 script = ExtResource("3_euo8e")
@@ -161,157 +160,142 @@ allow_span_slots = true
 stack_management = 1
 slots_parent = NodePath(".")
 
-[node name="InventorySlot" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_i7rdv")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot2" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot2" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_7bxrk")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot3" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot3" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_pj2cb")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot4" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot4" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_jy6sn")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot5" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot5" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_v77t5")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot6" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot6" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_6ya0s")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot7" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot7" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_1qgtc")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot8" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot8" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_q6a14")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot9" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot9" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_0m1fu")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot10" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot10" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_g6q4p")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot11" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot11" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_tt7xl")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot12" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot12" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_dh1p0")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot13" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot13" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_idlbl")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot14" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot14" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_4to37")
 stack_management = 1
 config = ExtResource("10_0fnuk")
 
-[node name="InventorySlot15" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
+[node name="InventorySlot15" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
-script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_iiadf")
 stack_management = 1
 config = ExtResource("10_0fnuk")
@@ -543,49 +527,3 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot" to="ItemSystem_InventoryGrid/InventorySlot/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot" to="ItemSystem_InventoryGrid/InventorySlot/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot" to="ItemSystem_InventoryGrid/InventorySlot/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot2" to="ItemSystem_InventoryGrid/InventorySlot2/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot2" to="ItemSystem_InventoryGrid/InventorySlot2/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot2" to="ItemSystem_InventoryGrid/InventorySlot2/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot3" to="ItemSystem_InventoryGrid/InventorySlot3/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot3" to="ItemSystem_InventoryGrid/InventorySlot3/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot3" to="ItemSystem_InventoryGrid/InventorySlot3/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot4" to="ItemSystem_InventoryGrid/InventorySlot4/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot4" to="ItemSystem_InventoryGrid/InventorySlot4/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot4" to="ItemSystem_InventoryGrid/InventorySlot4/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot5" to="ItemSystem_InventoryGrid/InventorySlot5/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot5" to="ItemSystem_InventoryGrid/InventorySlot5/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot5" to="ItemSystem_InventoryGrid/InventorySlot5/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot6" to="ItemSystem_InventoryGrid/InventorySlot6/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot6" to="ItemSystem_InventoryGrid/InventorySlot6/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot6" to="ItemSystem_InventoryGrid/InventorySlot6/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot7" to="ItemSystem_InventoryGrid/InventorySlot7/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot7" to="ItemSystem_InventoryGrid/InventorySlot7/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot7" to="ItemSystem_InventoryGrid/InventorySlot7/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot8" to="ItemSystem_InventoryGrid/InventorySlot8/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot8" to="ItemSystem_InventoryGrid/InventorySlot8/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot8" to="ItemSystem_InventoryGrid/InventorySlot8/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot9" to="ItemSystem_InventoryGrid/InventorySlot9/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot9" to="ItemSystem_InventoryGrid/InventorySlot9/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot9" to="ItemSystem_InventoryGrid/InventorySlot9/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot10" to="ItemSystem_InventoryGrid/InventorySlot10/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot10" to="ItemSystem_InventoryGrid/InventorySlot10/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot10" to="ItemSystem_InventoryGrid/InventorySlot10/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot11" to="ItemSystem_InventoryGrid/InventorySlot11/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot11" to="ItemSystem_InventoryGrid/InventorySlot11/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot11" to="ItemSystem_InventoryGrid/InventorySlot11/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot12" to="ItemSystem_InventoryGrid/InventorySlot12/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot12" to="ItemSystem_InventoryGrid/InventorySlot12/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot12" to="ItemSystem_InventoryGrid/InventorySlot12/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot13" to="ItemSystem_InventoryGrid/InventorySlot13/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot13" to="ItemSystem_InventoryGrid/InventorySlot13/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot13" to="ItemSystem_InventoryGrid/InventorySlot13/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot14" to="ItemSystem_InventoryGrid/InventorySlot14/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot14" to="ItemSystem_InventoryGrid/InventorySlot14/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot14" to="ItemSystem_InventoryGrid/InventorySlot14/Button" method="set_button_icon"]
-[connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot15" to="ItemSystem_InventoryGrid/InventorySlot15/Button" method="set_disabled"]
-[connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot15" to="ItemSystem_InventoryGrid/InventorySlot15/Button/Label" method="set_text"]
-[connection signal="item_texture_changed" from="ItemSystem_InventoryGrid/InventorySlot15" to="ItemSystem_InventoryGrid/InventorySlot15/Button" method="set_button_icon"]

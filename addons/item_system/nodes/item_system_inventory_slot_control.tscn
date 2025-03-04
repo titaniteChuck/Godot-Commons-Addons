@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bcrcs6wvwk3qg"]
 
-[ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_slot_control.gd" id="1_bsj02"]
+[ext_resource type="Script" uid="uid://1xafi1wtb0dx" path="res://addons/item_system/nodes/item_system_inventory_slot_control.gd" id="1_bsj02"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8k4o4"]
 

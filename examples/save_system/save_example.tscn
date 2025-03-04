@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://byhei44e0ixdu"]
 
-[ext_resource type="Script" path="res://examples/save_system/resource_saving/multiple_resource_holder.gd" id="3_b2dd5"]
-[ext_resource type="Script" path="res://examples/save_system/resource_saving/element_generator.gd" id="3_tqgh0"]
-[ext_resource type="Script" path="res://addons/save_system/nodes/save_system_save_button.gd" id="5_gi0uu"]
-[ext_resource type="Script" path="res://addons/save_system/nodes/save_system_load_button.gd" id="6_dm7ld"]
-[ext_resource type="Script" path="res://addons/save_system/nodes/save_system_children_saver.gd" id="12_dbob8"]
+[ext_resource type="Script" uid="uid://dmyt3xyo5s6hl" path="res://examples/save_system/resource_saving/multiple_resource_holder.gd" id="3_b2dd5"]
+[ext_resource type="Script" uid="uid://cvh2i04oq5rm5" path="res://examples/save_system/resource_saving/element_generator.gd" id="3_tqgh0"]
+[ext_resource type="Script" uid="uid://bk3lngmnbrnu4" path="res://addons/save_system/nodes/save_system_save_button.gd" id="5_gi0uu"]
+[ext_resource type="Script" uid="uid://ceup6nid0ywf7" path="res://addons/save_system/nodes/save_system_load_button.gd" id="6_dm7ld"]
+[ext_resource type="Script" uid="uid://dyn4tcnv6y1a7" path="res://addons/save_system/nodes/save_system_children_saver.gd" id="12_dbob8"]
 
 [node name="SaveExample" type="Node2D"]
 

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemSystem_SlotConfig" load_steps=9 format=3 uid="uid://bp0yv72gg2knc"]
 
-[ext_resource type="Script" path="res://addons/item_system/model/item_system_slot_config.gd" id="1_esij3"]
+[ext_resource type="Script" uid="uid://b7d7pxcjfhu7a" path="res://addons/item_system/model/item_system_slot_config.gd" id="1_esij3"]
 
 [sub_resource type="InputEventMouseButton" id="InputEventMouseButton_g5rv0"]
 button_index = 1
