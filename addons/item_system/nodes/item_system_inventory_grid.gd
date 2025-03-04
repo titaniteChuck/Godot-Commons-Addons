@@ -82,11 +82,7 @@ func _validate_property(property: Dictionary) -> void:
 		property.usage = PROPERTY_USAGE_NONE
 
 func _refresh():
-	span_grid_controller = get_children().filter(func(child): return child is SpanGridController).pop_front()
-	if not span_grid_controller:
-		span_grid_controller = SpanGridController.new()
-		span_grid_controller.name = "SpanGridController"
-		add_child(span_grid_controller, true)
+	span_grid_controller = SpanGridController.new()
 	span_grid_controller.grid_node = self
 	span_grid_controller.columns = columns
 	span_grid_controller.treat_as_grid = true

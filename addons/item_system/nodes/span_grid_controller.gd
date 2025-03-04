@@ -1,7 +1,7 @@
 @tool
-class_name SpanGridController extends Node
+class_name SpanGridController
 
-@export var grid_node: Container
+var grid_node: Container
 
 @export var columns : int = 1 :
 	set(value):

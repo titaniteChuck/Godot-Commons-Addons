@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="ItemSystem_SlotConfig" load_steps=9 format=3 uid="uid://bp0yv72gg2knc"]
+
+[ext_resource type="Script" path="res://addons/item_system/model/item_system_slot_config.gd" id="1_esij3"]
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_g5rv0"]
+button_index = 1
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_2pguh"]
+button_index = 1
+double_click = true
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_hwrf6"]
+ctrl_pressed = true
+button_index = 1
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_em6gb"]
+button_index = 2
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_dg1wa"]
+button_index = 1
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_oe874"]
+button_index = 2
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_qcau5"]
+button_index = 1
+
+[resource]
+script = ExtResource("1_esij3")
+drag_all_events = Array[InputEvent]([SubResource("InputEventMouseButton_g5rv0"), SubResource("InputEventMouseButton_2pguh")])
+drag_half_events = Array[InputEvent]([SubResource("InputEventMouseButton_hwrf6")])
+drag_one_events = Array[InputEvent]([SubResource("InputEventMouseButton_em6gb")])
+select_events = Array[InputEvent]([SubResource("InputEventMouseButton_qcau5")])
+quick_action_events = Array[InputEvent]([])
+drop_all_events = Array[InputEvent]([SubResource("InputEventMouseButton_dg1wa")])
+drop_one_events = Array[InputEvent]([SubResource("InputEventMouseButton_oe874")])

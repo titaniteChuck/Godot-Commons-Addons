@@ -29,9 +29,6 @@ var _receive_data_delegate: Callable = func(_at_position: Vector2, data: DragAnd
 func _drop_data(_at_position:Vector2, data: Variant) -> void:
 	data = data as DragAndDrop_Data
 	data.receiver = self
-	if data.receiver.get_parent() == data.emitter.get_parent():
-		data.drop_rejected.emit()
-		return
 
 	data_dropped.emit(data)
 	var error: Error = _receive_data_delegate.call(_at_position, data)

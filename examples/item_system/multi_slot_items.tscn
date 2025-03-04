@@ -1,5 +1,6 @@
-[gd_scene load_steps=42 format=3 uid="uid://bkouh56w14vqn"]
+[gd_scene load_steps=45 format=3 uid="uid://bkouh56w14vqn"]
 
+[ext_resource type="Script" path="res://examples/item_system/multi_slot_items.gd" id="1_75e7k"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_inventory.gd" id="2_qyj58"]
 [ext_resource type="Script" path="res://addons/item_system/model/item_system_item_stack.gd" id="3_euo8e"]
 [ext_resource type="Resource" uid="uid://4s8250jsb6wd" path="res://examples/item_system/resources/items/stick.tres" id="4_2i37b"]
@@ -7,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://dr3fp8g3axrld" path="res://examples/item_system/resources/items/iron_bar.tres" id="6_bg777"]
 [ext_resource type="PackedScene" uid="uid://bcrcs6wvwk3qg" path="res://addons/item_system/nodes/item_system_inventory_slot_control.tscn" id="8_vqlj7"]
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_slot_control.gd" id="9_0buer"]
+[ext_resource type="Resource" uid="uid://bp0yv72gg2knc" path="res://examples/item_system/resources/slot_conf.tres" id="10_0fnuk"]
 [ext_resource type="Script" path="res://addons/item_system/nodes/item_system_inventory_grid.gd" id="10_238b1"]
 
 [sub_resource type="Resource" id="Resource_i7rdv"]
@@ -143,7 +145,10 @@ quantity = 0
 script = ExtResource("2_qyj58")
 stacks = Array[ExtResource("3_euo8e")]([SubResource("Resource_ckyb6"), SubResource("Resource_y2t8g"), SubResource("Resource_sfid1"), SubResource("Resource_lscgg"), SubResource("Resource_sh6wk"), SubResource("Resource_xjsfe"), SubResource("Resource_h34m6"), SubResource("Resource_4iqlo"), SubResource("Resource_8mprl"), SubResource("Resource_k1lmp"), SubResource("Resource_atwir"), SubResource("Resource_0dlp0"), SubResource("Resource_iq46a"), SubResource("Resource_5xfsx"), SubResource("Resource_sndju")])
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aet44"]
+
 [node name="MultiSlotItems" type="Node2D"]
+script = ExtResource("1_75e7k")
 
 [node name="ItemSystem_InventoryGrid" type="Container" parent="." node_paths=PackedStringArray("slots_parent")]
 offset_top = 176.0
@@ -154,7 +159,6 @@ inventory = SubResource("Resource_wuan0")
 columns = 5
 allow_span_slots = true
 stack_management = 1
-slot_management = 2
 slots_parent = NodePath(".")
 
 [node name="InventorySlot" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
@@ -165,6 +169,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_i7rdv")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot2" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -174,6 +179,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_7bxrk")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot3" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -183,6 +189,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_pj2cb")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot4" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -192,6 +199,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_jy6sn")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot5" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -201,6 +209,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_v77t5")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot6" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -210,6 +219,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_6ya0s")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot7" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
@@ -220,6 +230,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_1qgtc")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot8" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
@@ -230,6 +241,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_q6a14")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot9" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -239,6 +251,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_0m1fu")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot10" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -248,6 +261,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_g6q4p")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot11" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
@@ -258,6 +272,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_tt7xl")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot12" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
@@ -268,6 +283,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_dh1p0")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot13" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 visible = false
@@ -278,6 +294,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_idlbl")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot14" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -287,6 +304,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_4to37")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot15" type="PanelContainer" parent="ItemSystem_InventoryGrid" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
@@ -296,6 +314,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_8k4o4")
 script = ExtResource("9_0buer")
 item_stack = SubResource("Resource_iiadf")
 stack_management = 1
+config = ExtResource("10_0fnuk")
 
 [node name="ItemSystem_InventoryGrid2" type="Container" parent="." node_paths=PackedStringArray("slots_parent")]
 offset_left = 404.0
@@ -306,7 +325,7 @@ script = ExtResource("10_238b1")
 inventory = SubResource("Resource_gy3db")
 columns = 5
 drag_mode = 1
-stack_management = 1
+switch_enabled = false
 slots_parent = NodePath(".")
 
 [node name="InventorySlot" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
@@ -314,136 +333,153 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_ckyb6")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot2" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_y2t8g")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot3" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_sfid1")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot4" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_lscgg")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot5" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_sh6wk")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot6" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_xjsfe")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot7" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_h34m6")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot8" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_4iqlo")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot9" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_8mprl")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot10" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_k1lmp")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot11" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_atwir")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot12" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_0dlp0")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot13" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_iq46a")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot14" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_5xfsx")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="InventorySlot15" parent="ItemSystem_InventoryGrid2" instance=ExtResource("8_vqlj7")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 item_stack = SubResource("Resource_sndju")
-stack_management = 1
 drag_mode = 1
+switch_enabled = false
+config = ExtResource("10_0fnuk")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 72.0
-offset_top = 112.0
-offset_right = 225.0
-offset_bottom = 161.0
+offset_left = 58.0
+offset_top = 96.0
+offset_right = 211.0
+offset_bottom = 171.0
 text = "- Hold to drag
-- items have size"
+- items have size
+- remove on drag"
 
 [node name="Label2" type="Label" parent="."]
-offset_left = 488.0
-offset_top = 112.0
-offset_right = 641.0
-offset_bottom = 161.0
+offset_left = 495.0
+offset_top = 97.0
+offset_right = 648.0
+offset_bottom = 172.0
 text = "- click once to drag
-- items are all 1x1"
+- items are all 1x1
+- remove on drop"
 
 [node name="Label3" type="Label" parent="."]
 offset_left = 248.0
@@ -454,6 +490,59 @@ right click: drag one
 ctrl + left click: drag half
 (see input actions)"
 horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="."]
+offset_left = 228.0
+offset_top = 388.0
+offset_right = 413.0
+offset_bottom = 463.0
+text = "Item selected:"
+horizontal_alignment = 1
+
+[node name="InventorySlot16" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(50, 50)
+offset_left = 274.0
+offset_top = 419.0
+offset_right = 374.0
+offset_bottom = 519.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_aet44")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventorySlot16"]
+layout_mode = 2
+
+[node name="Selected_Texture" type="TextureRect" parent="InventorySlot16/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InventorySlot16/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="InventorySlot16/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Item:"
+
+[node name="Selected_Name" type="Label" parent="InventorySlot16/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="InventorySlot16/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="InventorySlot16/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Quantity:"
+
+[node name="Selected_quantity" type="Label" parent="InventorySlot16/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 
 [connection signal="is_impossible_drop_zone" from="ItemSystem_InventoryGrid/InventorySlot" to="ItemSystem_InventoryGrid/InventorySlot/Button" method="set_disabled"]
 [connection signal="item_quantity_changed" from="ItemSystem_InventoryGrid/InventorySlot" to="ItemSystem_InventoryGrid/InventorySlot/Button/Label" method="set_text"]

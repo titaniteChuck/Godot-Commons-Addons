@@ -1,12 +1,12 @@
 @tool
 class_name ItemSystem_InventorySlotControl extends Control
 
+signal selected
 signal double_clicked
 signal item_name_changed(text: String)
 signal item_texture_changed(texture: Texture2D)
 signal item_quantity_changed(qtty: String)
 signal is_impossible_drop_zone(is_impossible: bool)
-
 
 @export_subgroup("Model")
 @export var item_stack: ItemSystem_ItemStack:
@@ -35,6 +35,9 @@ enum DragMode {HOLD, TOGGLE}
 @export var item_type: ItemSystem_Item.Type = ItemSystem_Item.Type.NONE
 @export var item_subtype: ItemSystem_Item.SubType = ItemSystem_Item.SubType.NONE
 @export var max_quantity: int = 0
+
+@export_subgroup("Actions")
+@export var config: ItemSystem_SlotConfig
 
 func _validate_property(property: Dictionary) -> void:
 	if not is_draggable and property.name == "stack_management":
@@ -111,60 +114,125 @@ func _draw():
 	item_texture_changed.emit(item_stack.item.icon if item_stack.item else texture_placeholder)
 	item_quantity_changed.emit(str(item_stack.quantity) if item_stack.item else "")
 
-var ignore_event: bool = false
+var ignore_event: bool = false # send a left click to cancel force_drag until godot 4.4 gui_cancel_drag()
 
 func _input(event: InputEvent) -> void:
 	if ignore_event and event.get("button_index") == MOUSE_BUTTON_LEFT:
 		ignore_event = false
 		return
 	if draggable and draggable._is_dragging():
-		if event.is_action_released(&"itemsystem_drop_all") or event.is_action_released(&"itemsystem_drop_one"):
+		if event is InputEventMouseButton:
+			print("_input %s %s" % [event, get_viewport().gui_is_dragging()])
+			if not event.pressed:
+				var catchme = true
+		if _is_action_released(event, Action.DROP_ALL) or _is_action_released(event, Action.DROP_ONE):
+			_last_input_event = null
 			if draggable.is_force_dragging:
 				# send a left click to cancel force_drag until godot 4.4 gui_cancel_drag()
 				event = event.duplicate()
 				event.button_index = MOUSE_BUTTON_LEFT
 				ignore_event = true
 				Input.parse_input_event(event)
+			waiting_for_motion_to_drag = false
 			draggable.trigger_force_drop()
 			accept_event()
+	else:
+		_last_input_event = event
 	pass
+
+var waiting_for_motion_to_drag: bool = false
+var _last_gui_event: InputEvent
+var _last_input_event: InputEvent
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and not Rect2(Vector2.ZERO, size).has_point(event.position):
 		return
+
+	if event is InputEventMouseButton:
+		print("_gui_input %s %s" % [event, waiting_for_motion_to_drag])
+		if not event.pressed:
+			var catchme = true
+		#for el in event.get_property_list().filter(func(el): return el.usage == 6):
+			#print(el)
 	if not get_viewport().gui_is_dragging():
+		if _is_action_pressed(event, Action.QUICK_ACTION):
+			_last_gui_event = event
+			double_clicked.emit()
+			accept_event()
+		if _is_action_released(event, Action.SELECT):
+			_last_gui_event = event
+			waiting_for_motion_to_drag = false
+			selected.emit()
+			accept_event()
+		if waiting_for_motion_to_drag and event is InputEventMouseMotion or event is InputEventJoypadMotion:
+			waiting_for_motion_to_drag = false
+			draggable.trigger_force_drag()
 		if draggable:
-			var should_hold: bool = event.is_action_pressed(&"itemsystem_drag_all") or event.is_action_pressed(&"itemsystem_drag_half") or event.is_action_pressed(&"itemsystem_drag_one")
-			var should_toggle: bool = event.is_action_released(&"itemsystem_drag_all") or event.is_action_released(&"itemsystem_drag_half") or event.is_action_released(&"itemsystem_drag_one")
-			var should_drag: bool = drag_mode == DragMode.HOLD and should_hold
-			should_drag = should_drag or (drag_mode == DragMode.TOGGLE and should_toggle)
-			if should_drag:
+			var should_hold: bool = _is_action_pressed(event, Action.DRAG_ALL) or _is_action_pressed(event, Action.DRAG_HALF) or _is_action_pressed(event, Action.DRAG_ONE)
+			var should_toggle: bool = _is_action_released(event, Action.DRAG_ALL) or _is_action_released(event, Action.DRAG_HALF) or _is_action_released(event, Action.DRAG_ONE)
+			if drag_mode == DragMode.HOLD:
+				waiting_for_motion_to_drag = should_hold
+				accept_event()
+			elif drag_mode == DragMode.TOGGLE and should_toggle:
 				draggable.trigger_force_drag()
 				accept_event()
-		if event.is_action_released(&"itemsystem_quickaction"):
-			if _last_action == "itemsystem_quickaction":
-				if draggable:
-					draggable.cancel_force_drag()
-				double_clicked.emit()
-				accept_event()
-			else:
-				_last_action = "itemsystem_quickaction"
-				get_tree().create_timer(double_tap_wait_time).timeout.connect(func(): _last_action = "")
+			_last_gui_event = event
+
+enum Action {DRAG_ALL, DRAG_HALF, DRAG_ONE, DROP_ALL, DROP_ONE, QUICK_ACTION, SELECT}
+
+func _is_action_pressed(event: InputEvent, action: Action) -> bool:
+	if not config: return false
+	if not event: return false
+	var output: bool =  event.get("pressed") and event.pressed and _is_action(event, action)
+	if output:
+		print("%s pressed" % Action.keys()[action])
+	return output
+
+func _is_action_released(event: InputEvent, action: Action) -> bool:
+	if not config: return false
+	if not event: return false
+	var output: bool = "pressed" in event and not event.pressed and _is_action(event, action)
+	if output:
+		print("%s released" % Action.keys()[action])
+	return output
+
+func _is_action(event: InputEvent, action: Action):
+	var action_list: Array[InputEvent] = []
+	match(action):
+		Action.DRAG_ALL: action_list = config.drag_all_events
+		Action.DRAG_HALF: action_list = config.drag_half_events
+		Action.DRAG_ONE: action_list = config.drag_one_events
+		Action.DROP_ALL: action_list = config.drop_all_events
+		Action.DROP_ONE: action_list = config.drop_one_events
+		Action.QUICK_ACTION: action_list = config.quick_action_events
+		Action.SELECT: action_list = config.select_events
+	var output: bool = action_list.any(func(event_from_list): return _is_event(event, event_from_list))
+	return output
+
+func _is_event(event1: InputEvent, event2: InputEvent) -> bool:
+	if not event1 or not event2 or event1.get_class() != event2.get_class():
+		return false
+	for property in event1.get_property_list():
+		if property.usage != 6 or property.name in ["position", "global_position", "button_mask", "pressed", "canceled"]:
+			continue
+		if event1.get(property.name) != event2.get(property.name):
+			return false
+	return true
 
 # DragAndDrop support
 #region Draggable
 
 func _get_drag_data_delegate() -> Array[Variant]:
-	var to_drag: ItemSystem_ItemStack = ItemSystem_ItemStack.new()
 	if not item_stack.item:
 		return [null, null]
 
+	var to_drag: ItemSystem_ItemStack = ItemSystem_ItemStack.new()
 	to_drag.item = item_stack.item
-	if Input.is_action_just_pressed(&"itemsystem_drag_all") or Input.is_action_pressed(&"itemsystem_drag_all") or Input.is_action_just_released(&"itemsystem_drag_all"):
+	if _is_action_pressed(_last_gui_event, Action.DRAG_ALL) or _is_action_released(_last_gui_event, Action.DRAG_ALL):
 		to_drag.quantity = item_stack.quantity
-	if Input.is_action_just_pressed(&"itemsystem_drag_half") or Input.is_action_pressed(&"itemsystem_drag_half") or Input.is_action_just_released(&"itemsystem_drag_half"):
+	elif _is_action_pressed(_last_gui_event, Action.DRAG_HALF) or _is_action_released(_last_gui_event, Action.DRAG_HALF):
 		to_drag.quantity = floor(item_stack.quantity / 2)
-	elif Input.is_action_just_pressed(&"itemsystem_drag_one") or Input.is_action_pressed(&"itemsystem_drag_one") or Input.is_action_just_released(&"itemsystem_drag_one"):
+	elif _is_action_pressed(_last_gui_event, Action.DRAG_ONE) or _is_action_released(_last_gui_event, Action.DRAG_ONE):
 		to_drag.quantity = 1
 
 	var preview: ItemSystem_InventorySlotControl = duplicate(DUPLICATE_SCRIPTS + DUPLICATE_SIGNALS) as ItemSystem_InventorySlotControl
@@ -191,7 +259,7 @@ func _on_drag_success(data: ItemSystem_ItemStack):
 
 
 func _on_drag_failure(data: ItemSystem_ItemStack):
-	if data:
+	if data and stack_management == StackManagement.REMOVE_ON_DRAG:
 		if item_stack.quantity == 0:
 			item_stack.item = data.item
 			item_stack.quantity = data.quantity
@@ -234,18 +302,16 @@ func _receive_data_delegate(_at_position: Vector2, data: DragAndDrop_Data) -> Er
 	var incoming_stack: ItemSystem_ItemStack = data.data as ItemSystem_ItemStack
 	var incoming_quantity: int = incoming_stack.quantity
 	var error: Error = OK
-	if Input.is_action_just_released(&"itemsystem_drop_one"):
+	if _is_action_released(_last_input_event, Action.DROP_ONE):
 		incoming_quantity = 1
 		if incoming_quantity != incoming_stack.quantity:
 			error = ERR_SKIP
-	incoming_stack.quantity -= incoming_quantity
 
 	if not item_stack.item or incoming_stack.item.equals(item_stack.item):
 		var current_quantity: int = item_stack.quantity
 		var new_quantity: int = current_quantity + incoming_quantity
-		var total_quantity: int = incoming_quantity + current_quantity
-		if max_quantity > 0 and total_quantity > max_quantity:
-			incoming_stack.quantity += total_quantity - max_quantity
+		if max_quantity > 0 and new_quantity > max_quantity:
+			incoming_quantity += new_quantity - max_quantity
 			new_quantity = min(new_quantity, max_quantity)
 			if drag_mode == DragMode.HOLD:
 				error = ERR_CANT_ACQUIRE_RESOURCE
@@ -262,6 +328,12 @@ func _receive_data_delegate(_at_position: Vector2, data: DragAndDrop_Data) -> Er
 		error = ERR_BUSY
 	else:
 		error = ERR_BUSY
+
+	if error == ERR_SKIP:
+		var intermediate_stack: ItemSystem_ItemStack = incoming_stack.duplicate()
+		var intermediate_data: DragAndDrop_Data = data.duplicate()
+		intermediate_data.data = intermediate_stack
+		intermediate_data.emitter._on_drop_successfull(intermediate_data)
 
 	return error
 #endregion Droppable

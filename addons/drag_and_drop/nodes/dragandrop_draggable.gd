@@ -89,9 +89,10 @@ func _process(delta: float) -> void:
 	if is_force_dragging:
 		force_drag(dragged_data, dragged_data.preview.duplicate() if dragged_data.preview else null)
 
-func _on_drop_successfull(dragged_data: DragAndDrop_Data):
-	drag_successful.emit(dragged_data.data)
-	_end_drag()
+func _on_drop_successfull(successful_data: DragAndDrop_Data):
+	drag_successful.emit(successful_data.data)
+	if dragged_data == successful_data:
+		_end_drag()
 
 func _on_drop_rejected(dragged_data: DragAndDrop_Data):
 	drag_failed.emit(dragged_data.data)
