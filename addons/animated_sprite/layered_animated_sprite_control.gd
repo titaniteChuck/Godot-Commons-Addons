@@ -58,8 +58,8 @@ func _on_animation_changed():
 
 func _draw():
 	for index in get_child_count():
-		if sprite_frames and sprite_frames[index] and sprite_frames[index].has_animation(animation):
-			get_child(index).texture = sprite_frames[index].get_frame_texture(animation, _delegate.frame)
+		if sprite_frames and sprite_frames.get(index) and sprite_frames.get(index).has_animation(animation):
+			get_child(index).texture = sprite_frames.get(index).get_frame_texture(animation, _delegate.frame)
 		else:
 			get_child(index).texture = null
 	if not centered:
@@ -79,7 +79,7 @@ func set_sprite_frames(new_frames: Array[SpriteFrames]) -> void:
 	if sprite_frames.is_empty():
 		_delegate.set_sprite_frames(null)
 	else:
-		_delegate.set_sprite_frames(sprite_frames[0])
+		_delegate.set_sprite_frames(sprite_frames.get(0))
 	if Engine.is_editor_hint():
 		notify_property_list_changed()
 	for layer_index in sprite_frames.size():

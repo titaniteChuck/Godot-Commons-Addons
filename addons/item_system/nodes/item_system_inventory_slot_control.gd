@@ -2,7 +2,7 @@
 class_name ItemSystem_InventorySlotControl extends Control
 
 signal selected
-signal double_clicked
+signal quick_action
 signal item_name_changed(text: String)
 signal item_texture_changed(texture: Texture2D)
 signal item_quantity_changed(qtty: String)
@@ -45,6 +45,8 @@ func _validate_property(property: Dictionary) -> void:
 	if not is_droppable and property.name == "switch_enabled":
 		property.usage = PROPERTY_USAGE_NONE
 
+
+enum Action {DRAG_ALL, DRAG_HALF, DRAG_ONE, DROP_ALL, DROP_ONE, QUICK_ACTION, SELECT}
 var draggable: DragAndDrop_Draggable
 var droppable: DragAndDrop_Droppable
 var col_span: int:
@@ -60,6 +62,9 @@ var inventory_control: ItemSystem_InventoryGrid:
 
 var double_tap_wait_time: float = 0.3
 var _last_action: String = ""
+var waiting_for_motion_to_drag: bool = false
+var _last_gui_event: InputEvent
+var _last_input_event: InputEvent
 
 func _ready() -> void:
 	if has_node("DragAndDrop_Draggable"):
@@ -121,43 +126,26 @@ func _input(event: InputEvent) -> void:
 		ignore_event = false
 		return
 	if draggable and draggable._is_dragging():
-		if event is InputEventMouseButton:
-			print("_input %s %s" % [event, get_viewport().gui_is_dragging()])
-			if not event.pressed:
-				var catchme = true
 		if _is_action_released(event, Action.DROP_ALL) or _is_action_released(event, Action.DROP_ONE):
 			_last_input_event = null
-			if draggable.is_force_dragging:
-				# send a left click to cancel force_drag until godot 4.4 gui_cancel_drag()
-				event = event.duplicate()
-				event.button_index = MOUSE_BUTTON_LEFT
-				ignore_event = true
-				Input.parse_input_event(event)
 			waiting_for_motion_to_drag = false
 			draggable.trigger_force_drop()
 			accept_event()
+		if event is InputEventKey and event.keycode == KEY_R and event.is_pressed():
+			draggable.dragged_data.data.item.rotated = not draggable.dragged_data.data.item.rotated
+			draggable.dragged_data.preview.rotation_degrees = -90 if draggable.dragged_data.data.item.rotated else 0
 	else:
 		_last_input_event = event
 	pass
-
-var waiting_for_motion_to_drag: bool = false
-var _last_gui_event: InputEvent
-var _last_input_event: InputEvent
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and not Rect2(Vector2.ZERO, size).has_point(event.position):
 		return
 
-	if event is InputEventMouseButton:
-		print("_gui_input %s %s" % [event, waiting_for_motion_to_drag])
-		if not event.pressed:
-			var catchme = true
-		#for el in event.get_property_list().filter(func(el): return el.usage == 6):
-			#print(el)
 	if not get_viewport().gui_is_dragging():
 		if _is_action_pressed(event, Action.QUICK_ACTION):
 			_last_gui_event = event
-			double_clicked.emit()
+			quick_action.emit()
 			accept_event()
 		if _is_action_released(event, Action.SELECT):
 			_last_gui_event = event
@@ -177,8 +165,6 @@ func _gui_input(event: InputEvent) -> void:
 				draggable.trigger_force_drag()
 				accept_event()
 			_last_gui_event = event
-
-enum Action {DRAG_ALL, DRAG_HALF, DRAG_ONE, DROP_ALL, DROP_ONE, QUICK_ACTION, SELECT}
 
 func _is_action_pressed(event: InputEvent, action: Action) -> bool:
 	if not config: return false
@@ -321,16 +307,17 @@ func _receive_data_delegate(_at_position: Vector2, data: DragAndDrop_Data) -> Er
 		item_stack.quantity = new_quantity
 	elif switch_enabled:
 		if data.emitter._emitter_is_also_droppable():
-			var replace_with: ItemSystem_ItemStack = item_stack.duplicate()
 			item_stack.item = incoming_stack.item
 			item_stack.quantity = incoming_quantity
-			data.data = replace_with
+			data.data = item_stack.duplicate()
 		error = ERR_BUSY
 	else:
 		error = ERR_BUSY
 
 	if error == ERR_SKIP:
+		incoming_stack.quantity -= incoming_quantity
 		var intermediate_stack: ItemSystem_ItemStack = incoming_stack.duplicate()
+		intermediate_stack.quantity = incoming_quantity
 		var intermediate_data: DragAndDrop_Data = data.duplicate()
 		intermediate_data.data = intermediate_stack
 		intermediate_data.emitter._on_drop_successfull(intermediate_data)

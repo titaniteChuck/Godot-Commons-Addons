@@ -7,11 +7,11 @@ extends Button
 func _ready() -> void:
 	pressed.connect(_trigger_craft)
 	for slot in ingredients_slots.slots:
-		slot.double_clicked.connect(_move_between_inventories.bind(slot.item_stack, quickaccess_slots.inventory))
+		slot.quick_action.connect(_move_between_inventories.bind(slot.item_stack, quickaccess_slots.inventory))
 	for slot in results_slots.slots:
-		slot.double_clicked.connect(_move_between_inventories.bind(slot.item_stack, quickaccess_slots.inventory))
+		slot.quick_action.connect(_move_between_inventories.bind(slot.item_stack, quickaccess_slots.inventory))
 	for slot in quickaccess_slots.slots:
-		slot.double_clicked.connect(_move_between_inventories.bind(slot.item_stack, ingredients_slots.inventory))
+		slot.quick_action.connect(_move_between_inventories.bind(slot.item_stack, ingredients_slots.inventory))
 	pass # Replace with function body.
 
 func _move_between_inventories(item_stack: ItemSystem_ItemStack, dest: ItemSystem_Inventory):

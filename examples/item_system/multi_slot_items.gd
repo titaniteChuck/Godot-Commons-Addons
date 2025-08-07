@@ -15,12 +15,25 @@ func _ready() -> void:
 				selected_name.text = slot.item_stack.item.name if slot.item_stack.item else ""
 				selected_quantity.text = str(slot.item_stack.quantity) if slot.item_stack.item else "0"
 		)
+		slot.quick_action.connect(
+			func():
+				if item_system_inventory_grid_2.inventory.add_stack(slot.item_stack) == OK:
+					slot.item_stack.item = null
+					slot.item_stack.quantity = 0
+		)
 	for slot in item_system_inventory_grid_2.slots:
 		slot.selected.connect(
 			func():
 				selected_texture.texture = slot.item_stack.item.icon if slot.item_stack.item else null
 				selected_name.text = slot.item_stack.item.name if slot.item_stack.item else ""
 				selected_quantity.text = str(slot.item_stack.quantity) if slot.item_stack.item else "0"
+		)
+		
+		slot.quick_action.connect(
+			func():
+				if item_system_inventory_grid.inventory.add_stack(slot.item_stack) == OK:
+					slot.item_stack.item = null
+					slot.item_stack.quantity = 0
 		)
 	pass # Replace with function body.
 

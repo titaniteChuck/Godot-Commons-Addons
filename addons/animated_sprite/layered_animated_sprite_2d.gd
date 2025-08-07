@@ -79,8 +79,8 @@ func _draw():
 	if not is_inside_tree(): await ready
 	for index in get_child_count():
 		var layer_node: Sprite2D = get_child(index)
-		if sprite_frames and sprite_frames[index] and sprite_frames[index].has_animation(animation):
-			layer_node.texture = sprite_frames[index].get_frame_texture(animation, _delegate.frame)
+		if sprite_frames and sprite_frames.get(index) and sprite_frames.get(index).has_animation(animation):
+			layer_node.texture = sprite_frames.get(index).get_frame_texture(animation, _delegate.frame)
 		else:
 			layer_node.texture = null
 

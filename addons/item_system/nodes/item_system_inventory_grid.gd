@@ -145,6 +145,8 @@ func _read_model():
 	if inventory:
 		if not inventory.changed.is_connected(_init_slots):
 			inventory.changed.connect(_init_slots)
+		for stack in inventory.stacks:
+			stack.changed.connect(_refresh)
 		queue_redraw()
 
 

@@ -37,8 +37,8 @@ func _end_drag() -> void:
 
 func _get_drag_data(_at_position:Vector2) -> DragAndDrop_Data:
 	var drag_data: Array[Variant] = _get_drag_data_delegate.call()
-	dragged_data.data = drag_data[0] if drag_data.size() > 0 else null
-	dragged_data.preview = drag_data[1] if drag_data.size() > 1 else null
+	dragged_data.data = drag_data.get(0)
+	dragged_data.preview = drag_data.get(1)
 	if dragged_data.preview:
 		set_drag_preview(dragged_data.preview)
 	drag_requested.emit(dragged_data.data)
@@ -46,9 +46,9 @@ func _get_drag_data(_at_position:Vector2) -> DragAndDrop_Data:
 
 func trigger_force_drag() -> void:
 	var drag_data: Array[Variant] = _get_drag_data_delegate.call()
-	dragged_data.data = drag_data[0] if drag_data.size() > 0 else null
+	dragged_data.data = drag_data.get(0)
 	if dragged_data.data:
-		dragged_data.preview = drag_data[1] if drag_data.size() > 1 else null
+		dragged_data.preview = drag_data.get(1)
 		drag_requested.emit(dragged_data.data)
 		is_force_dragging = true
 
@@ -62,6 +62,7 @@ func trigger_force_drop() -> void:
 			dragged_data.drop_rejected.emit()
 	else:
 		dragged_data.drop_rejected.emit()
+	get_viewport().gui_cancel_drag()
 
 func cancel_force_drag() -> void:
 	if _is_dragging():
@@ -107,4 +108,4 @@ func _emitter_is_also_droppable() -> bool:
 
 func _get_draggable_node_in_drop_node() -> DragAndDrop_Droppable:
 	return get_parent().get_children()\
-						.filter(func(child): return child is DragAndDrop_Droppable)[0]
+						.filter(func(child): return child is DragAndDrop_Droppable).get(0)

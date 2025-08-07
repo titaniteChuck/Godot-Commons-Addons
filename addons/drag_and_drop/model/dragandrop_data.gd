@@ -10,8 +10,8 @@ var preview: Control
 
 func duplicate() -> DragAndDrop_Data:
 	var output: DragAndDrop_Data = DragAndDrop_Data.new()
-	output.emitter = data.emitter
-	output.receiver = data.receiver
-	output.preview = data.preview
+	output.emitter = emitter
+	output.receiver = receiver
+	output.preview = preview
 	output.data = data
 	return output

@@ -26,6 +26,7 @@ func add_stack(new_stack: ItemSystem_ItemStack, index := -1) -> Error:
 		error = stacks[index].transfer(new_stack)
 	elif not stacks_with_this_item.is_empty():
 		stacks_with_this_item[0].quantity += new_stack.quantity #TODO ignores stack_size
+		error = OK
 	else:
 		index = _first_empty_index()
 		if index != -1:
